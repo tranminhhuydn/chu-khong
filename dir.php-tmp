@@ -1,0 +1,30 @@
+<?php
+function myDir($path) {
+	$r = './';
+	$d = dir($r.$path);
+	//echo "Handle: " . $d->handle . "\n";
+	//echo "Path: " . $d->path . "\n";
+	$list = [];
+	while (false !== ($entry = $d->read())) {
+		//echo $entry."\n";
+		if ($entry != '.' && $entry != '..') {
+			$list[] = $path."/".$entry;
+		}
+	}
+	//var_dump($list);
+
+	$d->close();
+	return $list;
+}
+$list = ['index.html'];
+//myDir("");
+
+$list = array_merge($list, myDir("inline-scripts"));
+$list = array_merge($list, myDir("styles"));
+$list = array_merge($list, myDir("images"));
+$list = array_merge($list, myDir("json"));
+$list = array_merge($list, myDir("css"));
+$list = array_merge($list, myDir("fonts"));
+echo json_encode($list);
+
+?>

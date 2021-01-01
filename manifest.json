@@ -1,0 +1,21 @@
+{
+  "name": "Chữ Không Editor",
+  "short_name": "Chữ Không TextEdit",
+  "description": "Chữ Không Editor - Demo for the HTML5 Native File System.",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#e8eaf6",
+  "background_color": "#e8eaf6",
+  "icons": [
+    {
+      "src": "./images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

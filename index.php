@@ -1,0 +1,9 @@
+<?php
+ Header ("Cache-Control: must-revalidate");
+
+ $ offset = 60 * 60 * 24 * 3;
+ $ ExpStr = "Expires:". gmdate ("D, d MYH: i: s", time () + $ offset). "GMT";
+ Header ($ ExpStr);
+ 
+	echo	file_get_contents('index.html');
+?>

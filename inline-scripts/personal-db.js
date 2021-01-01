@@ -677,7 +677,7 @@ cmdaddnewword.onclick = ()=>{
 var crltSmSBox
 cmdUser.onclick = ()=>{
 	var html = `		
-	<iframe id='myiframe' src='http://votandang.net/chu-khong/person.php?login'></iframe>
+	<iframe id='myiframe' src='//votandang.net/chu-khong/person.php?login'></iframe>
 	`
 	var c = uidb.smsBox('Đăng Nhập',html)
 	crltSmSBox = c.closer

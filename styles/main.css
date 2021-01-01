@@ -317,7 +317,7 @@ details div {
   /*height: 25px;*/
   overflow: auto;
   scroll-snap-type: inline;
-  line-height: 20px;
+  line-height: 25px;
 }
 
 .menuContainer .icon2,.menuItemContainer .icon2{

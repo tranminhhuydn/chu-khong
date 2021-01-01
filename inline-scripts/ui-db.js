@@ -1,5 +1,5 @@
 
-var hostDB = 'http://votandang.net/chu-khong';
+var hostDB = '//votandang.net/chu-khong';
 //import(hostDB+"/person.php?get-list-full-dic");
 
 var uidb = (function (exports) {

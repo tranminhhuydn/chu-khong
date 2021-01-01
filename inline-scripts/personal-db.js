@@ -1,5 +1,5 @@
 //var listScriptPersonal=[]
-var hostDB = 'http://votandang.net/chu-khong';
+var hostDB = '//votandang.net/chu-khong';
 //import(hostDB+"/person.php?get-list-user")
 var personaldb = {}
 

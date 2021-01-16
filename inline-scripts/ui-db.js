@@ -265,7 +265,7 @@ function _addScript(src){
  	var idshowlist = closer.querySelector('#idshowlist')
  	idshowlist.style.width= '50%';
  	
- 	idshowlist.style.fontSize = `${app.options.fontSize}px`;
+ 	idshowlist.style.fontSize = app.options.fontSize;
 
  	return {closer:closer,setIgnoreFocusOut:setIgnoreFocusOut}
  }
@@ -277,7 +277,7 @@ function _addScript(src){
  	idshowlist.style.top= '20%';
  	idshowlist.style.width= '50%';
  	
- 	idshowlist.style.fontSize = `${app.options.fontSize}px`;
+ 	idshowlist.style.fontSize = app.options.fontSize;
  	setIgnoreFocusOut(true)
  	return {closer:closer,setIgnoreFocusOut:setIgnoreFocusOut}
  }
@@ -403,7 +403,7 @@ window.onload = ()=>{
 	appStore.get('options').then(o=>{
 		if(o!=null){
 			app.options = o;
-			app.textArea.style.fontSize = `${app.options.fontSize}`;
+			app.textArea.style.fontSize = app.options.fontSize;
 			app.textArea.style.fontFamily = app.options.fontFamily
 
 			document.querySelector('#mainStyle').innerText =  `.menuContainer button {font-size: ${app.options.iconSize};}`

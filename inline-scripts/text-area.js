@@ -39,7 +39,8 @@
 
   /* Initialize the textarea, set focus & font size */
   window.addEventListener('DOMContentLoaded', () => {
-    textArea.style.fontSize = `${app.options.fontSize}px`;
+    textArea.style.fontSize = app.options.fontSize;
+    //textArea.style.fontSize = `${app.options.fontSize}px`;
     app.setFocus();
   });
 

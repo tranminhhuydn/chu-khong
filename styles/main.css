@@ -316,7 +316,7 @@ details div {
   
   /*padding: 2px;*/
   /*height: 25px;*/
-  overflow: auto;
+  overflow: unset;
   scroll-snap-type: inline;
   line-height: 25px;
 }
@@ -341,4 +341,11 @@ details div {
 
 .autoClick{
   background:burlywood !important;
+}
+
+#textEditor{
+    margin-left: 10px;
+    border: 0px;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
 }

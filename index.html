@@ -131,11 +131,7 @@
             </button>
           </div>
         </div> -->
-        <div id="menuInstall" class="menuContainer">
-          <button id="butInstall" aria-label="Install" class="menuTop hidden">
-              Dùng offline
-          </button>
-        </div>
+        
         
          
             <div class="menuContainer"><button title="Thao tác trước" id="cmdundo" class="menuTop"><i class="material-icons">undo</i></button></div>
@@ -180,11 +176,15 @@
 
             <div class="menuContainer"><button title="Xuống dòng theo màng hình" id="cmdwraptext" class="menuTop"><i class="material-icons">wrap_text</i></button></div>
 
-            <div class="menuContainer"><button title='to chữ' id='cmdzoomin' class="menuTop"><i class='material-icons'>zoom_in</i></button></div>
-            <div class="menuContainer"><button title='nhỏ chữ' id='cmdzoomout' class="menuTop"><i class='material-icons'>zoom_out</i></button></div>
+           <!--  <div class="menuContainer"><button title='to chữ' id='cmdzoomin' class="menuTop"><i class='material-icons'>zoom_in</i></button></div>
+            <div class="menuContainer"><button title='nhỏ chữ' id='cmdzoomout' class="menuTop"><i class='material-icons'>zoom_out</i></button></div> -->
 
+            <div class="menuContainer"><button id='ctrlStyle' title='color' class="menuTop"><i class='material-icons'>color_lens</i></button></div>
             <div class="menuContainer"><button id='cmdHelp' title='help' class="menuTop"><i class='material-icons'>help</i></button></div>
 
+          <div id="menuInstall" class="menuContainer">
+            <button id="butInstall" aria-label="Install" class="menuTop hidden"><i class='material-icons' style='display: contents;'>file_download</i>Tải Về</button>
+          </div>
         </div>
       </nav>
     </header>
@@ -203,7 +203,6 @@
         </span>
       </summary>
       <div id="not-supported">
-        The
         <a href="https://wicg.github.io/native-file-system/" target="_blank">Native File System API</a>
         <b> chưa </b> được hỗ trợ trong trình duyệt này và Trình soạn thảo văn bản đang chạy
          ở chế độ kế thừa. Ở chế độ kế thừa, các chỉ báo đã sửa đổi tệp không được hiển thị.
@@ -226,6 +225,9 @@
          </small>
       </div>
     </details>
+<style type="text/css" id='mainStyle'>
+.menuContainer button {font-size: large;}
+</style>
     <script type="text/javascript">
       var fulldic_zsql = []
       var listScript=[]

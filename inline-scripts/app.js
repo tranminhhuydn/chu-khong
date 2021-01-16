@@ -29,7 +29,9 @@ const app = {
   },
   options: {
     captureTabs: true,
-    fontSize: 14,
+    fontFamily: 'Arial, fangsong',
+    fontSize: 'medium',
+    iconSize:'medium',
     monoSpace: false,
     wordWrap: true,
   },

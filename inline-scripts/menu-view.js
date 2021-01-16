@@ -42,15 +42,15 @@
   //   app.toggleCaptureTabs();
   // });
 
-  document.getElementById('cmdzoomin').addEventListener('click', () => {
-    //myMenus.hide(menuView);
-    app.adjustFontSize(+2);
-  });
+  // document.getElementById('cmdzoomin').addEventListener('click', () => {
+  //   //myMenus.hide(menuView);
+  //   app.adjustFontSize(+2);
+  // });
 
-  document.getElementById('cmdzoomout').addEventListener('click', () => {
-    //myMenus.hide(menuView);
-    app.adjustFontSize(-2);
-  });
+  // document.getElementById('cmdzoomout').addEventListener('click', () => {
+  //   //myMenus.hide(menuView);
+  //   app.adjustFontSize(-2);
+  // });
 
   document.getElementById('cmdwraptext').addEventListener('click', () => {
    app.toggleWordWrap();

@@ -255,6 +255,56 @@ cmdnoichu.onclick = ()=> {
 	app.insertIntoDoc(text)
 	app.select(start,end)
 }
+function selectSetStyle (ctrl,query,getSetValue){
+	var obj = ctrl.querySelector(query)
+	obj.value = getSetValue
+	obj.onchange = ()=>{
+		getSetValue = obj.value
+	}
+}
+ctrlStyle.onclick =()=>{
+	var 
+	html,size = '',
+	fonts = ['Arial, CN-Hanh','Arial, fangsong','Arial, MingLiu','Arial, PMingLiU','Arial, SimSun','Arial, SimHei','Arial, "Noto Serif SC"','Arial, "Noto Sans SC"','Arial, "Adobe Kaiti Std"'],
+	o = ``
+	fonts.forEach(e=>{
+		o+=`<option value='${e}'>${e.replace(/\"/g,'')}</option>`
+	})
+	var x = ['xxx-large','xx-large','x-large','larger','large','medium','small','smaller','x-small','xx-small']
+	x.forEach(i=>{
+		size+=`<option value='${i}'>${i}</option>`
+	})
+	html =`
+	<div><span>Font Name:</span><select name='fontFamily'>${o}</select></div>
+	<div><span>Font size:</span><select name='fontSize'>${size}</select></div>
+	<div><span>Icon size:</span><select name='iconSize'>${size}</select></div>
+	`
+	var c = uidb.showWord('Cấu Hình',html).closer
+	,fontFamily = c.querySelector(`select[name='fontFamily']`)
+	fontFamily.value = app.textArea.style.fontFamily
+	fontFamily.onchange = ()=>{
+		app.textArea.style.fontFamily = fontFamily.value
+		app.options.fontFamily = fontFamily.value
+		appStore.set('options',app.options)
+	}
+	//selectSetStyle(c,`select[name='fontFamily']`,app.textArea.style.fontFamily)
+	var fontSize = c.querySelector(`select[name='fontSize']`)
+	fontSize.value = app.textArea.style.fontSize
+	fontSize.onchange = ()=>{
+		app.textArea.style.fontSize = fontSize.value
+		app.options.fontSize = fontSize.value
+		appStore.set('options',app.options)
+	}
+	var iconSize = c.querySelector(`select[name='iconSize']`)
+	iconSize.value = app.options.iconSize
+	mainStyle.innerText =  `.menuContainer button {font-size: ${app.options.iconSize};}`
+	iconSize.onchange = ()=>{
+		mainStyle.innerText = `.menuContainer button {font-size: ${iconSize.value};}`
+		app.options.iconSize = iconSize.value
+		appStore.set('options',app.options)
+		//app.textArea.style.fontSize = iconSize.value
+	}
+}
 cmdHelp.onclick = ()=>{
 	var html=`
 <button class="menuItemContainer"><i class="material-icons">insert_drive_file</i></button> Tẹp - tẹp mới/mở tẹp/lưu tẹp<br>

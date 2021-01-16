@@ -228,7 +228,7 @@ function _addScript(src){
     	commands = collects
 
     el.id = 'idshowlist';
-    el.innerHTML = '<p><span>'+title+'</span><button>close</button></p>' + commands ;
+    el.innerHTML = `<p style='line-height: 20px;margin: 0px;padding: 5px;border-bottom: 1px dotted #273136;'><span>${title}</span><button style='float: right;'>close</button></p>` + commands ;
     el.querySelector('button').onclick = close
     function close() {
         if (!closer) return;
@@ -380,16 +380,6 @@ var closer,setIgnoreFocusOutSmsBox
 
 window.onload = ()=>{
 
-
-	
-	appStore.get('options').then(o=>{
-		if(o!=null){
-
-			app.options = o;
-			app.textArea.style.fontSize = `${app.options.fontSize}px`;
-		}
-		//console.log(app.options );
-	})
 	appStore.get('user').then(o=>{
 		if(o!=null){
 			cmdUser.querySelector('.material-icons').innerHTML='person'
@@ -409,5 +399,16 @@ window.onload = ()=>{
 
 	uidb.loadScript()
 	personalCtrl.loadScript()
+
+	appStore.get('options').then(o=>{
+		if(o!=null){
+			app.options = o;
+			app.textArea.style.fontSize = `${app.options.fontSize}`;
+			app.textArea.style.fontFamily = app.options.fontFamily
+
+			document.querySelector('#mainStyle').innerText =  `.menuContainer button {font-size: ${app.options.iconSize};}`
+		}
+		//console.log(app.options );
+	})
 
 }

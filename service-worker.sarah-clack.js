@@ -48,18 +48,6 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(e) {
-  //console.log(e.request);
-	// e.respondWith(
-	// 	caches.match(e.request) || 
-	// 	fetch(e.request)
-	// )
-
-  // e.respondWith(caches.match(e.request)
-  //   .then(cachedResponse=>{
-  //     return cachedResponse || fetch(e.request)
-  //   })
-  // );
-
    e.respondWith(caches.match(e.request)
     .then(cachedResponse=>{
       return cachedResponse || fetch(e.request)

@@ -1,0 +1,1095 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"json",
+				"json_decode"
+			],
+			[
+				"for",
+				"foreach\tforeach …"
+			],
+			[
+				"CONS",
+				"console.log"
+			],
+			[
+				"file",
+				"fileName"
+			],
+			[
+				"out",
+				"outputs"
+			],
+			[
+				"str_rep",
+				"str_replace"
+			],
+			[
+				"cone",
+				"console.log"
+			],
+			[
+				"set",
+				"setTimeout"
+			],
+			[
+				"cacheStr",
+				"cacheStrBlock"
+			],
+			[
+				"cnos",
+				"console.log"
+			],
+			[
+				"mar",
+				"margin-bottom\tproperty"
+			],
+			[
+				"ma",
+				"margin-right\tproperty"
+			],
+			[
+				"margn",
+				"margin-left\tproperty"
+			],
+			[
+				"personal",
+				"personaldb"
+			],
+			[
+				"datetime",
+				"dateTimeNow"
+			],
+			[
+				"searchWro",
+				"searchWordUpdate"
+			],
+			[
+				"_",
+				"_POST"
+			],
+			[
+				"getlis",
+				"get-list-user"
+			],
+			[
+				"callOn",
+				"callFNOne"
+			],
+			[
+				"consl",
+				"console.log"
+			],
+			[
+				"isA",
+				"util.isArray"
+			],
+			[
+				"j",
+				"javascript"
+			],
+			[
+				"on",
+				"onended\tAttr"
+			],
+			[
+				"onl",
+				"onloadedmetadata\tAttr"
+			],
+			[
+				"s",
+				"source"
+			],
+			[
+				"log",
+				"console.log"
+			],
+			[
+				"cos",
+				"console.log"
+			],
+			[
+				"te",
+				"textarea\tTag"
+			],
+			[
+				"consol",
+				"console.log"
+			],
+			[
+				"index",
+				"indexKeyCaption"
+			],
+			[
+				"voice",
+				"voiceService"
+			],
+			[
+				"CON",
+				"console.log"
+			],
+			[
+				"cons",
+				"console.log"
+			],
+			[
+				"con",
+				"console.log"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "inline-scripts/ui-db.js",
+			"settings":
+			{
+				"buffer_size": 11866,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "inline-scripts/menu-spelling.js",
+			"settings":
+			{
+				"buffer_size": 14130,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inline-scripts/menu-tools-translate.js",
+			"settings":
+			{
+				"buffer_size": 3230,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inline-scripts/text-area.js",
+			"settings":
+			{
+				"buffer_size": 4479,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inline-scripts/app.js",
+			"settings":
+			{
+				"buffer_size": 5651,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inline-scripts/menu-file.js",
+			"settings":
+			{
+				"buffer_size": 1352,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inline-scripts/menus.js",
+			"settings":
+			{
+				"buffer_size": 4857,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inline-scripts/menu-tool.js",
+			"settings":
+			{
+				"buffer_size": 1316,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inline-scripts/personal-db.js",
+			"settings":
+			{
+				"buffer_size": 18271,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\npersonaldb[\"tranminhhuydn@gmail.com.js\"].filter((i)=>{\n\treturn i[1]=='对'||i[7]=='对'\n})",
+			"settings":
+			{
+				"buffer_size": 87,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 15591,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				"node\t",
+				"Nodejs::User File Settings"
+			],
+			[
+				"node",
+				"Nodejs::Run::Current File + Arguments"
+			],
+			[
+				"node ",
+				"Nodejs::NPM::Install"
+			],
+			[
+				"Package Control: create",
+				"Package Control: Create Package File"
+			],
+			[
+				"Package Control:",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: crea",
+				"Package Control: Create Package File"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Prototype"
+			],
+			[
+				"install node",
+				"Package Control: Install Local Dependency"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 414.0,
+		"history":
+		[
+			"cmd",
+			"npm",
+			"nmp",
+			"win",
+			"cls",
+			"php",
+			"nodejs",
+			"node",
+			"cls",
+			"clear()",
+			"clean",
+			"lear",
+			"cls",
+			"asdf"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/tranminhhuy/Desktop/nodejs/Game-Caro-use-Socketio-Expressjs-master/README.md",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/chu-khong/service-worker.sarah-clack.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/chu-khong/inline-scripts/load-sw.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/chu-khong/inline-scripts/menu-spelling.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/chu-khong/inline-scripts/plugin-recode-text.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/chu-khong/inline-scripts/menu-view.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/chu-khong/inline-scripts/menu-tools-keyboard.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/chu-khong/service-worker.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/cut_mp3/cut_mp3.js",
+		"/C/apachefriends/htdocs/fpt.ai/site/index.html",
+		"/C/apachefriends/htdocs/fpt.ai/test.html",
+		"/C/apachefriends/htdocs/fpt.ai/test.php",
+		"/C/apachefriends/htdocs/fpt.ai/libs.php",
+		"/C/apachefriends/htdocs/fpt.ai/libs/index.php",
+		"/C/apachefriends/htdocs/fpt.ai/libs/libs/appController.php",
+		"/C/apachefriends/htdocs/fpt.ai/libs/models/models.php",
+		"/C/apachefriends/htdocs/fpt.ai/libs/controllers/books.php",
+		"/C/apachefriends/htdocs/fpt.ai/libs/app.php",
+		"/C/apachefriends/htdocs/fpt.ai/libs/datas/app.json",
+		"/C/apachefriends/htdocs/fpt.ai/libs/data/person.json",
+		"/C/apachefriends/htdocs/fpt.ai/libs/person.json",
+		"/C/apachefriends/htdocs/fpt.ai/libs/appController.php",
+		"/C/apachefriends/htdocs/fpt.ai/libs/App.json",
+		"/C/apachefriends/htdocs/editsound/app.js",
+		"/C/apachefriends/htdocs/editsound/index.html",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/service-worker.sarah-clack.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/text-area.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/service-worker.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/personal-db.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/readme.md",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/ui-db.js",
+		"/C/apachefriends/htdocs/chu-khong-ext/assets/js/person.js",
+		"/C/apachefriends/htdocs/fpt.ai/lib-speech-to-text.php",
+		"/C/apachefriends/htdocs/fpt.ai/index.php",
+		"/C/apachefriends/htdocs/fpt.ai/speech-to-text.php",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/person.php",
+		"/C/apachefriends/htdocs/api-text-to-speech/index.php",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/app.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/menu-view.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/styles/main.css",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/menu-spelling.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/index.html",
+		"/C/apachefriends/htdocs/fpt.ai/outputs/22_t13d3_chanh_tong_dai_thua.mp3.txt",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/load-sw.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/src_tts/fpt.ai.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/built_tts.js",
+		"/C/apachefriends/htdocs/api-text-to-speech/site/login.html",
+		"/C/apachefriends/htdocs/api-text-to-speech/site/dangky.html",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/doc/chuyen giong noi thanh van ban/set_audio/audioEdit.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/editor/node_modules/@k3rn31p4nic/google-translate-api/README.md",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/editor/test_k3rn31p4nic_google_translate_api.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/doc/chuyen giong noi thanh van ban/set_audio/decodeAudioData example.html",
+		"/C/apachefriends/htdocs/speach-to-text.html",
+		"/C/apachefriends/htdocs/editsound/test-api-text-to-speech.html",
+		"/C/apachefriends/htdocs/api-text-to-speech/api-text-to-speech.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/css/google-icon-editor.css",
+		"/C/apachefriends/htdocs/api-text-to-speech/site/index.html",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/menu-tools-translate.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/menu-edit.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/index.php",
+		"/C/apachefriends/htdocs/fpt.ai/outputs/1_Tongket hk2_24-3-12.txt",
+		"/C/Users/tranminhhuy/Desktop/Text-to-speech-api-fpt-master/Text-to-speech-api-fpt-master/README.md",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/editor/testgoogleTranslate.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/cut_mp3/node_modules/mp3-cutter/package.json",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/editor/test.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/editor/test_google_cloud_translate.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/editor/node_modules/@k3rn31p4nic/google-translate-api/src/languages.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/editor/node_modules/@k3rn31p4nic/google-translate-api/src/index.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/doc/chuyen giong noi thanh van ban/Chrome Browser_files/app.js",
+		"/C/Users/tranminhhuy/Desktop/Text-to-speech-api-fpt-master/Text-to-speech-api-fpt-master/help.txt",
+		"/C/Users/tranminhhuy/Desktop/nodejs/google-translate/doc/chuyen giong noi thanh van ban/Chuyen Giong Noi Thanh Van Ban.html",
+		"/C/apachefriends/htdocs/editsound/i18n-text.js",
+		"/C/apachefriends/htdocs/editsound/locales/site/alert.html",
+		"/C/apachefriends/htdocs/editsound/test.html",
+		"/C/apachefriends/htdocs/editsound/locales/index.html",
+		"/C/apachefriends/htdocs/editsound/locales/index.php",
+		"/C/apachefriends/htdocs/editsound/idb-keyval-iife.js",
+		"/C/apachefriends/htdocs/editsound/api-text-to-speech.js",
+		"/C/apachefriends/htdocs/editsound/locales/de.json",
+		"/C/apachefriends/htdocs/editsound/locales/vi.json",
+		"/C/apachefriends/htdocs/editsound/ui.js",
+		"/C/apachefriends/htdocs/editsound/download.php",
+		"/C/apachefriends/htdocs/editsound/test.php",
+		"/C/Users/tranminhhuy/Desktop/nodejs/margin_mp3/package.json",
+		"/C/Users/tranminhhuy/Desktop/nodejs/margin_mp3/copy_wating.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/margin_mp3/index.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/ChuKhong/lib/copy.js",
+		"/C/apachefriends/htdocs/editsound/test.js",
+		"/C/Users/tranminhhuy/Desktop/huong dan chu khong/huong dan.txt",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/manifest.json",
+		"/C/apachefriends/htdocs/editsound/options.js",
+		"/C/apachefriends/htdocs/editsound/ui-db.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/margin_mp3/node_modules/mp3-concat/test.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/cut_mp3/node_modules/mp3-cutter/README.md",
+		"/C/Users/tranminhhuy/Desktop/nodejs/cut_mp3/package.json",
+		"/C/Users/tranminhhuy/Desktop/nodejs/margin_mp3/node_modules/ffmpeg/README.md",
+		"/C/Users/tranminhhuy/Desktop/nodejs/margin_mp3/node_modules/sox-audio/examples/concat.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/margin_mp3/node_modules/sox-audio/examples/trim.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/margin_mp3/node_modules/sox-audio/examples/transcode.js",
+		"/C/Users/tranminhhuy/Desktop/huong dan.txt",
+		"/C/Users/tranminhhuy/Desktop/nodejs/chorme/extention/readTVSubTitle/contentScript.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/chorme/extention/readTVSubTitle/options.html",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/assets/login.js",
+		"/C/apachefriends/htdocs/editsound/editsound.html",
+		"/C/apachefriends/htdocs/editsound.html",
+		"/C/apachefriends/htdocs/zip/unzip.php",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/list-full-dic.json",
+		"/C/apachefriends/htdocs/zip/index.php",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/index.php",
+		"/C/apachefriends/htdocs/testgit/gh-pages-v2/index.html",
+		"/C/apachefriends/htdocs/testgit/gh-pages-v2/readme.md",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/menu-tools-keyboard.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/service-worker.old.js",
+		"/C/apachefriends/htdocs/text-editor-main/README.md",
+		"/C/apachefriends/htdocs/text-editor-main/package.json",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/dir.php",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/2020/12/26.json",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/2020/12/25.json",
+		"/C/Users/tranminhhuy/Desktop/nodejs/chorme/my/hello/assets/js/tools_translate.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/chorme/my/hello/assets/js/tools_spelling.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/chorme/my/hello/assets/js/syncDB.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/menu-tool.js",
+		"/C/apachefriends/htdocs/twoiframe.html",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/idb-keyval-iife.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/postDB.html",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/chu-khong/app/inline-scripts/jscd.js",
+		"/C/Users/tranminhhuy/Desktop/nodejs/js detect os/bai2.js",
+		"/C/apachefriends/htdocs/cakephp-4-0-4/webroot/applugin/chu-khong/inline-scripts/idb-keyval-iife.js"
+	],
+	"find":
+	{
+		"height": 41.0
+	},
+	"find_in_files":
+	{
+		"height": 619.0,
+		"where_history":
+		[
+			"C:\\apachefriends\\htdocs\\cakephp-4-0-4\\webroot\\chu-khong\\chu-khong",
+			"C:\\apachefriends\\htdocs\\cakephp-4-0-4\\webroot\\chu-khong\\app",
+			"C:\\Users\\tranminhhuy\\Desktop\\nodejs",
+			"C:\\apachefriends\\htdocs\\cakephp-4-0-4\\webroot\\chu-khong\\app",
+			"C:\\apachefriends\\htdocs\\cakephp-4-0-4\\webroot\\applugin\\chu-khong",
+			"C:\\apachefriends\\htdocs\\chu-khong-progressive",
+			"",
+			"C:\\Users\\tranminhhuy\\Desktop\\nodejs\\chorme\\extention\\read-aloud-master",
+			"C:\\apachefriends\\htdocs\\chu-khong-ext",
+			"C:\\apachefriends\\htdocs\\chu-khong-ext\\",
+			"C:\\apachefriends\\htdocs\\chu-khong-ext\\assets",
+			"C:\\Users\\tranminhhuy\\Desktop\\nodejs\\chorme\\extention\\read-aloud-master"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"document.execCommand",
+			"VI",
+			"builtRecodeDB",
+			"searchWordUpdate",
+			"coundErrorLoad",
+			"countLoadScript",
+			"ctrlStyle",
+			"updateResultFilter",
+			"filterWord",
+			"word",
+			"words",
+			"myAudio",
+			"file",
+			"<file",
+			"audio",
+			"echo",
+			"var_dump",
+			"' ",
+			"listDir",
+			"app.options.fontSize",
+			"cacheName",
+			"getlistuser",
+			"adjustFontSize",
+			"cmdhelp",
+			"createPersonalFile",
+			"ctrlVoice",
+			"mapVoices",
+			"ctrlVoice",
+			"apiVoices",
+			"ctrlCountry",
+			"countryList",
+			"turningSpeaker",
+			"baseApiUrl",
+			"turningSpeaker",
+			"country",
+			"ctrlCountry",
+			"fptAiDownload",
+			"fpt.ai",
+			"var ",
+			"\\n+",
+			"[\\s\\t]+",
+			"\\t",
+			"const",
+			"let",
+			"speakerDefault",
+			"ctrlAudio",
+			"audio",
+			"eleRoot",
+			"myblocks",
+			"createElement",
+			"turningSpeaker",
+			".on",
+			"\\n([\\s\\t]+)",
+			"\\n",
+			"data-i18n-text=\\\"([a-zA-Z\\-]+)\\\"",
+			"data-i18n-text=\\\"[a-zA-Z\\-]\\\"",
+			"data-i18n-text=\"[a-zA-Z\\-]\"",
+			"\\t",
+			"data-i18n-text=",
+			"\\n",
+			"speakerDefault",
+			"ctrlappDoc",
+			"appDoc",
+			"document.",
+			"document",
+			"voiceService",
+			"getAllLink",
+			"builtBlock",
+			"audioPlay",
+			"navia",
+			"'",
+			"\\n",
+			"app.js:29 ",
+			"builtBlock",
+			"docName",
+			"submit",
+			"fnTest",
+			"turningSpeaker",
+			"document-name",
+			"myblocks",
+			"idshowlist",
+			"showWord",
+			"voiceService",
+			"setNameArray",
+			"volume",
+			"[name=",
+			"tẹp",
+			"id",
+			"speech",
+			"speechValue",
+			"voiceSelector",
+			"getSound",
+			"thongbaodangky",
+			"login",
+			"post",
+			"//.",
+			"listScriptPersonal",
+			"cmdUser",
+			"person.php",
+			"index.php",
+			"Cache-control",
+			"updateAppSecure",
+			"createPersonalFile",
+			"searchWord",
+			"autoClick",
+			" ',",
+			"persenDBLoad",
+			"button",
+			"</span></button>",
+			"</i></button>",
+			"<button",
+			"menuTop",
+			"menuItemContainer",
+			"downloadDB",
+			"button([^class].+)\\sclass",
+			"id=",
+			"updateEvent",
+			";\n",
+			"cmdspellcheck",
+			"updateEvent",
+			"smsBox",
+			"e",
+			"searchWordUpdate",
+			"updateCurrentDB",
+			"start",
+			"cmdpaste",
+			"getSound",
+			"callback"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"var",
+			"",
+			"appDoc.",
+			"\"",
+			"':'',\\n'",
+			",\\n",
+			"':''\\n",
+			"",
+			"</span></button></div>",
+			"</i></button></div>",
+			"<div class=\"menuContainer\"><button",
+			"menuContainer menuTop",
+			"menuTop",
+			"",
+			"end",
+			"$keyTime",
+			"$keyUserDevice",
+			"','",
+			"",
+			"request",
+			"fulldicStore",
+			"personalStore",
+			"personaldb",
+			"app.",
+			"",
+			"#607d8b",
+			"Chữ Không Editor",
+			"checkLoadScript",
+			"',\\n'"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 7,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "inline-scripts/ui-db.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11866,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								107,
+								107
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "inline-scripts/menu-spelling.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14130,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								43,
+								843
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 6579.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "inline-scripts/menu-tools-translate.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3230,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2818,
+								2818
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1620.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "inline-scripts/text-area.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4479,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								656,
+								656
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2537.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "inline-scripts/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5651,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4318,
+								4318
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4295.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "inline-scripts/menu-file.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1352,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 185.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "inline-scripts/menus.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4857,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2965.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "inline-scripts/menu-tool.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1316,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1260,
+								1240
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 285.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 8,
+					"file": "inline-scripts/personal-db.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18271,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1424,
+								1424
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 13700.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 87,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								87,
+								87
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15591,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12425,
+								12425
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 42.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.58515625,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 179.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.nodejs":
+	{
+		"height": 88.0
+	},
+	"pinned_build_system": "Packages/User/nodejs.sublime-build",
+	"project": "",
+	"replace":
+	{
+		"height": 54.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 592.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

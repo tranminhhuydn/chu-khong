@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
   <head>
     <title>Chữ Không Editor</title>
@@ -53,10 +53,29 @@
     margin-bottom: 0px;
     height: -webkit-fill-available;
     }
+
+
+    #myProgress {
+      width: 100%;
+      
+      background-color: #ddd;
+    }
+
+    #myBar {
+      width: 1%;
+      height:1px;
+      background-color: #4CAF50;
+    }
+    #pluginRecodeText{
+      display: none;
+      background-color: var(--app-footer-bg);
+    }
+    #ctrlAudio{
+      height: 30px;
+    }
     </style>
   </head>
   <body class="wordwrap">
-
     <header>
       <h1>
         <span id="headerFileName">Chữ Không Editor</span><span id="modifiedHeader" class="hidden">*</span>
@@ -187,10 +206,21 @@
           </div>
         </div>
       </nav>
+      <div id="myProgress">
+        <div id="myBar"></div>
+      </div>
     </header>
-
+  
     <textarea id="textEditor" autofocus spellcheck="true"></textarea>
-
+<div id='pluginRecodeText'>
+ <input type="file" id="fileAudio">
+ <audio id='ctrlAudio' controls></audio>
+ <input id='recodeText' type="text">
+ <button id='cmdCopyRecode' type="button">copy</button>
+ <button id='getAudioTime' type="button">get Time</button>
+ <button id='setAudioTime' type="button">set Time</button>
+</div>
+<script src='./inline-scripts/plugin-recode-text.js'> </script>
     <a id="aDownloadFile" download></a>
     <input type="file" id="filePicker">
 

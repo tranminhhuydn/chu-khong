@@ -97,12 +97,13 @@ cmdtranslateoffline.onclick = ()=>{
 			try{
 
 				c = JSON.parse(c)
+				console.log(c);
 				fstr = firstStr(c['từ kép'])
 				text = text.replace(new RegExp(k,'g'),fstr+" ")
 				if(k2.trim().length!=0)
 					text = text.replace(new RegExp(k2,'g'),fstr+" ")
 			}catch(e){
-				//console.log(c);
+				console.log(c);
 				fstr = firstStr(c['từ kép'])
 				text = text.replace(new RegExp(k,'g'),fstr+" ")
 				if(k2.trim().length!=0)
@@ -124,5 +125,5 @@ cmdtranslateoffline.onclick = ()=>{
 }
 cmdgtranslate.onclick = ()=> { 
 }
-
+//ok
 })(app);

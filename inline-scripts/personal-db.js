@@ -71,7 +71,8 @@ var personalCtrl = (function (exports) {
 		 		for (var i = 0; i < it.length; i++) {
 		 			var e = it[i]
 		 			var ele = personaldb[e]
-			 		r = r.concat(ele.filter(_filterWord))
+		 			var r1 = ele.filter(_filterWord)
+			 		r = r.concat(r1)
 		 		}
 		 	}else{
 
@@ -79,7 +80,8 @@ var personalCtrl = (function (exports) {
 			 		//console.log(i);
 			 		//personaldb[i]
 			 		var ele = personaldb[i]
-			 		r = r.concat(ele.filter(_filterWord))
+			 		var r1 = ele.filter(_filterWord)
+			 		r = r.concat(r1)
 			 	}
 		 	}
 			// personaldb.forEach(ele=>{
@@ -577,16 +579,19 @@ cmdaddnewword.onclick = ()=>{
 				if(ele.value.trim().length!=0)
 					ob[e] = ele.value.trim()
 			})
+			ob=JSON.stringify(ob)
+			console.log(ob);
+			//return ob
 			return ob
-			//return JSON.stringify(ob)
 		}
 		if(r[0]){
 			if(r[0][4]=='object'){
-				//var objs = JSON.parse(r[0][3])
-				var objs = r[0][3]
+				console.log(r[0][3]);
+				var objs = JSON.parse(r[0][3])
+				//console.log(objs);
 				for(o in objs){
-					console.log(o);
-					//console.log(o+":"+objs[o]);
+				//	console.log(o);
+				//console.log(o+":"+objs[o]);
 					var c = document.getElementById("db"+o)
 					if(c) c.value = objs[o]
 				}

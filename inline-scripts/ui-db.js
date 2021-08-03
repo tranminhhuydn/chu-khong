@@ -5,6 +5,26 @@ var hostDB = '//votandang.net/chu-khong';
 var uidb = (function (exports) {
   'use strict';
 var host = 'https://tranminhhuydn.github.io/gh-page/'
+
+Array.prototype.clone = function(){
+  return this.map(e => Array.isArray(e) ? e.clone() : e);
+};
+
+// Array.prototype.clone = function() {
+//     var i,newObj = [] ;
+//     for (i in this) {
+//         if (i == 'clone') 
+//             continue;
+//         if (this[i] && typeof this[i] == "object") {
+//             newObj[i] = this[i].clone();
+//         } 
+//         else 
+//             newObj[i] = this[i]
+//     } 
+// 	return newObj;
+// 	//return this;
+// };
+
 //writeScript(listScript)
 
 
@@ -34,7 +54,6 @@ function updateResultFilter(ele,update) {
 function filterWord(words,update) {
 	var word;
 	var r = []; 
-
 	//var arr = [[1, 2], [3, 4], [5,7]];
 
 	async function asyncFilter (arr, predicate) {
@@ -64,10 +83,10 @@ function filterWord(words,update) {
 	  return i[1]==word||i[7]==word
 	}
 	function _filter() {
-
 	 	for (var o  in personaldb) {
-			var ele = personaldb[o]
-			//console.log(o);
+	 		console.log(o);
+			var ele = personaldb[o].clone()
+		
 			var r1 = ele.filter(_filterWord)
 			var r2 = []
 			//console.log(r1);
@@ -76,23 +95,54 @@ function filterWord(words,update) {
 				r2[0][1]=o.replace('.js','')+"<br>"+r2[0][1]
 			}
 			//r = r.concat(ele.filter(_filterWord))
+			//r = r.concat(r2)
 			r = r.concat(r2)
+			//r1.clone();
 		}
 
 		for (var o  in fulldic_zsql) {
-			var ele = fulldic_zsql[o]
-			r = r.concat(ele.filter(_filterWord))
+			if(o!='clone'){			
+			    var ele = fulldic_zsql[o]
+			    //console.log(o);
+			    var r1 = ele.filter(_filterWord)
+			    r = r.concat(r1)
+			}
 		}
 
 	}
 	if(Array.isArray(words)){
+		// chuyển đổi giản phồn
+		words.forEach(ele1=>{	
+			word = ele1		
+	 		var k1 = app.fnGianToPhon(word)
+	 		if(k1!=word){
+	 			words.push(k1)
+	 		}
+	 		var k2 = app.fnPhonToGian(word)
+			if(k2!=word){
+				words.push(k2)
+	 		}
+		})
+		//console.log(words);
 		words.forEach(ele1=>{
 			word = ele1
 			_filter()
 		})
  	}else{
+
  		word = words
 		_filter()
+		// chuyển đổi giản phồn
+ 		var k1 = app.fnGianToPhon(words)
+ 		if(k1!=words){
+ 			word = k1
+			_filter()
+ 		}
+ 		var k2 = app.fnPhonToGian(words)
+		if(k2!=words){
+ 			word = k2
+			_filter()
+ 		}
  	}
  	//sort z-a
  	r.sort(function(a, b){
@@ -101,7 +151,8 @@ function filterWord(words,update) {
 
  	return r;
 }
-	
+app.filterWord = filterWord;
+
 function sort(points) {
   return points.sort(function(a, b){
     return b[2] - a[2] 
@@ -144,7 +195,10 @@ function searchWord (value){
 		//xem 
 
 		//cach 3
-		var r = filterWord(value.split(/[,;.:-]/g))
+		var r1,sr,r= filterWord(value.split(/[,;.:-]/g))
+		// sr = JSON.stringify(r1)
+		// r = JSON.parse(sr);
+		//r=r1.clone();
 		var l = []
 		r.forEach(e=>{
 			var  c
@@ -181,14 +235,17 @@ function searchWord (value){
 		}	
 	}
  }
+ var coundErrorLoad = 0;
  function onErrorHandler(){
  	countLoadScript--
+ 	coundErrorLoad++;
  	console.log("error load");
  	//console.log(this.id);
  	// var id = Number(this.id.replace('scriptId',''))
  	// listScript[]
  	var s = this.src.split("/")
  	var name = s[s.length-1]
+ 	if(coundErrorLoad<500)
  	_addScript(name)
  }
 function _addScript(src){
@@ -323,7 +380,6 @@ function _addScript(src){
  	loading = document.querySelector('#dialogDownLoading'),
  	dialogDownloadingStype = document.querySelector('#dialogDownloadingStype'),
  	resultDBLoad = document.querySelector('#resultDBLoad') 
-	
 	yesDownload.onclick = ()=>{
 		dialogDownloadingInfor.style.display='block'
 		closer = o.closer
@@ -336,11 +392,13 @@ function _addScript(src){
 				setIgnoreFocusOutSmsBox(false)
 				closer.click()
 			}
+
+			var elem = document.getElementById("myBar");
+       		elem.style.width = resultDBLoad.value;
 		},500);
 
 	 	_loadScript()	
 	}
-
 	//if(listScript.length==0){
 		fulldicStore.keys().then(r=>{
 			if(r!=null && r.length!=0){
@@ -350,6 +408,9 @@ function _addScript(src){
 				listScript = r
 				//_loadScript()
 				yesDownload.onclick()
+				//console.log(dialogDownloadingStype);
+				dialogDownloadingStype.parentNode.parentNode.parentNode.style.display='none'
+				//o.closer.click()
 			}
 		})
 	//}
@@ -379,7 +440,7 @@ app.textArea.oncontextmenu = (event)=>{
 var closer,setIgnoreFocusOutSmsBox
 
 window.onload = ()=>{
-
+	
 	appStore.get('user').then(o=>{
 		if(o!=null){
 			cmdUser.querySelector('.material-icons').innerHTML='person'

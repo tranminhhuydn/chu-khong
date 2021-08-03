@@ -113,10 +113,9 @@ function updateEventObj(e,obj){
 			app.insertIntoDoc(r)
 			app.select(start,end)
 		}
-		cmdgianthe.onclick = ()=> { //phon sang gian
-			var re,text = app.getTextSelection(),
-			r = text,
-			d = gianphonthe.data
+		app.fnPhonToGian = (text) =>{
+			var d,re,r = text;
+			d = gianphonthe.data;
 			for (var i=0; i < text.length; i++) {
 				elekey = text[i]
 				re = null
@@ -131,11 +130,17 @@ function updateEventObj(e,obj){
 					r = r.replace(elekey,re)
 				
 			};
+			return r;
+		}
+		cmdgianthe.onclick = ()=> { //phon sang gian
+			var text = app.getTextSelection(),
+			r = text;
+			r = app.fnPhonToGian(r);
 			app.insertIntoDoc(r)
 			//session.replaceSelectAndSelectAgain(r);			
 		}
-		cmdphonthe.onclick = ()=> { // gian sang phon
-			var re,text = app.getTextSelection(),
+		app.fnGianToPhon = (text)=>{
+			var re,
 			r = text,
 			d = gianphonthe.data
 			for (var i=0; i < text.length; i++) {
@@ -152,6 +157,11 @@ function updateEventObj(e,obj){
 					r = r.replace(elekey,re)
 				
 			};
+			return r;
+		}
+		cmdphonthe.onclick = ()=> { // gian sang phon
+			var text = app.getTextSelection()
+			var r = app.fnGianToPhon(text);
 			app.insertIntoDoc(r)
 			//session.replaceSelectAndSelectAgain(r);
 		}

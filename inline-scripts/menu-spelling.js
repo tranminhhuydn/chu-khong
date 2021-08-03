@@ -278,6 +278,8 @@ ctrlStyle.onclick =()=>{
 	<div><span>Font Name:</span><select name='fontFamily'>${o}</select></div>
 	<div><span>Font size:</span><select name='fontSize'>${size}</select></div>
 	<div><span>Icon size:</span><select name='iconSize'>${size}</select></div>
+	<h5>Tiện ích</h5>
+	<div><button name='PluginRecodeText'>Ghi âm</button></div>
 	`
 	var c = uidb.showWord('Cấu Hình',html).closer
 	,fontFamily = c.querySelector(`select[name='fontFamily']`)
@@ -303,6 +305,10 @@ ctrlStyle.onclick =()=>{
 		app.options.iconSize = iconSize.value
 		appStore.set('options',app.options)
 		//app.textArea.style.fontSize = iconSize.value
+	}
+	var ctrlRecodeText = c.querySelector(`button[name='PluginRecodeText']`)
+	ctrlRecodeText.onclick=()=>{
+		pluginRecodeText.style.display = pluginRecodeText.style.display=='block'?'none':'block';
 	}
 }
 cmdHelp.onclick = ()=>{

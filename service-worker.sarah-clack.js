@@ -23,9 +23,56 @@ workbox.core.skipWaiting();
 
 workbox.core.clientsClaim();
 
-
+var listURL = [];
 const cacheName='static-shell-v1'
-const resourcesToPrecache=["./index.html","inline-scripts\/analytics.js","inline-scripts\/app-install.js","inline-scripts\/app.js","inline-scripts\/fallback.js","inline-scripts\/fs-helpers.js","inline-scripts\/idb-keyval-iife.js","inline-scripts\/jscd.js","inline-scripts\/keyboard-events.js","inline-scripts\/load-sw.js","inline-scripts\/menu-edit.js","inline-scripts\/menu-file.js","inline-scripts\/menu-recent.js","inline-scripts\/menu-spelling.js","inline-scripts\/menu-tool.js","inline-scripts\/menu-tools-keyboard.js","inline-scripts\/menu-tools-translate.js","inline-scripts\/menu-view.js","inline-scripts\/menus.js","inline-scripts\/personal-db.js","inline-scripts\/rum.js","inline-scripts\/text-area.js","inline-scripts\/ui-db.js","inline-scripts\/ui.js","styles\/main.css","styles\/print.css","styles\/standalone.css","images\/favicon.png","images\/icon-144.png","images\/icon-192.png","images\/icon-256.png","images\/icon-512.png","images\/icon-72.png","images\/icon-96.png","json\/bo.json","json\/boFull.json","json\/gianPhonThe.json","json\/hanNom.json","json\/hanViet.json","css\/font-awesome.min.css","css\/google-icon-editor.css","fonts\/fontawesome-webfont.eot","fonts\/fontawesome-webfont.woff2","fonts\/google-icon-editor.woff2"];
+const resourcesToPrecache =[
+    "index.html",
+    "inline-scripts/analytics.js",
+    "styles/main.css",
+    "styles/standalone.css",
+    "css/google-icon-editor.css",
+    "css/font-awesome.min.css",
+    "json/hanViet.json",
+    "json/hanNom.json",
+    "json/gianPhonThe.json",
+    "jszip/jszip.min.js",
+    "inline-scripts/plugin-recode-text.js",
+    "inline-scripts/idb-keyval-iife.js",
+    "inline-scripts/rum.js",
+    "inline-scripts/app.js",
+    "inline-scripts/menus.js",
+    "inline-scripts/text-area.js",
+    "inline-scripts/fs-helpers.js",
+    "inline-scripts/menu-file.js",
+    "inline-scripts/menu-edit.js",
+    "inline-scripts/menu-tool.js",
+    "inline-scripts/menu-tools-keyboard.js",
+    "inline-scripts/menu-tools-translate.js",
+    "inline-scripts/menu-spelling.js",
+    "inline-scripts/menu-view.js",
+    "inline-scripts/menu-recent.js",
+    "inline-scripts/ui.js",
+    "inline-scripts/ui-db.js",
+    "inline-scripts/loadDB.js",
+    "inline-scripts/personal-db.js",
+    "inline-scripts/keyboard-events.js",
+    "inline-scripts/load-sw.js",
+    "inline-scripts/app-install.js",
+    "inline-scripts/fallback.js",
+    "inline-scripts/jscd.js",
+    "styles/print.css",
+    "fonts/google-icon-editor.woff2",
+    "images/icon-192.png",
+    '/tu-dien-thieu-chuu/hanviet/dbzip/bktd_dv.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/CV_Lac_Viet_Hoa_Viet.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/Free_Chinese_Vietnamese.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/Han_Hoa_Anh.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/Han_viet_dai_tu_dien.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/Khang_Hi.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/Nguyen_Quoc_Hung.json.zip',
+    "images/favicon.png"
+];
 self.__precacheManifest = [].concat(resourcesToPrecache|| []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
@@ -50,6 +97,10 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
    e.respondWith(caches.match(e.request)
     .then(cachedResponse=>{
+      // get all link
+      // listURL.push(e.request.url)
+      // console.clear();
+      // console.log(listURL)
       return cachedResponse || fetch(e.request)
     })
   );

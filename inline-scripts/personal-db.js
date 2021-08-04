@@ -1,5 +1,6 @@
 //var listScriptPersonal=[]
 var hostDB = '//votandang.net/chu-khong';
+//var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
 //import(hostDB+"/person.php?get-list-user")
 var personaldb = {}
 
@@ -115,11 +116,6 @@ var personalCtrl = (function (exports) {
 		});
 	}
 
-	function persenDBLoad (){
-		if(document.querySelector('#resultDBLoad'))
-		document.querySelector('#resultDBLoad').value =  Math.round(personaldb.length*100/118)+"%"
-	}
-
 	function searchWord (value){
 		var r1 = splitLine(value)
 		//console.log(r1);
@@ -162,49 +158,32 @@ var personalCtrl = (function (exports) {
 	 	if(callback)
 	 		callback(logIndex)
 	 }
-	 var countLoadScript = 0;
+	var countLoadScript = 0;
+	function persenDBLoad (){
+		// tổng số countLoadScript = tính personalStore và listScriptPersonal
+		// có hai trường hợp
+		// trường hợp 1 
+		// 	personalStore = 0 thì chỉ tính từ listScriptPersonal
+		// trường hợp 2 
+		// 	personalStore != 0 thì countLoadScript + từ personalStore và listScriptPersonal
+
+		// if(document.querySelector('#resultDBLoad'))
+		// document.querySelector('#resultDBLoad').value =  Math.round(personaldb.length*100/118)+"%"
+	}
 	function checkLoadScript(event){
-	 	function doStore(){
-	 		console.log(listScriptPersonal.length+"/"+countLoadScript+" "+name);
-	 		if(countLoadScript==listScriptPersonal.length){
-	 			//personaldb[name] = r
-
-				//personalStore.set("personaldb",personaldb).then(r=>{
-
-					if(closer){
-						//setIgnoreFocusOutSmsBox(false)
-						//closer.click()
-					}
-				//})
-			}
-	 	}
 	 	var s = event.path[0].src.split("/")
 	 	var name = s[s.length-1]
-	 	countLoadScript++;
 
-	 	
-	 	listScriptPersonal.forEach(e=>{
-	 		var checklist =e
-	 		personalStore.get(checklist).then(r=>{
-		 		if(r!=null){
-		 			countLoadScript++;
-		 			//console.log(countLoadScript+"/"+r);
-		 			doStore()
-		 		}
-		 	})
-
-	 	})
-	 	
-	 	
+	 	//add new
 	 	personalStore.get(name).then(r=>{
 			if(r==null){
-				//console.log(personaldb);
+				console.log("New user: "+name);
 				personalStore.set(name,personaldb[name])
+				countLoadScript++;
 				persenDBLoad()
-				//personalStore.set("personaldb",personaldb)
 			}
 		})
-		doStore()
+
 	 }
 	function onErrorHandler(){
 	 	console.log("error load");
@@ -221,43 +200,44 @@ var personalCtrl = (function (exports) {
 		script.onerror = onErrorHandler;
 		body.appendChild(script);
 	}
-	function addScript(srcs){
-	 	if(Array.isArray(srcs)){
+	// function addScript(srcs){
+	//  	if(Array.isArray(srcs)){
 
-	 		srcs.forEach((e,i)=>{
-	 			var e1 = e.split("/")
-	 			var name = e1[e1.length-1]
+	//  		srcs.forEach((e,i)=>{
+	//  			console.log(e);
+	//  			var e1 = e.split("/")
+	//  			var name = e1[e1.length-1]
 
-	 			personalStore.get(name).then(r=>{
-	 				if(r==null){
-	 					_addScript(e)
-	 				}
-	 				//else
-	 				//console.log(r);
-	 			})
-	 		})
+	//  			personalStore.get(name).then(r=>{
+	//  				if(r==null){
+	//  					_addScript(e)
+	//  				}
+	//  				//else
+	//  				//console.log(r);
+	//  			})
+	//  		})
 
-	 	}else{
-	 		_addScript(srcs)
-	 	}
-	 }
+	//  	}else{
+	//  		_addScript(srcs)
+	//  	}
+	//  }
 	 function reloadDB(){
 	 	personaldb = []
 	 	persenDBLoad()
-	 	personalStore.clear()
-	 	addScript(listScriptPersonal)
+	 	//personalStore.clear()
+	 	//addScript(listScriptPersonal)
 	 }
 	function loadScript(){
+		// chỉ load những user mới
 	 	function _loadScript(){
-			listScriptPersonal.forEach((e,i)=>{
-	 			var e1 = e.split("/")
-	 			var name = e1[e1.length-1]
-
-	 			personalStore.get(name).then(r=>{
+			listScriptPersonal.forEach((emailUser,i)=>{
+	 			//console.log(emailUser);
+	 			personalStore.get(emailUser).then(r=>{
 	 				if(r==null){
-	 					_addScript(e)
+	 					_addScript(emailUser)
 	 				}else{
-	 					personaldb[name] = r
+	 					personaldb[emailUser] = r
+	 					countLoadScript++;
 	 				}
 	 			})
 	 		})
@@ -267,21 +247,17 @@ var personalCtrl = (function (exports) {
 	 		personalStore.keys().then(r=>{
 	 			if(r!=null){
 	 				listScriptPersonal = r
-	 				_loadScript()
 	 			}
 	 		})
-	 	}else{
-	 		console.log('load online');
-	 		_loadScript()
 	 	}
-	 	
+	 	_loadScript()
 	 }
 
 	 exports.searchWordForm = searchWordForm;
 	 exports.searchWordUpdate = searchWordUpdate;
 	 exports.persenDBLoad = persenDBLoad;
 	 exports.reloadDB = reloadDB;
-	 exports.addScript = addScript;
+	 // exports.addScript = addScript;
 	 exports.searchWord = searchWord;
 	 exports.loadScript = loadScript;
 
@@ -426,7 +402,9 @@ function getListDay(year1,month1,day1){
 	return listResult;
 }
 function downloadDB(obj,callBack){
-	var countDownload =0
+	dialogPersendShareWord.parentElement.classList.remove('hidden')
+
+	var countDownload =0,persend = 0
 	var list = getListDay(Number(obj.y),Number(obj.m),Number(obj.d))
 	function eachDB(dbTime,callBack){
 		for(var t in dbTime){
@@ -443,14 +421,21 @@ function downloadDB(obj,callBack){
 			}
 		}
 	}
-	function _downloadDB(index,max,callBack){
-		
+	function _downloadDB(index,max,callBack){	
 		get(hostDB+"/index.php?file="+list[index]+".json",(d,body)=>{
-			console.log(d);
+			//console.log(d);
 			if(d==false){
 				alert('Xuất hiện lỗi trong khi đồng bộ dữ liệu, xin thử lại lúc khác.')
 				return;
 			}
+
+			//show persend loadder
+			persend = ((index+1)*100/max)
+			
+			dialogPersendShareWord.style.width = persend+"%"
+			if(persend==100)
+				setTimeout(()=>{dialogPersendShareWord.parentElement.classList.add('hidden')}, 1500);
+
 			var dbTime = JSON.parse(body)
 			//console.log(dbTime);
 			eachDB(dbTime,(t,userEmail,device,rows)=>{
@@ -462,7 +447,8 @@ function downloadDB(obj,callBack){
 					var emailjs = userEmail+".js"
 
 					countDownload++;
-					console.log(countDownload);
+					
+					
 					callBack && callBack(countDownload)
 					personalCtrl.searchWordUpdate(emailjs,text,(index)=>{
 						console.log(index);
@@ -487,12 +473,15 @@ function downloadDB(obj,callBack){
 			}
 		})
 	}
-	console.log(list);
+	//console.log(list);
 	if(list.length){
 		index = 0;
 		_downloadDB(index,list.length,callBack)
 	}
 }
+
+var dialogShareWord, dialogDownloadWord, dialogStatus, dialogPersendShareWord
+
 cmdsyncdb.onclick = ()=>{
 	function syncdb (callBack) {
 		var data = new FormData();
@@ -518,7 +507,9 @@ cmdsyncdb.onclick = ()=>{
 							alert('đồng bộ thành công')
 						})
 					}else{
-						alert('Lỗi khi đồng bộ')
+						//console.log(ok);
+						//console.log(body);
+						alert('Lỗi khi đồng bộ\nThử đăng nhập lại ')
 					}
 				});
 			})
@@ -527,13 +518,15 @@ cmdsyncdb.onclick = ()=>{
 	}
 	var html = `
 	<button id='dialogShareWord' class="menuItemContainer twoIcon"><i class='material-icons'>a</i><i class='material-icons icon2'>cloud_upload</i><span>(0)</span></button> Chia sẽ các từ của tôi<br>
-	<button id='dialogDownloadWord' class="menuItemContainer"><i class="material-icons">cloud_download</i></button> Tải về các từ của người khác đã được chia sẽ<br>
+	<button id='dialogDownloadWord' class="menuItemContainer"><i class="material-icons">cloud_download</i></button> Cập nhật từ mới <br>
+	<div id='dialogPersendShareWord' class="myProgress hidden"><div class="myBar"></div></div>
 	<span id='dialogStatus'></span>
 	` 
 	var c = uidb.smsBox('Đồng bộ',html)
-	var dialogShareWord = document.querySelector('#dialogShareWord')
-	var dialogDownloadWord = document.querySelector('#dialogDownloadWord')
-	var dialogStatus = document.querySelector('#dialogStatus')
+	dialogShareWord = document.querySelector('#dialogShareWord')
+	dialogDownloadWord = document.querySelector('#dialogDownloadWord')
+	dialogStatus = document.querySelector('#dialogStatus')
+	dialogPersendShareWord = document.querySelector('#dialogPersendShareWord .myBar')
 	updateStatus(dialogShareWord)
 
 	dialogShareWord.onclick = ()=>{
@@ -543,7 +536,8 @@ cmdsyncdb.onclick = ()=>{
 		//alert('hôm nay dữ liệu đã cập nhật '+countDownload+' từ')
 		appStore.get('date-update').then(d=>{
 			if(d==null){
-				d='2020-12-25 05:00:00'
+				//d='2020-12-25 05:00:00'
+				d='2021-08-01 05:00:00'
 			}
 			downloadDB(dateParse(d),(count)=>{
 				dialogStatus.innerText = "Có "+count+" từ mới"
@@ -551,8 +545,6 @@ cmdsyncdb.onclick = ()=>{
 		})
 	}
 	return;
-	
-	
 }
 
 cmdaddnewword.onclick = ()=>{
@@ -597,6 +589,7 @@ cmdaddnewword.onclick = ()=>{
 				}
 			}else{
 				tukep.value = r[0][3]
+				r[0][4] = 'object'
 			}
 			dbkey2.value = r[0][7]
 		}
@@ -682,7 +675,7 @@ cmdaddnewword.onclick = ()=>{
 var crltSmSBox
 cmdUser.onclick = ()=>{
 	var html = `		
-	<iframe id='myiframe' src='//votandang.net/chu-khong/person.php?login'></iframe>
+	<iframe id='myiframe' src='`+hostDB+`/person.php?login'></iframe>
 	`
 	var c = uidb.smsBox('Đăng Nhập',html)
 	crltSmSBox = c.closer

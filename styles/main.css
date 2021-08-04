@@ -211,7 +211,7 @@ body.wordwrap textarea {
 details {
   background-color: var(--app-footer-bg);
   color: var(--app-footer-color);
-  padding: 16px;
+  /*padding: 16px;*/
 }
 
 details summary {

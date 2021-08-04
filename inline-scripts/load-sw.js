@@ -16,14 +16,7 @@
 
 'use strict';
 
-// window.addEventListener('load', () => {
-//   if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker
-//         .register('./service-worker.sarah-clack.js');
-//   }
-// });
-
-//fromm sarah-clack introduce
+//from sarah-clack introduce
 window.addEventListener('load', () => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker

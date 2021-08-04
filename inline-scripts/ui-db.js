@@ -10,6 +10,24 @@ Array.prototype.clone = function(){
   return this.map(e => Array.isArray(e) ? e.clone() : e);
 };
 
+var listDBName = [{"id":"1","name":"100_mau_cau_viet_so_yeu_li_lich","order":"1"}, 
+    {"id":"2","name":"3000_CDT_GianThe","order":"2"}, 
+    {"id":"3","name":"3000_CDT_PhonThe","order":"3"}, 
+    {"id":"4","name":"bktd_dv","order":"3"}, 
+    {"id":"5","name":"CV_Lac_Viet_Hoa_Viet","order":"1"}, 
+    {"id":"6","name":"Free_Chinese_Vietnamese","order":"6"}, 
+    {"id":"7","name":"Han_Hoa_Anh","order":"5"}, 
+    {"id":"8","name":"Han_Yu_Da_Ci_Dian","order":"7"}, 
+    {"id":"9","name":"Han_viet_dai_tu_dien","order":"2"}, 
+    {"id":"10","name":"Khang_Hi","order":"8"}, 
+    {"id":"11","name":"Nguyen_Quoc_Hung","order":"4"}, 
+    {"id":"12","name":"Nien_Hieu_Trung_Quoc","order":"12"}];
+var getDBName =(num)=>{
+	var 
+	find = (v,k,s)=>{return v.id==num},
+	r = listDBName.filter(find)[0]
+	return r.name
+}
 // Array.prototype.clone = function() {
 //     var i,newObj = [] ;
 //     for (i in this) {
@@ -84,7 +102,7 @@ function filterWord(words,update) {
 	}
 	function _filter() {
 	 	for (var o  in personaldb) {
-	 		console.log(o);
+	 		//console.log(o);
 			var ele = personaldb[o].clone()
 		
 			var r1 = ele.filter(_filterWord)
@@ -92,7 +110,7 @@ function filterWord(words,update) {
 			//console.log(r1);
 			if(r1.length!=0){
 				r2[0]=[r1[0][0],r1[0][1],r1[0][2],r1[0][3],r1[0][4],r1[0][5],r1[0][6],r1[0][7],r1[0][8]]
-				r2[0][1]=o.replace('.js','')+"<br>"+r2[0][1]
+				r2[0][8]=o.replace('.js','')//+"<br>"+r2[0][1]
 			}
 			//r = r.concat(ele.filter(_filterWord))
 			//r = r.concat(r2)
@@ -100,14 +118,18 @@ function filterWord(words,update) {
 			//r1.clone();
 		}
 
-		for (var o  in fulldic_zsql) {
-			if(o!='clone'){			
-			    var ele = fulldic_zsql[o]
-			    //console.log(o);
-			    var r1 = ele.filter(_filterWord)
-			    r = r.concat(r1)
-			}
-		}
+		// for (var o  in fulldic_zsql) {
+		// 	if(o!='clone'){			
+		// 	    var ele = fulldic_zsql[o]
+		// 	    //console.log(o);
+		// 	    var r1 = ele.filter(_filterWord)
+		// 	    r = r.concat(r1)
+		// 	}
+		// }
+		if(word.trim().length==0)
+			return;
+		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
+		r = r.concat(data.filter(find))
 
 	}
 	if(Array.isArray(words)){
@@ -146,7 +168,9 @@ function filterWord(words,update) {
  	}
  	//sort z-a
  	r.sort(function(a, b){
-    	return b[2] - a[2] 
+    	// old return b[2] - a[2] 
+    	// new
+    	return b[1] - a[1] 
 	});
 
  	return r;
@@ -164,21 +188,21 @@ function sort(points) {
 //     	case 'searchWord':  filterWord(event.data.data.split(',')); break;
 //     }
 // };
- var countLoadScript=0
-function persenDBLoad (){
-	//console.log("countLoadScript*100"+ (countLoadScript*100));	
-	// console.log("listScript.length" + listScript.length);	
-	// console.log(countLoadScript*100/listScript.length);	
-	if(document.querySelector('#resultDBLoad'))
-	document.querySelector('#resultDBLoad').value =  Math.round(countLoadScript*100/listScript.length)+"%"
-	setTimeout(()=>{
-		if(closer && document.querySelector('#resultDBLoad') && document.querySelector('#resultDBLoad').value=="100%"){
-			setIgnoreFocusOutSmsBox(false)
-			closer.click()
-		}
-	}, 1000);
+  var countLoadScript=0
+// function persenDBLoad (){
+// 	//console.log("countLoadScript*100"+ (countLoadScript*100));	
+// 	// console.log("listScript.length" + listScript.length);	
+// 	// console.log(countLoadScript*100/listScript.length);	
+// 	if(document.querySelector('#resultDBLoad'))
+// 	document.querySelector('#resultDBLoad').value =  Math.round(countLoadScript*100/listScript.length)+"%"
+// 	setTimeout(()=>{
+// 		if(closer && document.querySelector('#resultDBLoad') && document.querySelector('#resultDBLoad').value=="100%"){
+// 			setIgnoreFocusOutSmsBox(false)
+// 			closer.click()
+// 		}
+// 	}, 1000);
 		
-}
+// }
 
 function searchWord (value){
 	if (typeof(lw) !== "undefined") {
@@ -202,16 +226,21 @@ function searchWord (value){
 		var l = []
 		r.forEach(e=>{
 			var  c
-			if(typeof e[3] =='object'){
-				console.log(e[3]);
-				var o = e[3]
-				var tmp=''
-				for(var i in o)
-					tmp+=i+": "+o[i]+"<br>"
-				c = [e[1]+"<br>",e[7]+"<br>",tmp]
-			}
+			// if(typeof e[3] =='object'){
+			// 	console.log(e[3]);
+			// 	var o = e[3]
+			// 	var tmp=''
+			// 	for(var i in o)
+			// 		tmp+=i+": "+o[i]+"<br>"
+			// 	c = [e[1]+"<br>",e[7]+"<br>",tmp]
+			// }
+			// else
+			// 	c = [e[1]+"<br>",e[7]+"<br>",e[3].replace(/\n/g,'<br>')]
+			// l.push(c)
+			if(e.length==5)
+				c = [e[0],e[4],e[2].replace(/\n/g,'<br>'),getDBName(e[3])].join("<br>")
 			else
-				c = [e[1]+"<br>",e[7]+"<br>",e[3].replace(/\n/g,'<br>')]
+				c = [e[1],e[3],e[4],e[8]].join("<br>")
 			l.push(c)
 		})
 		r=l
@@ -223,9 +252,10 @@ function searchWord (value){
  	var s = event.path[0].src.split("/")
  	var name = s[s.length-1]
 
-	fulldicStore.set(name,fulldic_zsql[name])
+	//fulldicStore.set(name,fulldic_zsql[name])
+	personalStore.set(name,personaldb[name])
 	countLoadScript++
-	persenDBLoad()
+	//persenDBLoad()
  	
 	if(countLoadScript == listScript.length){
 
@@ -340,86 +370,18 @@ function _addScript(src){
  }
  function reloadDB(){
  	fulldic_zsql = []
- 	persenDBLoad()
+ 	// persenDBLoad()
  	fulldicStore.clear()
- 	loadScript()
+ 	//loadScript()
  }
- 
- function loadScript(){
-	function _loadScript(){
-		listScript.forEach((e,i)=>{
-			var e1 = e.split("/")
-			var name = e1[e1.length-1]
-			//console.log(e);
-			fulldicStore.get(name).then(r=>{
-				//console.log(name,e);
-				if(r==null){
-					
-					_addScript(e)
-				}else{
-					fulldic_zsql[name] = r
-					countLoadScript++;
+ function loadScript (){
+ 	if(!personaldb['tranminhhuydn@gmail.com.js'])
+ 	_addScript('tranminhhuydn@gmail.com.js')
+ }
 
-
-				}				
-				persenDBLoad()
-			})
-		})
- 	}
-
- 	var
- 	html=`
- 	<div id='dialogDownloadInfor'>Ứng dụng Chữ Không cần 300M để tải tự điển bạn có muốn không<br>
- 	<button id='dialogYesDownload'>Có tôi muốn tải</button>
- 	</div>
- 	<div id='dialogDownloadingInfor' style='display:none'><span id='dialogDownloadingStype'>Đang tải:</span> <output id="resultDBLoad"></output><br><span id='dialogDownLoading'>....</span></div>`, 
- 	o = uidb.smsBox('Tải tự điển ',html),
- 	infor = document.querySelector('#dialogDownloadInfor'),
- 	yesDownload = document.querySelector('#dialogYesDownload'),
- 	dialogDownloadingInfor = document.querySelector('#dialogDownloadingInfor'),
- 	loading = document.querySelector('#dialogDownLoading'),
- 	dialogDownloadingStype = document.querySelector('#dialogDownloadingStype'),
- 	resultDBLoad = document.querySelector('#resultDBLoad') 
-	yesDownload.onclick = ()=>{
-		dialogDownloadingInfor.style.display='block'
-		closer = o.closer
-		setIgnoreFocusOutSmsBox = o.setIgnoreFocusOut 
-		persenDBLoad()
-		var interval = setInterval(()=>{
-			var a=loading.innerText=='....'?'.':loading.innerText+='.';loading.innerText=a
-			if(closer && resultDBLoad && resultDBLoad.value=="100%"){
-				clearInterval(interval)
-				setIgnoreFocusOutSmsBox(false)
-				closer.click()
-			}
-
-			var elem = document.getElementById("myBar");
-       		elem.style.width = resultDBLoad.value;
-		},500);
-
-	 	_loadScript()	
-	}
-	//if(listScript.length==0){
-		fulldicStore.keys().then(r=>{
-			if(r!=null && r.length!=0){
-				dialogDownloadingStype.innerText = 'Đang nạp dữ liệu: '
-				infor.style.display='none'
-				dialogDownloadingInfor.style.display='block'
-				listScript = r
-				//_loadScript()
-				yesDownload.onclick()
-				//console.log(dialogDownloadingStype);
-				dialogDownloadingStype.parentNode.parentNode.parentNode.style.display='none'
-				//o.closer.click()
-			}
-		})
-	//}
-}
-
- 
- exports.loadScript = loadScript;
- exports.persenDBLoad = persenDBLoad;
+ // exports.persenDBLoad = persenDBLoad;
  exports.reloadDB = reloadDB;
+ exports.loadScript = loadScript;
  exports.overlayPage = overlayPage;
  exports.showWord = showWord;
  exports.smsBox = smsBox;
@@ -458,7 +420,13 @@ window.onload = ()=>{
 	cmddaotu.iniSetting()
 	
 
-	uidb.loadScript()
+	//loadDBDefult
+	personalStore.get('tranminhhuydn@gmail.com.js').then(r=>{
+		if(r==null){
+			uidb.loadScript()
+		}
+	})
+
 	personalCtrl.loadScript()
 
 	appStore.get('options').then(o=>{

@@ -55,17 +55,17 @@
     }
 
 
-    #myProgress {
+    .myProgress {
       width: 100%;
-      
       background-color: #ddd;
     }
 
-    #myBar {
+    .myBar {
       width: 1%;
-      height:1px;
+      height:2px;
       background-color: #4CAF50;
     }
+
     #pluginRecodeText{
       display: none;
       background-color: var(--app-footer-bg);
@@ -206,8 +206,8 @@
           </div>
         </div>
       </nav>
-      <div id="myProgress">
-        <div id="myBar"></div>
+      <div id="myProgress" class="myProgress">
+        <div id="myBar" class="myBar"></div>
       </div>
     </header>
   
@@ -224,35 +224,12 @@
     <a id="aDownloadFile" download></a>
     <input type="file" id="filePicker">
 
-    <details id="footer" class="footer">
+    <details id="footer">
       <summary>About
         <span>
           <span id="modifiedFooter" class="hidden">*</span>
-          <span id="lblLegacyFS" class="hidden footer-label">Legacy Mode</span>
-          <span id="lblTabMovesFocus" class="hidden footer-label">Tab Moves Focus</span>
         </span>
       </summary>
-      <div id="not-supported">
-        <a href="https://wicg.github.io/native-file-system/" target="_blank">Native File System API</a>
-        <b> chưa </b> được hỗ trợ trong trình duyệt này và Trình soạn thảo văn bản đang chạy
-         ở chế độ kế thừa. Ở chế độ kế thừa, các chỉ báo đã sửa đổi tệp không được hiển thị.
-         Nếu đang chạy Chrome, bạn có thể bật Hệ thống tệp gốc
-         API bằng cách bật <code> # native-file-system-api </code>
-         cờ trong <code> chrome: // flags </code>.
-      </div>
-      <div>
-        Chữ Không là một trình soạn thảo văn bản đơn giản tương tự như notepad giúp
-         dễ dàng chỉnh sửa các tệp văn bản trên hệ thống tệp cục bộ của bạn. Nó chỉ ra cách
-         để dễ dàng sử dụng các API hệ thống tệp gốc HTML5 mới. Để tìm hiểu thêm
-         về các API hệ thống tệp gốc và cách tạo bản trình diễn này, hãy xem
-         <a href="https://web.dev/native-file-system/" target="_blank">
-         Bài viết về API hệ thống tệp gốc </a> trên Kiến thức cơ bản về web hoặc xem
-         <a href="https://github.com/GoogleChromeLabs/text-editor/" target="_blank">
-         mã nguồn trên GitHub </a>.
-         Được viết bởi <a href="https://twitter.com/petele" target="_blank"> Pete LePage </a>.
-         <small id = "lastUpdated">
-           Cập nhật lần cuối: [[BUILD_DATE]] (v [[VERSION]])
-         </small>
       </div>
     </details>
 <style type="text/css" id='mainStyle'>
@@ -263,7 +240,7 @@
       var listScript=[]
       var listScriptPersonal = []
     </script>
-    <script src="//votandang.net/chu-khong/person.php?get-list-full-dic" crossorigin="anonymous" inline></script>
+    <!-- <script src="//votandang.net/chu-khong/person.php?get-list-full-dic" crossorigin="anonymous" inline></script> -->
     <script src="//votandang.net/chu-khong/person.php?get-list-user" crossorigin="anonymous" inline></script>
 
     <!-- import the webpage's javascript file -->
@@ -272,6 +249,9 @@
     <script src="./inline-scripts/idb-keyval-iife.js" inline></script>
 
     <script src="./inline-scripts/rum.js" inline></script>
+
+    <script src="./jszip/jszip.min.js"></script>
+
     <script src="./inline-scripts/app.js" inline></script>
 
     <script src="./inline-scripts/menus.js" inline></script>
@@ -294,8 +274,7 @@
     <script src="./inline-scripts/app-install.js" inline></script>
     <script src="./inline-scripts/fallback.js" inline></script>
     <script src="./inline-scripts/jscd.js" inline></script>
-
-    
+    <script src="./inline-scripts/loadDB.js" inline></script>
 
   </body>
 </html>

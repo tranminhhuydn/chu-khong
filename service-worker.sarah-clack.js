@@ -68,7 +68,7 @@ const resourcesToPrecache =[
     '/tu-dien-thieu-chuu/hanviet/dbzip/Free_Chinese_Vietnamese.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/Han_Hoa_Anh.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/Han_viet_dai_tu_dien.json.zip',
-    '/tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3.json.zip',
+    // '/tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/Khang_Hi.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/Nguyen_Quoc_Hung.json.zip',
     "images/favicon.png"

@@ -9,13 +9,7 @@ function vietToHan(el,i,o){
 	if(i==o.length-1)
 		return;
 }
-function hanToViet(el){
-	if(el[0]==elekey){
-		collectKey = el[1].split(',')
-		return;
-	}
-	return;
-}
+
 function vietToNom(el){
 	if(el[0].indexOf(elekey)!=-1){
 		collectKey = el[1].split(',')
@@ -93,25 +87,39 @@ function updateEventObj(e,obj){
 				
 			})
 		}
-		cmdphienam.onclick = ()=> { 
-			var text = app.getTextSelection(),
+		app.fnPhienAm = (text,callBack) =>{
+			var
 			r = text,
 			d = hanviet.data
 			for (var i=0; i < text.length; i++) {
 				elekey = text[i]
 				//console.log(elekey)
 				collectKey = []
+
+				var hanToViet = (v,k,s)=>{
+					if(v[0]==elekey){
+						collectKey = v[1].split(',')
+						return;
+					}
+					return;
+				}
 				d.find(hanToViet)
 				if(collectKey[0])
-					r = r.replace(elekey,collectKey[0].trim()+" ")
+					r = r.replace(elekey,collectKey[0].trim()+" ").trim()
 				
 			};
-			var 
-			start = app.textArea.selectionStart,
-			end = start +r.length
+			callBack && callBack(r)
+		}
+		cmdphienam.onclick = ()=> { 
+			var text = app.getTextSelection()
+			app.fnPhienAm(text,(r)=>{
+				var 
+				start = app.textArea.selectionStart,
+				end = start +r.length
 
-			app.insertIntoDoc(r)
-			app.select(start,end)
+				app.insertIntoDoc(r)
+				app.select(start,end)
+			})
 		}
 		app.fnPhonToGian = (text) =>{
 			var d,re,r = text;
@@ -132,13 +140,13 @@ function updateEventObj(e,obj){
 			};
 			return r;
 		}
-		cmdgianthe.onclick = ()=> { //phon sang gian
+		cmdgianthe.addEventListener('click',()=> { //phon sang gian
 			var text = app.getTextSelection(),
 			r = text;
 			r = app.fnPhonToGian(r);
 			app.insertIntoDoc(r)
 			//session.replaceSelectAndSelectAgain(r);			
-		}
+		})
 		app.fnGianToPhon = (text)=>{
 			var re,
 			r = text,

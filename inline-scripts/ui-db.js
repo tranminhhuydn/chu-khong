@@ -4,6 +4,7 @@ var hostDB = '//votandang.net/chu-khong';
 
 var uidb = (function (exports) {
   'use strict';
+  var {log}= console
 var host = 'https://tranminhhuydn.github.io/gh-page/'
 
 Array.prototype.clone = function(){
@@ -45,24 +46,6 @@ var getDBName =(num)=>{
 
 //writeScript(listScript)
 
-
-
-// var lw;
-// function loadWorker() {
-//   if (typeof(Worker) !== "undefined") {
-//     if (typeof(lw) == "undefined") {
-//       lw = new Worker("load_workers.js");
-//     }
-//     lw.onmessage = function(event) {
-//       switch(event.data.type){
-//     	case 'searchWord':  wordresult.innerHTML=event.data.data;  break;
-//       }
-//     };
-//   } else {
-//   }
-// }
- 
-// loadWorker()
 function updateResultFilter(ele,update) {
 	if(update){	
 		console.log(ele);
@@ -72,16 +55,11 @@ function updateResultFilter(ele,update) {
 function filterWord(words,update) {
 	var word;
 	var r = []; 
-	//var arr = [[1, 2], [3, 4], [5,7]];
-
+	var currentDBOfUser = null
 	async function asyncFilter (arr, predicate) {
 		var results = await Promise.all(arr.map(predicate)).then();
 		return arr.filter((_v, index) => results[index]);
 	}
-
-	// var asyncRes = await asyncFilter(arr, async (i) => {
-	// 	return i[1] % 2 === 0;
-	// });
 
 	function _filterWord(i) {
 	  if(i[1]==word||i[7]==word)
@@ -94,38 +72,36 @@ function filterWord(words,update) {
 		  		if(obj[o].trim().length!=0)
 		  		i[3] +=o +': '+obj[o]+"<br>"
 		  	}
-		  }catch(e){
-
+		}catch(e){
+			if(typeof(i[3])==="object"){
+				var obj = i[3]
+		  		i[3] ='';
+		  		for (var o  in obj){
+			  		if(obj[o].trim().length!=0)
+			  		i[3] +=o +': '+obj[o]+"<br>"
+			  	}
+	  		}
 		  }
 	  }
 	  return i[1]==word||i[7]==word
 	}
 	function _filter() {
 	 	for (var o  in personaldb) {
-	 		//console.log(o);
 			var ele = personaldb[o].clone()
 		
 			var r1 = ele.filter(_filterWord)
+			log(r1)
 			var r2 = []
-			//console.log(r1);
+
 			if(r1.length!=0){
 				r2[0]=[r1[0][0],r1[0][1],r1[0][2],r1[0][3],r1[0][4],r1[0][5],r1[0][6],r1[0][7],r1[0][8]]
 				r2[0][8]=o.replace('.js','')//+"<br>"+r2[0][1]
 			}
-			//r = r.concat(ele.filter(_filterWord))
-			//r = r.concat(r2)
+
 			r = r.concat(r2)
-			//r1.clone();
+
 		}
 
-		// for (var o  in fulldic_zsql) {
-		// 	if(o!='clone'){			
-		// 	    var ele = fulldic_zsql[o]
-		// 	    //console.log(o);
-		// 	    var r1 = ele.filter(_filterWord)
-		// 	    r = r.concat(r1)
-		// 	}
-		// }
 		if(word.trim().length==0)
 			return;
 		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
@@ -182,65 +158,24 @@ function sort(points) {
     return b[2] - a[2] 
 	});
 }
-// self.onmessage = function(event) {
-//     console.log(event.data.type);
-//     switch(event.data.type){
-//     	case 'searchWord':  filterWord(event.data.data.split(',')); break;
-//     }
-// };
-  var countLoadScript=0
-// function persenDBLoad (){
-// 	//console.log("countLoadScript*100"+ (countLoadScript*100));	
-// 	// console.log("listScript.length" + listScript.length);	
-// 	// console.log(countLoadScript*100/listScript.length);	
-// 	if(document.querySelector('#resultDBLoad'))
-// 	document.querySelector('#resultDBLoad').value =  Math.round(countLoadScript*100/listScript.length)+"%"
-// 	setTimeout(()=>{
-// 		if(closer && document.querySelector('#resultDBLoad') && document.querySelector('#resultDBLoad').value=="100%"){
-// 			setIgnoreFocusOutSmsBox(false)
-// 			closer.click()
-// 		}
-// 	}, 1000);
-		
-// }
+
+var countLoadScript=0
 
 function searchWord (value){
 	if (typeof(lw) !== "undefined") {
 		console.log(word.value);
 		lw.postMessage({type:'searchWord',data:value})
 	}else{
-		//cach 1
-		//var r = filterWord(word.value.split(','))
-		//wordresult.innerHTML=r
-
-		//cach 2
-		//wordresult.innerHTML = ''
-		//filterWord(word.value.split(','),true)
-		//xem 
-
-		//cach 3
-		var r1,sr,r= filterWord(value.split(/[,;.:-]/g))
-		// sr = JSON.stringify(r1)
-		// r = JSON.parse(sr);
-		//r=r1.clone();
+		var r1,sr,r= filterWord(value.split(/[,;.:-。《》【】·~，；：‘“？\/\}\{——+！@#￥%……&*（）\|\、]/g))
 		var l = []
 		r.forEach(e=>{
 			var  c
-			// if(typeof e[3] =='object'){
-			// 	console.log(e[3]);
-			// 	var o = e[3]
-			// 	var tmp=''
-			// 	for(var i in o)
-			// 		tmp+=i+": "+o[i]+"<br>"
-			// 	c = [e[1]+"<br>",e[7]+"<br>",tmp]
-			// }
-			// else
-			// 	c = [e[1]+"<br>",e[7]+"<br>",e[3].replace(/\n/g,'<br>')]
-			// l.push(c)
 			if(e.length==5)
 				c = [e[0],e[4],e[2].replace(/\n/g,'<br>'),getDBName(e[3])].join("<br>")
-			else
-				c = [e[1],e[3],e[4],e[8]].join("<br>")
+			else{
+				log(e)
+				c = [e[1]+" / "+e[7],e[3],e[4],e[8]].join("<br>")
+			}
 			l.push(c)
 		})
 		r=l
@@ -290,10 +225,10 @@ function _addScript(src){
  /*
  *collects: String,Array,Oject
  **/
- function overlayPage(title,collects){
+ function overlayPage(title,collects,bar){
  	var closer = document.createElement('div');
  	var ignoreFocusOut = false;
-
+ 	bar = bar||""
  	closer.style.cssText = 'margin: 0; padding: 0; ' +
         'position: fixed; top:0; bottom:0; left:0; right:0;' +
         'z-index: 9990; background-color: rgba(0, 0, 0, 0.3);'
@@ -315,18 +250,20 @@ function _addScript(src){
     	commands = collects
 
     el.id = 'idshowlist';
-    el.innerHTML = `<p style='line-height: 20px;margin: 0px;padding: 5px;border-bottom: 1px dotted #273136;'><span>${title}</span><button style='float: right;'>close</button></p>` + commands ;
+    el.innerHTML = `<p style='line-height: 20px;margin: 0px;padding: 5px;border-bottom: 1px dotted #273136;'><span>${title}</span><button id='$cmdClose' style='float: right;'>close</button><span>${bar}</span></p>` + commands ;
     el.querySelector('button').onclick = close
     function close() {
-        if (!closer) return;
+        //if (!closer) return;
         //document.removeEventListener('keydown', documentEscListener);
         closer.parentNode.removeChild(closer);
         closer = null;
     }
+
     el.addEventListener('click', function (e) {
         e.stopPropagation();
     });
 
+    //closer.close = close
     closer.addEventListener('click', function(e) {
     	if(typeof(e)==='boolean'){
     		setIgnoreFocusOut(e)
@@ -337,7 +274,6 @@ function _addScript(src){
 
     });
     closer.appendChild(el);
-
     document.body.appendChild(closer);
 
     document.onkeydown = (e)=>{
@@ -348,11 +284,17 @@ function _addScript(src){
 
  }
  function showWord(title,collects){
- 	var {closer,setIgnoreFocusOut} = overlayPage(title,collects)
+ 	var {closer,setIgnoreFocusOut} = overlayPage(title,collects,`<button title='Thêm từ mới' id='cmdaddnewword2' class="menuTop" style="float:right"><i class='material-icons'>create</i></button>`)
  	var idshowlist = closer.querySelector('#idshowlist')
  	idshowlist.style.width= '50%';
  	
  	idshowlist.style.fontSize = `${app.options.fontSize}`;
+
+ 	var cmdaddnewword2 = closer.querySelector("#cmdaddnewword2")
+ 	cmdaddnewword2.onclick = ()=>{
+ 		closer.click()
+ 		cmdaddnewword.click()
+ 	}
 
  	return {closer:closer,setIgnoreFocusOut:setIgnoreFocusOut}
  }
@@ -365,7 +307,7 @@ function _addScript(src){
  	idshowlist.style.width= '50%';
  	
  	idshowlist.style.fontSize = `${app.options.fontSize}`;
- 	setIgnoreFocusOut(true)
+ 	//setIgnoreFocusOut(true)
  	return {closer:closer,setIgnoreFocusOut:setIgnoreFocusOut}
  }
  function reloadDB(){
@@ -401,7 +343,7 @@ app.textArea.oncontextmenu = (event)=>{
 	
 var closer,setIgnoreFocusOutSmsBox
 
-window.onload = ()=>{
+window.addEventListener("load",()=>{
 	
 	appStore.get('user').then(o=>{
 		if(o!=null){
@@ -434,10 +376,38 @@ window.onload = ()=>{
 			app.options = o;
 			app.textArea.style.fontSize = `${app.options.fontSize}`;
 			app.textArea.style.fontFamily = app.options.fontFamily
-
 			document.querySelector('#mainStyle').innerText =  `.menuContainer button {font-size: ${app.options.iconSize};}`
 		}
 		//console.log(app.options );
 	})
 
-}
+
+	//cheack new version
+	// begin version "2.0" 
+	if(!app.version){
+		appStore.get("app.version").then(v=>{
+			if(!v){
+				appStore.set("app.version","2.0")
+			}
+		})
+	}else{
+		appStore.get("app.version").then(v=>{
+			if(v==app.version){
+				console.log("current version "+v)
+			}else{
+				console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
+				caches.keys().then(cacheNames => {
+					//console.log(cacheNames);
+				  cacheNames.forEach(cacheName => {
+				  	//console.log(cacheName);
+				    caches.delete(cacheName);
+				  });
+				});
+				appStore.set("app.version",app.version).then(v=>{
+					//alert("ok")
+					location.reload();
+				})
+			}
+		})
+	}
+})

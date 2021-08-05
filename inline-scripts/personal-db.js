@@ -234,6 +234,7 @@ var personalCtrl = (function (exports) {
 	 			//console.log(emailUser);
 	 			personalStore.get(emailUser).then(r=>{
 	 				if(r==null){
+	 					if(emailUser!='tranminhhuydn@gmail.com.js')
 	 					_addScript(emailUser)
 	 				}else{
 	 					personaldb[emailUser] = r
@@ -317,6 +318,29 @@ function get(path,callback) {
 	}
 	http.send();
 }
+function getPromise (url) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject({
+          status: this.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = function () {
+      reject({
+        status: this.status,
+        statusText: xhr.statusText
+      });
+    };
+    xhr.send();
+  });
+}
 
 function updateStatus(obj){
 	obj = obj||cmdsyncdb
@@ -395,7 +419,7 @@ function getListDay(year1,month1,day1){
 				j1 = (j1<=9)? "0"+j1:j1
 				l1 = (l1<=9)? "0"+l1:l1
 				//console.log(i+"/"+j1+"/"+l1);
-				listResult.push(i+"/"+j1+"/"+l1)
+				listResult.push(i+"/"+j1+"/"+l1+".json")
 			};
 		}
 	}
@@ -405,7 +429,11 @@ function downloadDB(obj,callBack){
 	dialogPersendShareWord.parentElement.classList.remove('hidden')
 
 	var countDownload =0,persend = 0
-	var list = getListDay(Number(obj.y),Number(obj.m),Number(obj.d))
+	var listSrc = getListDay(Number(obj.y),Number(obj.m),Number(obj.d)),
+	list = []
+	//console.log(listSrc);
+
+
 	function eachDB(dbTime,callBack){
 		for(var t in dbTime){
 			console.log(t);
@@ -422,7 +450,8 @@ function downloadDB(obj,callBack){
 		}
 	}
 	function _downloadDB(index,max,callBack){	
-		get(hostDB+"/index.php?file="+list[index]+".json",(d,body)=>{
+
+		get(hostDB+"/index.php?file="+list[index],(d,body)=>{
 			//console.log(d);
 			if(d==false){
 				alert('Xuất hiện lỗi trong khi đồng bộ dữ liệu, xin thử lại lúc khác.')
@@ -464,7 +493,7 @@ function downloadDB(obj,callBack){
 
 			})			
 
-			var dateupdate = list[index].replace(/\//g,'-')+" "+(new Date()).toLocaleTimeString();
+			var dateupdate = list[index].replace(/\//g,'-').replace('.json','')+" "+(new Date()).toLocaleTimeString();
 			appStore.set('date-update',dateupdate)
 
 			if(index<max-1){
@@ -474,10 +503,20 @@ function downloadDB(obj,callBack){
 		})
 	}
 	//console.log(list);
-	if(list.length){
-		index = 0;
-		_downloadDB(index,list.length,callBack)
-	}
+	getPromise(hostDB+"/index.php?getListUpdate")
+	.then(body=>{
+        var listJson = JSON.parse(body);
+		list = listSrc.filter((v,k,f)=>{return listJson.indexOf(v)!=-1 })
+		//console.log(list);
+		if(list.length){
+			index = 0;
+			_downloadDB(index,list.length,callBack)
+		}
+	})
+	.catch(e=>{
+		alert(e)
+	});
+	
 }
 
 var dialogShareWord, dialogDownloadWord, dialogStatus, dialogPersendShareWord
@@ -536,8 +575,8 @@ cmdsyncdb.onclick = ()=>{
 		//alert('hôm nay dữ liệu đã cập nhật '+countDownload+' từ')
 		appStore.get('date-update').then(d=>{
 			if(d==null){
-				//d='2020-12-25 05:00:00'
-				d='2021-08-01 05:00:00'
+				d='2020-12-25 05:00:00'
+				//d='2021-08-01 05:00:00'
 			}
 			downloadDB(dateParse(d),(count)=>{
 				dialogStatus.innerText = "Có "+count+" từ mới"
@@ -547,7 +586,7 @@ cmdsyncdb.onclick = ()=>{
 	return;
 }
 
-cmdaddnewword.onclick = ()=>{
+cmdaddnewword.addEventListener("click", ()=>{
 	var text = app.getTextSelection();
 
 	var icheck = new RegExp(app.VI0,'g')
@@ -559,6 +598,9 @@ cmdaddnewword.onclick = ()=>{
 		return;
 	function updateEvent(r,ctrl,emailjs){
 		
+		var cmdgianthe2 = document.querySelector("#cmdgianthe2")
+		var cmdphienam2 = document.querySelector("#cmdphienam2")
+		var cmdphienam3 = document.querySelector("#cmdphienam3")
 		var dialog = document.querySelector("#insertDialog")
 		var dbkey2 = document.getElementById("dbkey2")
 		var tukep = document.getElementById("dbtừ kép")
@@ -578,14 +620,28 @@ cmdaddnewword.onclick = ()=>{
 		}
 		if(r[0]){
 			if(r[0][4]=='object'){
-				console.log(r[0][3]);
-				var objs = JSON.parse(r[0][3])
-				//console.log(objs);
-				for(o in objs){
-				//	console.log(o);
-				//console.log(o+":"+objs[o]);
-					var c = document.getElementById("db"+o)
-					if(c) c.value = objs[o]
+				//console.log(r[0][3]);
+				// var objs = JSON.parse(r[0][3])
+				// for(o in objs){
+				// 	var c = document.getElementById("db"+o)
+				// 	if(c) c.value = objs[o]
+				// }
+				var i = r[0]
+				try{
+			  	var objs = JSON.parse(i[3])
+			  	for (var o  in objs){
+			  		var c = document.getElementById("db"+o)
+						if(c) c.value = objs[o]
+			  	}
+				}catch(e){
+					if(typeof(i[3])==="object"){
+						var objs = i[3]
+				  		i[3] ='';
+				  		for (var o  in objs){
+					  		var c = document.getElementById("db"+o)
+								if(c) c.value = objs[o]
+					  	}
+			  		}
 				}
 			}else{
 				tukep.value = r[0][3]
@@ -623,6 +679,7 @@ cmdaddnewword.onclick = ()=>{
 			personalCtrl.searchWordUpdate(emailjs,text,(index)=>{
 				if(index!=-1){
 					personaldb[emailjs][index][3]=builtRecodeDB()
+					personaldb[emailjs][index][7]=dbkey2.value
 					console.log("update "+index);
 					console.log("update "+personaldb[emailjs][index]);
 					logAdd('update',personaldb[emailjs][index])
@@ -640,17 +697,41 @@ cmdaddnewword.onclick = ()=>{
 			})
 			ctrl.closer.querySelector('button').click()
 		}
+		cmdgianthe2.onclick = ()=>{
+			dbkey2.value = app.fnPhonToGian(text);
+		}
+		cmdphienam2.onclick=()=>{
+			app.fnPhienAm(text,(r)=>{
+				
+				document.getElementById("dbtừ kép").value = r
+			})
+		}
+		cmdphienam3.onclick=()=>{
+			app.fnPhienAm(text,(r)=>{
+				
+				document.getElementById("dbdanh từ").value = r
+			})
+		}
 	}
 	appStore.get('user').then(u=>{
 		//武宗
 		var html = `
 		<div id='insertDialog'>
-		<label>Từ: </label><span>{keyword}</span><br>
-		<label>Email: </label><span>{email}</span><br>
+						<button id="dbNewWord" style="float:right">Lưu<i class="material-icons">add</i></button><br>
+						<label>Từ: </label><span>{keyword}</span><br>
+						<label>Email: </label><span>{email}</span><br>
 						<input id="dbid" type="hidden" value="">
-						<label>Giản/Phồn: </label><input id="dbkey2"><br>
-						<label>từ kép: </label><input id="dbtừ kép" type="text"><br><label>danh từ: </label><input id="dbdanh từ" type="text"><br><label>động từ: </label><input id="dbđộng từ" type="text"><br><label>tính từ: </label><input id="dbtính từ" type="text"><br><label>trạng từ: </label><input id="dbtrạng từ" type="text"><br><label>thuật ngữ: </label><input id="dbthuật ngữ" type="text"><br><label>giới từ: </label><input id="dbgiới từ" type="text"><br><label>phó từ: </label><input id="dbphó từ" type="text"><br><label>số từ: </label><input id="dbsố từ" type="text"><br>
-						<button id="dbNewWord">Lưu<i class="material-icons">add</i></button></div>
+						<label>Giản/Phồn: </label><input id="dbkey2"><button title="Giản thể/Phồn thể" id="cmdgianthe2" class="menuTop twoIcon" aria-expanded="false"><i class="material-icons">keyboard</i></button><br>
+						<label>từ kép: </label><input id="dbtừ kép" type="text"><button title="Phiên Âm" id="cmdphienam2" class="menuTop" aria-expanded="false"><i class="material-icons">record_voice_over</i></button><br>
+						<label>danh từ: </label><input id="dbdanh từ" type="text"><button title="Phiên Âm" id="cmdphienam3" class="menuTop" aria-expanded="false"><i class="material-icons">record_voice_over</i></button><br>
+						<label>động từ: </label><input id="dbđộng từ" type="text"><br>
+						<label>tính từ: </label><input id="dbtính từ" type="text"><br>
+						<label>trạng từ: </label><input id="dbtrạng từ" type="text"><br>
+						<label>thuật ngữ: </label><input id="dbthuật ngữ" type="text"><br>
+						<label>giới từ: </label><input id="dbgiới từ" type="text"><br>
+						<label>phó từ: </label><input id="dbphó từ" type="text"><br>
+						<label>số từ: </label><input id="dbsố từ" type="text"><br>
+		</div>
 		<style>#insertDialog label {
 		    text-transform: capitalize;
 		    width: 80px;
@@ -671,7 +752,7 @@ cmdaddnewword.onclick = ()=>{
 		else
 		alert('Bạn chưa đăng nhập')
 	})
-}
+})
 var crltSmSBox
 cmdUser.onclick = ()=>{
 	var html = `		

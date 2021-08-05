@@ -59,9 +59,10 @@ var loadDB = (url)=>{
         }
     })
 }
-
-listDB.forEach(url=>{
-    loadDB(url)
+window.addEventListener("load",()=>{
+    listDB.forEach(url=>{
+        loadDB(url)
+    })
 })
 
 })(app);

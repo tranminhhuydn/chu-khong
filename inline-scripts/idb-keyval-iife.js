@@ -105,7 +105,7 @@ function separateSote (namedb) {
   return exports;
 };//({a:5}));
 var personalStore = separateSote('personal-store')
-var fulldicStore = separateSote('fulldic-store')
+// var fulldicStore = separateSote('fulldic-store')
 //var logStore = separateSote('log-store')
 
 var appStore =  separateSote('app-store') 

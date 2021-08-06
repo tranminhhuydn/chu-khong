@@ -10,7 +10,9 @@ var listDB = [
 '../tu-dien-thieu-chuu/hanviet/dbzip/Free_Chinese_Vietnamese.json.zip',
 '../tu-dien-thieu-chuu/hanviet/dbzip/Han_Hoa_Anh.json.zip',
 '../tu-dien-thieu-chuu/hanviet/dbzip/Han_viet_dai_tu_dien.json.zip',
-// '../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3.json.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3_0.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3_1.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3_2.zip',
 '../tu-dien-thieu-chuu/hanviet/dbzip/Khang_Hi.json.zip',
 '../tu-dien-thieu-chuu/hanviet/dbzip/Nguyen_Quoc_Hung.json.zip'];
 
@@ -42,8 +44,14 @@ var loadDB = (url)=>{
                 else
                     rootData.data = rootData.data.concat(cn.data)
                 countLoad++
-                //var r = cn.data.filter((v,k,s)=>{return v[0]=='????'})
+
+                // var r = cn.data.filter((v,k,s)=>{return v[0]=='????'})
                 // console.log(cn.data.length)
+                // if(r.length>0){
+                //     console.log(fileName);
+                //     console.log(r.length);
+                //     console.log(r);
+                // }
                 // console.log(rootData.data.length)
                 
                 data = rootData.data

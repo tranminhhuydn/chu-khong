@@ -90,7 +90,7 @@ function filterWord(words,update) {
 			var ele = personaldb[o].clone()
 		
 			var r1 = ele.filter(_filterWord)
-			log(r1)
+			// log(r1)
 			var r2 = []
 
 			if(r1.length!=0){

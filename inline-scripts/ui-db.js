@@ -396,17 +396,21 @@ window.addEventListener("load",()=>{
 				console.log("current version "+v)
 			}else{
 				console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
-				caches.keys().then(cacheNames => {
-					//console.log(cacheNames);
-				  cacheNames.forEach(cacheName => {
-				  	//console.log(cacheName);
-				    caches.delete(cacheName);
-				  });
-				});
-				appStore.set("app.version",app.version).then(v=>{
-					//alert("ok")
-					location.reload();
-				})
+				if(window.caches){
+					caches.keys().then(cacheNames => {
+						//console.log(cacheNames);
+					  cacheNames.forEach(cacheName => {
+					  	//console.log(cacheName);
+					    caches.delete(cacheName);
+					  });
+					});
+					appStore.set("app.version",app.version).then(v=>{
+						//alert("ok")
+						location.reload();
+					})
+				}else{
+					alert("Đã có phiên bản mới bạn nên cài đặt lại để được thừa hưởng các tính năng mới")
+				}
 			}
 		})
 	}

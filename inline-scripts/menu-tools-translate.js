@@ -22,7 +22,7 @@ textArea.onmouseup = ()=>{
 
 cmdsearchword.onclick = (e)=> {
 	var text = app.getTextSelection()
-	if(app.autoClick(e,cmdsearchword) || text.trim().length==0||/[a-zA-Z0-9]/g.test(text))
+	if(app.autoClick(e,cmdsearchword) || text.trim().length==0||/[a-zA-Zà-ỹÀ-Ỹ0-9]/g.test(text))
 		return;
 	try {
       const contents = app.getTextSelection()

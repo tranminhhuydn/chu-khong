@@ -1,22 +1,48 @@
 (function(app) {
 "use strict";
-
+var {log} = console
 var elekey = ''
 var collectKey = []
-function vietToHan(el,i,o){
-	if(el[1].indexOf(elekey)!=-1)
-		collectKey.push(el[0])
-	if(i==o.length-1)
-		return;
+app.fnVietToHan = (key)=>{
+	var 
+	find = (v,k,s)=>{var ds = v[1].split(/[\,\;\s]/g);return ds.indexOf(key)!=-1},
+	d = hanviet.data,
+	r = d.filter(find).map((v,k,s)=>{return v[0]})
+	return r
 }
+app.fnPhienAm = (text,callBack) =>{
+	var
+	r = text,
+	d = hanviet.data
+	for (var i=0; i < text.length; i++) {
+		elekey = text[i]
+		//console.log(elekey)
+		collectKey = []
 
-function vietToNom(el){
-	if(el[0].indexOf(elekey)!=-1){
-		collectKey = el[1].split(',')
-		return;
-	}
+		var hanToViet = (v,k,s)=>{
+			if(v[0]==elekey){
+				collectKey = v[1].split(',')
+				return;
+			}
+			return;
+		}
+		d.find(hanToViet)
+		if(collectKey[0])
+			r = r.replace(elekey,collectKey[0].trim()+" ").trim()
+		
+	};
+	callBack && callBack(r)
 }
-
+app.fnVietToNom = (key)=>{
+	var 
+	find = (v,k,s)=>{ return v[0].trim() == key.trim()},
+	d = hannom.data,
+	r = d.filter(find)
+    var ds =  []
+    if(r[0])
+    	ds = r[0][1].split(',');
+	return ds;
+}
 function updateEventObj(e,obj){
 	e.eventMove = false;
 	e.onclick = ()=>{
@@ -42,12 +68,15 @@ function updateEventObj(e,obj){
 			collectKey = []
 
 			elekey = elekey.toLowerCase().trim()
-			//console.log(elekey)
-			var d = hanviet.data
-			d.find(vietToHan)
-			//console.log(collectKey)
-			var obj = uidb.smsBox('Hán Việt',collectKey)
-			var eles = obj.closer.querySelectorAll('div');
+			collectKey = app.fnVietToHan(elekey)
+
+			var html = '', htmlLine = `<span><a href="#" style="text-decoration: none;">{key}</a> <span>`
+			collectKey.forEach(e=>{html+=htmlLine.replace("{key}",e)})
+			var obj = uidb.smsBox('Hán Việt',html)
+			var eles = obj.closer.querySelectorAll('a');
+			
+			// var obj = uidb.smsBox('Hán Việt',collectKey)
+			// var eles = obj.closer.querySelectorAll('div');
 			if(!eles)
 				return;
 			//console.log(eles)
@@ -67,16 +96,19 @@ function updateEventObj(e,obj){
 		cmdhannom.onclick = (e)=> { 
 			collectKey = []
 			elekey = app.getTextSelection()
-			if(app.autoClick(e,cmdhannom)||elekey.length==0)
-			 	return;
+
+			if(app.autoClick(e,cmdhannom) || elekey.trim().length==0||/[^a-zA-Zà-ỹÀ-Ỹ0-9]/g.test(elekey))
+				return;
+
 
 			elekey = elekey.toLowerCase().trim()
-			//console.log(elekey)
-			var d = hannom.data
-			d.find(vietToNom)
+			collectKey = app.fnVietToNom(elekey)
+
 			//console.log(collectKey)
-			var obj = uidb.smsBox('Hán Việt',collectKey)
-			var eles = obj.closer.querySelectorAll('div');
+			var html = '', htmlLine = `<span><a href="#" style="text-decoration: none;">{key}</a> <span>`
+			collectKey.forEach(e=>{html+=htmlLine.replace("{key}",e)})
+			var obj = uidb.smsBox('Hán Việt',html)
+			var eles = obj.closer.querySelectorAll('a');
 			if(!eles)
 				return;
 			//console.log(eles)
@@ -87,29 +119,7 @@ function updateEventObj(e,obj){
 				
 			})
 		}
-		app.fnPhienAm = (text,callBack) =>{
-			var
-			r = text,
-			d = hanviet.data
-			for (var i=0; i < text.length; i++) {
-				elekey = text[i]
-				//console.log(elekey)
-				collectKey = []
-
-				var hanToViet = (v,k,s)=>{
-					if(v[0]==elekey){
-						collectKey = v[1].split(',')
-						return;
-					}
-					return;
-				}
-				d.find(hanToViet)
-				if(collectKey[0])
-					r = r.replace(elekey,collectKey[0].trim()+" ").trim()
-				
-			};
-			callBack && callBack(r)
-		}
+		
 		cmdphienam.onclick = ()=> { 
 			var text = app.getTextSelection()
 			app.fnPhienAm(text,(r)=>{
@@ -172,6 +182,12 @@ function updateEventObj(e,obj){
 			var r = app.fnGianToPhon(text);
 			app.insertIntoDoc(r)
 			//session.replaceSelectAndSelectAgain(r);
+		}
+		app.fnGianHayPhon = (text)=>{
+			var r1= app.fnGianToPhon(text),
+			r2 = app.fnPhonToGian(text)
+			r1 = (r1==text)?(r2==r1?'':r2):r1
+			return r1;
 		}
 
 })(app);

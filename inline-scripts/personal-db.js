@@ -200,27 +200,6 @@ var personalCtrl = (function (exports) {
 		script.onerror = onErrorHandler;
 		body.appendChild(script);
 	}
-	// function addScript(srcs){
-	//  	if(Array.isArray(srcs)){
-
-	//  		srcs.forEach((e,i)=>{
-	//  			console.log(e);
-	//  			var e1 = e.split("/")
-	//  			var name = e1[e1.length-1]
-
-	//  			personalStore.get(name).then(r=>{
-	//  				if(r==null){
-	//  					_addScript(e)
-	//  				}
-	//  				//else
-	//  				//console.log(r);
-	//  			})
-	//  		})
-
-	//  	}else{
-	//  		_addScript(srcs)
-	//  	}
-	//  }
 	 function reloadDB(){
 	 	personaldb = []
 	 	persenDBLoad()
@@ -605,6 +584,13 @@ cmdaddnewword.addEventListener("click", ()=>{
 		var dbkey2 = document.getElementById("dbkey2")
 		var tukep = document.getElementById("dbtừ kép")
 		var dbNewWord = dialog.querySelector("#dbNewWord")
+		var fillRecode = (i)=>{
+				var objs = JSON.parse(i[3])
+			  	for (var o  in objs){
+			  		var c = document.getElementById("db"+o)
+						if(c) c.value = objs[o]
+			  	}
+		}
 		function builtRecodeDB(){
 			var ob={}
 			var keyTemplate = ['từ kép','danh từ','động từ','tính từ','trạng từ','thuật ngữ','giới từ','phó từ','số từ']
@@ -628,19 +614,17 @@ cmdaddnewword.addEventListener("click", ()=>{
 				// }
 				var i = r[0]
 				try{
-			  	var objs = JSON.parse(i[3])
-			  	for (var o  in objs){
-			  		var c = document.getElementById("db"+o)
-						if(c) c.value = objs[o]
-			  	}
+			  	fillRecode(i)
 				}catch(e){
 					if(typeof(i[3])==="object"){
-						var objs = i[3]
-				  		i[3] ='';
-				  		for (var o  in objs){
-					  		var c = document.getElementById("db"+o)
-								if(c) c.value = objs[o]
-					  	}
+				  	i[3] ='';
+				  	fillRecode(i)
+						// var objs = i[3]
+						// i[3] ='';
+				  // 		for (var o  in objs){
+					 //  		var c = document.getElementById("db"+o)
+						// 		if(c) c.value = objs[o]
+					 //  	}
 			  		}
 				}
 			}else{
@@ -678,6 +662,7 @@ cmdaddnewword.addEventListener("click", ()=>{
 
 			personalCtrl.searchWordUpdate(emailjs,text,(index)=>{
 				if(index!=-1){
+					personaldb[emailjs][index][1]=text
 					personaldb[emailjs][index][3]=builtRecodeDB()
 					personaldb[emailjs][index][7]=dbkey2.value
 					console.log("update "+index);
@@ -698,7 +683,7 @@ cmdaddnewword.addEventListener("click", ()=>{
 			ctrl.closer.querySelector('button').click()
 		}
 		cmdgianthe2.onclick = ()=>{
-			dbkey2.value = app.fnPhonToGian(text);
+			dbkey2.value = app.fnGianHayPhon(text);
 		}
 		cmdphienam2.onclick=()=>{
 			app.fnPhienAm(text,(r)=>{
@@ -755,20 +740,26 @@ cmdaddnewword.addEventListener("click", ()=>{
 })
 var crltSmSBox
 cmdUser.onclick = ()=>{
-	var html = `		
-	<iframe id='myiframe' src='`+hostDB+`/person.php?login'></iframe>
-	`
-	var c = uidb.smsBox('Đăng Nhập',html)
-	crltSmSBox = c.closer
-	myiframe = document.querySelector('#myiframe')
-	myiframe.onload=(e)=>{
-		myiframe.style.width="100%"
-		myiframe.style.height="-webkit-fill-available"
+	appStore.get('user').then(r=>{
+		var html = `		
+		<iframe id='myiframe' src='`+hostDB+`/person.php?login'></iframe>
+		`
+		if(r!=null){
+			html = `Chào: `+r.email
+		}
+
 		
-		e.target.contentWindow.postMessage("initial message", "*");
+		var c = uidb.smsBox('Đăng Nhập',html)
+		crltSmSBox = c.closer
+		myiframe = document.querySelector('#myiframe')
+		myiframe.onload=(e)=>{
+			myiframe.style.width="100%"
+			myiframe.style.height="-webkit-fill-available"
+			
+			e.target.contentWindow.postMessage("initial message", "*");
 
-	}
-
+		}
+	})
 }
 function affterLoginCreateDb(o){
 	appStore.get('user').then(r=>{

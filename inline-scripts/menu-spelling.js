@@ -65,21 +65,26 @@ cmddaotu.oncontextmenu = ()=>{
 	<div class="daotu">là: Đảo từ là</div>
 	`
 	var ctrl = uidb.smsBox('Đảo từ ',html)
-	console.log(ctrl)
+	//console.log(ctrl)
 	var cmds= ctrl.closer.querySelectorAll('div.daotu')
-	console.log(cmds);
+	//console.log(cmds);
 	cmds.forEach(e=>{
 		e.onclick = ()=>{
 			//console.log(cmddaotu)
 			var span = cmddaotu.querySelector('span')
 			span.innerText = e.innerText.split(':')[0]
-			ctrl.closer.querySelector('button').click()
+
+			app.textArea.focus()
+			cmddaotu.click()
+			ctrl.setIgnoreFocusOut(false)
+			ctrl.closer.click()
+
 			appStore.set('daotu',span.innerText)
 		}
 	})
 	return false;
 }
-cmddaotu.onclick = ()=> { 
+cmddaotu.addEventListener('click', ()=> { 
 	//var range = app.getSelectionRange(),
 	var text = app.getTextSelection(),
 	ts = text.split(' '),
@@ -111,7 +116,7 @@ cmddaotu.onclick = ()=> {
 	// session.replace(range,text)
 	
 	// selection.setSelectionRange(range)
-}
+})
 function checkVi(text){
 	var isvi = new RegExp(VI0,'g');
 	if(isvi.test(text))

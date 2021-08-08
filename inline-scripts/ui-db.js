@@ -154,6 +154,7 @@ var countLoadScript=0
 async function searchWord (value){
 	var listDics = await appStore.get("list-dics")
 	var listOrder = []
+	if(listDics)
 	listDics.forEach(e=>{
 		listOrder.push(getIDDicts(e))
 	})

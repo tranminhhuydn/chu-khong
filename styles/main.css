@@ -279,13 +279,26 @@ details div {
 #idshowlist{
   padding: 1em 0.5em 1em 0.5em;
 }
-#idshowlist div{
+#idshowlist>div{
   /*margin:5px;*/
   
   padding-bottom:5px;
   border-bottom:1px solid #cbcbcb;
   user-select: text;
   text-align: justify;
+  
+  /*padding: 10px;*/
+}
+#idshowlist>div.droptarget{
+  height: 30px;
+}
+#idshowlist>div.droptarget>div{
+  margin-left:10px;
+  padding-left:10px;
+  height: 0px;
+}
+#idshowlist .cmd{
+    cursor: grab;
 }
 
 .buttons {

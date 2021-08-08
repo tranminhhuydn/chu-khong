@@ -16,7 +16,7 @@
 
 'use strict';
 
-//from sarah-clack introduce
+// from sarah-clack introduce
 window.addEventListener('load', () => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker

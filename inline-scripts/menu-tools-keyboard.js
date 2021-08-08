@@ -81,16 +81,9 @@ function updateEventObj(e,obj){
 				return;
 			//console.log(eles)
 			eles.forEach((e,i)=>{
-				if(i==0)
-					return;
+				// if(i==0)
+				// 	return;
 				updateEventObj(e,obj)
-				// e.onclick = ()=>{
-				// 	app.textArea.focus()
-				// 	app.insertIntoDoc(e.innerHTML)
-				// 	obj.setIgnoreFocusOut(false)
-				// 	obj.closer.click()
-				// }
-				// e.ontouchend = e.onclick
 			})
 		}
 		cmdhannom.onclick = (e)=> { 
@@ -113,8 +106,8 @@ function updateEventObj(e,obj){
 				return;
 			//console.log(eles)
 			eles.forEach((e,i)=>{
-				if(i==0)
-					return;
+				// if(i==0)
+				// 	return;
 				updateEventObj(e,obj)
 				
 			})

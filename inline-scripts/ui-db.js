@@ -1,6 +1,16 @@
 
-var hostDB = '//votandang.net/chu-khong';
+//var hostDB = '//votandang.net/chu-khong';
+var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
 //import(hostDB+"/person.php?get-list-full-dic");
+var listDBName = [
+    {"id":"4","name":"bktd_dv","order":"3"}, 
+    {"id":"5","name":"CV_Lac_Viet_Hoa_Viet","order":"1"}, 
+    {"id":"6","name":"Free_Chinese_Vietnamese","order":"6"}, 
+    {"id":"7","name":"Han_Hoa_Anh","order":"5"}, 
+    {"id":"8","name":"Han_Yu_Da_Ci_Dian","order":"7"}, 
+    {"id":"9","name":"Han_viet_dai_tu_dien","order":"2"}, 
+    {"id":"10","name":"Khang_Hi","order":"8"}, 
+    {"id":"11","name":"Nguyen_Quoc_Hung","order":"4"}];
 
 var uidb = (function (exports) {
   'use strict';
@@ -11,23 +21,18 @@ Array.prototype.clone = function(){
   return this.map(e => Array.isArray(e) ? e.clone() : e);
 };
 
-var listDBName = [{"id":"1","name":"100_mau_cau_viet_so_yeu_li_lich","order":"1"}, 
-    {"id":"2","name":"3000_CDT_GianThe","order":"2"}, 
-    {"id":"3","name":"3000_CDT_PhonThe","order":"3"}, 
-    {"id":"4","name":"bktd_dv","order":"3"}, 
-    {"id":"5","name":"CV_Lac_Viet_Hoa_Viet","order":"1"}, 
-    {"id":"6","name":"Free_Chinese_Vietnamese","order":"6"}, 
-    {"id":"7","name":"Han_Hoa_Anh","order":"5"}, 
-    {"id":"8","name":"Han_Yu_Da_Ci_Dian","order":"7"}, 
-    {"id":"9","name":"Han_viet_dai_tu_dien","order":"2"}, 
-    {"id":"10","name":"Khang_Hi","order":"8"}, 
-    {"id":"11","name":"Nguyen_Quoc_Hung","order":"4"}, 
-    {"id":"12","name":"Nien_Hieu_Trung_Quoc","order":"12"}];
+
 var getDBName =(num)=>{
 	var 
 	find = (v,k,s)=>{return v.id==num},
 	r = listDBName.filter(find)[0]
 	return r.name
+}
+var getIDDicts =(name)=>{
+	var 
+	find = (v,k,s)=>{return v.name==name},
+	r = listDBName.filter(find)[0]
+	return r.id
 }
 // Array.prototype.clone = function() {
 //     var i,newObj = [] ;
@@ -56,10 +61,6 @@ function filterWord(words,update) {
 	var word;
 	var r = []; 
 	var currentDBOfUser = null
-	async function asyncFilter (arr, predicate) {
-		var results = await Promise.all(arr.map(predicate)).then();
-		return arr.filter((_v, index) => results[index]);
-	}
 
 	function _filterWord(i) {
 	  if(i[1]==word||i[7]==word)
@@ -86,6 +87,7 @@ function filterWord(words,update) {
 	  return i[1]==word||i[7]==word
 	}
 	function _filter() {
+
 	 	for (var o  in personaldb) {
 			var ele = personaldb[o].clone()
 		
@@ -97,13 +99,12 @@ function filterWord(words,update) {
 				r2[0]=[r1[0][0],r1[0][1],r1[0][2],r1[0][3],r1[0][4],r1[0][5],r1[0][6],r1[0][7],r1[0][8]]
 				r2[0][8]=o.replace('.js','')//+"<br>"+r2[0][1]
 			}
-
 			r = r.concat(r2)
-
 		}
 
 		if(word.trim().length==0)
 			return;
+		
 		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
 		r = r.concat(data.filter(find))
 
@@ -111,17 +112,11 @@ function filterWord(words,update) {
 	if(Array.isArray(words)){
 		// chuyển đổi giản phồn
 		words.forEach(ele1=>{	
-			word = ele1		
-	 		var k1 = app.fnGianToPhon(word)
-	 		if(k1!=word){
-	 			words.push(k1)
-	 		}
-	 		var k2 = app.fnPhonToGian(word)
-			if(k2!=word){
-				words.push(k2)
-	 		}
+	 		var k = app.fnGianHayPhon(ele1)
+	 		if(k.length!=0)
+	 			words.push(k)
 		})
-		//console.log(words);
+
 		words.forEach(ele1=>{
 			word = ele1
 			_filter()
@@ -130,15 +125,10 @@ function filterWord(words,update) {
 
  		word = words
 		_filter()
-		// chuyển đổi giản phồn
- 		var k1 = app.fnGianToPhon(words)
- 		if(k1!=words){
- 			word = k1
-			_filter()
- 		}
- 		var k2 = app.fnPhonToGian(words)
-		if(k2!=words){
- 			word = k2
+
+ 		var k = app.fnGianHayPhon(ele1)
+ 		if(k.length!=0){
+			word = k
 			_filter()
  		}
  	}
@@ -161,23 +151,47 @@ function sort(points) {
 
 var countLoadScript=0
 
-function searchWord (value){
+async function searchWord (value){
+	var listDics = await appStore.get("list-dics")
+	var listOrder = []
+	listDics.forEach(e=>{
+		listOrder.push(getIDDicts(e))
+	})
+	// log(listOrder)
 	if (typeof(lw) !== "undefined") {
 		console.log(word.value);
 		lw.postMessage({type:'searchWord',data:value})
 	}else{
 		var r1,sr,r= filterWord(value.split(/[,;.:-。《》【】·~，；：‘“？\/\}\{——+！@#￥%……&*（）\|\、]/g))
-		var l = []
+		var l = [],
+		rOrder = [],
+		r1 = r.filter((v,k,s)=>{ if(v.length==9) return v})
+
+		//order by
+		rOrder = listOrder.map((v,k,s)=>{
+			var c = r.filter((v1,k1,s1)=>{
+				if(v1.length==5 && v1[3]==v)
+				return v1
+			})
+			if(c[0])
+				return c[0]
+			return []
+		})
+		r = r1.concat(rOrder)
+		// show 
 		r.forEach(e=>{
 			var  c
-			if(e.length==5)
+			if(e.length==5){
 				c = [e[0],e[4],e[2].replace(/\n/g,'<br>'),getDBName(e[3])].join("<br>")
-			else{
-				log(e)
-				c = [e[1]+" / "+e[7],e[3],e[4],e[8]].join("<br>")
+				l.push(c)
 			}
-			l.push(c)
+			if(e.length==9){
+				//log(e)
+				c = [e[1]+" / "+e[7],e[3],e[4],e[8]].join("<br>")
+				l.push(c)
+			}
 		})
+		
 		r=l
 		showWord('Tìm',r)
 	}

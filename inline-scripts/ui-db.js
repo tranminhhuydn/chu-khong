@@ -1,6 +1,6 @@
 
-//var hostDB = '//votandang.net/chu-khong';
-var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
+var hostDB = '//votandang.net/chu-khong';
+//var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
 //import(hostDB+"/person.php?get-list-full-dic");
 var listDBName = [
     {"id":"4","name":"bktd_dv","order":"3"}, 

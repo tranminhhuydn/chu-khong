@@ -32,6 +32,7 @@ const resourcesToPrecache =[
     "styles/standalone.css",
     "css/google-icon-editor.css",
     "css/font-awesome.min.css",
+    "json/boFull.json",
     "json/hanViet.json",
     "json/hanNom.json",
     "json/gianPhonThe.json",

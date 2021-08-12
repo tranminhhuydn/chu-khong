@@ -1,7 +1,7 @@
 {
   "name": "Chữ Không Editor v2",
   "short_name": "Chữ Không Editor v2",
-  "description": "Chữ Không Editor - Ứng dụng chữ không giúp bạn biên soạn chữ hán chữ nôm, phiên âm chữ hán, chữ nôm, tra tự điển tiếng hán.",
+  "description": "Chữ Không Editor - Ứng dụng chữ không giúp bạn biên soạn chữ hán chữ nôm, phiên âm chữ hán, chữ nôm, tra tự điển tiếng hán. Unicode 6.1.0 Radical-Stroke Index",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#e8eaf6",

@@ -300,6 +300,37 @@ details div {
 #idshowlist .cmd{
     cursor: grab;
 }
+#idshowlist span.text{
+    font-size: 60%;
+}
+#idshowlist span.rootText{
+    display: none;
+}
+#idshowlist span.count{
+    font-size: 60%;
+}
+.trabo, .conTraBo{
+  display: table;
+}
+.trabo span,.conTraBo span{
+  float: left;
+  padding: 0px 5px 0px 5px;
+  background: black;
+  color: white;
+}
+.trabo a, .conTraBo a{
+  float: left;
+  text-decoration: none;
+  color: black;
+  padding: 0px 5px 0px 5px;
+}
+.trabo .similar, .conTraBo .similar {
+    float: left;
+    padding: 0px 5px 0px 5px;
+    background: #00968878;
+    color: white;
+    border-left: 1px solid;
+}
 
 .buttons {
   padding: 2px;

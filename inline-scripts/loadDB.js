@@ -37,22 +37,12 @@ var loadDB = (url)=>{
         for(var fileName in zip.files){
             zip.file(fileName).async("string")
             .then(text=>{
-                var cn,c= ' cn = '+text
-                eval(c)
+                var cn = JSON.parse(text)
                 if(rootData == null)
                     rootData = cn
                 else
                     rootData.data = rootData.data.concat(cn.data)
                 countLoad++
-
-                // var r = cn.data.filter((v,k,s)=>{return v[0]=='????'})
-                // console.log(cn.data.length)
-                // if(r.length>0){
-                //     console.log(fileName);
-                //     console.log(r.length);
-                //     console.log(r);
-                // }
-                // console.log(rootData.data.length)
                 
                 data = rootData.data
 
@@ -71,6 +61,9 @@ window.addEventListener("load",()=>{
     listDB.forEach(url=>{
         loadDB(url)
     })
+
+
+
 })
 
 })(app);

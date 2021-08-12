@@ -182,5 +182,60 @@ function updateEventObj(e,obj){
 			r1 = (r1==text)?(r2==r1?'':r2):r1
 			return r1;
 		}
+		app.insertChar = (ev)=>{
+			// console.log(ev.target)
+			// alert(ev.target.innerText)
+			app.dialog.closer.click()
+			app.textArea.focus()
+			app.insertIntoDoc(ev.target.innerText)
+		}
+		app.trabo = (boso)=>{
+			var
+			html = ``,
+			group = `<span class="num">{num}</span>`,
+			lineHtml = `<a href="#" onclick="app.insertChar(event)">{kytu}</a>`,
+			conTraBo = document.querySelector("div.conTraBo"),
+			trabo = document.querySelector("div.trabo")
+			trabo.classList.toggle("hidden")
+			for(var e in app.boFull[boso]){
+				html += group.replace("{num}",e) 
+				app.boFull[boso][e].forEach(c=>{
+					var cs = c.split(/\t/g)
+					if(Array.isArray(cs) && cs[1]){
+						eval(`cs[1]= decodeURIComponent("\\u{`+cs[1]+`}")`)
+						html+=lineHtml.replace("{kytu}",cs[1])
+					}
+				})
+			}
+			html+=""
+			conTraBo.innerHTML = html;
+			
+			
+			return false;
+		}
+		cmdTraBo.onclick=()=>{
+			var 
+			html = `<div class="trabo">`,
+			group = `<span class="num">{num}</span>`,
+			similar = `<span class="similar">{num}</span>`,
+			lineHtml = `<a href="#" title="{title}" onclick ="app.trabo({boso})" >{kytu}</a>`
 
+			for(var e in app.boFull.bo){
+				html += group.replace("{num}",e) 
+				app.boFull.bo[e].forEach(c=>{
+					var cs = c.split(/\t|\s/g)
+					// 0:kytu 1:bo so 2:title 3:sotrang
+					if(cs.length==4)
+						html+=lineHtml.replace("{kytu}",cs[0]).replace("{title}",cs[2]).replace("{boso}",cs[1])
+					else if(cs.length>4)
+						html+=lineHtml.replace("{kytu}",cs[0]).replace("{title}",cs[2]+" "+cs[3]).replace("{boso}",cs[1])
+					else
+						html += similar.replace("{num}",c) 
+				})
+			}
+			html+="</div>"
+			html+=`<a href="#" onclick="document.querySelector('div.trabo').classList.toggle('hidden')">↩</a>`
+			html+=`<hr><div class="conTraBo"></div>`
+			app.dialog =  uidb.dialogTraBo("Tra Bộ Unicode 6.1.0 Radical-Stroke Index",html)
+		}
 })(app);

@@ -78,6 +78,8 @@ const resourcesToPrecache =[
 self.__precacheManifest = [].concat(resourcesToPrecache|| []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
+
+
 self.addEventListener('install', function(e) {
   // eslint-disable-next-line no-console
   console.log('[ServiceWorker] Install');

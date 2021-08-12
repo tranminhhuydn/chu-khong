@@ -117,7 +117,7 @@ function firstStr(str){
 }
 app.dragEndlistInorderTranslate = (ev)=>{
 	var doc = document.getElementById("idshowlist"),
-	texts = doc.querySelectorAll("span.text"),
+	texts = doc.querySelectorAll("span.rootText"),
 	list = []
 	texts.forEach(e=>{list.push(e.innerText)})
 	log(list)
@@ -136,10 +136,11 @@ cmdtranslateoffline.oncontextmenu = () =>{
 		r = iT
 
 //await personalStore.get(e)
-	var html = '',line = `<div id="tdb-drop-{id}" class = "droptarget" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><div id="tdb-drag-{id}"><span draggable="true"  ondragstart="drag(event)" ondragend="app.dragEndlistInorderTranslate(event)" class='cmd'> ↕ :: </span><span class='text'>{name}</span> <span class='count'> ({count})</span></div></div>`
+	var html = '',line = `<div id="tdb-drop-{id}" class = "droptarget" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><div id="tdb-drag-{id}"><span draggable="true"  ondragstart="drag(event)" ondragend="app.dragEndlistInorderTranslate(event)" class='cmd'> ↕ :: </span><span class='text'>{name}</span> <span class='rootText'>{rootName}</span><span class='count'> ({count})</span></div></div>`
 	r.forEach((e,i)=>{
 		var v = personaldb[e].length 
-		html+=line.replace("{name}",e).replace("{count}",v).replace(/\{id\}/g,i)
+		var c =  e.split("@")
+		html+=line.replace("{name}",c[0]).replace("{rootName}",e).replace("{count}",v).replace(/\{id\}/g,i)
 	})
 
 	var ctrl = uidb.smsBox('Dữ liệu dịch offline',html),

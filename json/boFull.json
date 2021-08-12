@@ -1,5 +1,6 @@
 {
 "data": {
+	"name":"Unicode 6.1.0 Radical-Stroke Index",
 	  "bo": {
 	    "1": ["⼀ 1 One 5", "⼁ 2 Line 5", "⼂ 3 Dot 5", "⼃ 4 Slash 5", "⼄ 5 Second 5", "⼅ 6 Hook 6","⺂ ➞ ⼄","⺃ ➞ ⼄","⺄ ➞ ⼄"],
 	    "2": ["⼆ 7 Two 6", "⼇ 8 Lid 6", "⼈ 9 Man 6", "⼉ 10 Legs 10", "⼊ 11 Enter 10", "⼋ 12 Eight 11", "⼌ 13 Down Box 11", "⼍ 14 Cover 11", "⼎ 15 Ice 11", "⼏ 16 Table 12", "⼐ 17 Open Box 12", "⼑ 18 Knife 12", "⼒ 19 Power 14", "⼓ 20 Wrap 15", "⼔ 21 Spoon 15", "⼕ 22 Right Open Box 15", "峷 23 Hiding Enclosure 15", "峸 24 Ten 15", "峹 25 Divination 16", "峺 26 Seal 16", "峻 27 Cliff 16", "峼 28 Private 17", "峽 29 Again 17","⺅ ➞ ⼈","⺆ ➞ ⼌","⺇ ➞ ⼏","⺈ ➞ ⼑","⺉ ➞ ⼑","⺊ ➞ 峹","⺋ ➞ 峺","⺁ ➞ 峻","⻈ ➞ ⾔","⻖ ➞ ⾢","⻏ ➞ ⾩"],

@@ -196,7 +196,7 @@ async function searchWord (value){
 		})
 		
 		r=l
-		showWord('Tìm',r)
+		showWord('Tìm',r,`<button title='Thêm từ mới' id='cmdaddnewword2' class="menuTop" style="float:right"><i class='material-icons'>create</i></button>`)
 	}
  }
 
@@ -300,14 +300,15 @@ function _addScript(src){
 	return {closer:closer,setIgnoreFocusOut:setIgnoreFocusOut}
 
  }
- function showWord(title,collects){
- 	var {closer,setIgnoreFocusOut} = overlayPage(title,collects,`<button title='Thêm từ mới' id='cmdaddnewword2' class="menuTop" style="float:right"><i class='material-icons'>create</i></button>`)
+ function showWord(title,collects,bar){
+ 	var {closer,setIgnoreFocusOut} = overlayPage(title,collects,bar)
  	var idshowlist = closer.querySelector('#idshowlist')
  	idshowlist.style.width= '50%';
  	
  	idshowlist.style.fontSize = `${app.options.fontSize}`;
 
  	var cmdaddnewword2 = closer.querySelector("#cmdaddnewword2")
+ 	if(cmdaddnewword2)
  	cmdaddnewword2.onclick = ()=>{
  		closer.click()
  		cmdaddnewword.click()
@@ -322,6 +323,19 @@ function _addScript(src){
  	idshowlist.style.right= '25%';
  	idshowlist.style.top= '20%';
  	idshowlist.style.width= '50%';
+ 	
+ 	idshowlist.style.fontSize = `${app.options.fontSize}`;
+ 	//setIgnoreFocusOut(true)
+ 	return {closer:closer,setIgnoreFocusOut:setIgnoreFocusOut}
+ }
+ function dialogTraBo(title,sms){
+ 	var {closer,setIgnoreFocusOut} = overlayPage(title,sms)
+	var idshowlist = closer.querySelector('#idshowlist')
+ 	idshowlist.style.bottom= '5%';
+ 	idshowlist.style.right= '0';
+ 	idshowlist.style.left= '0';
+ 	idshowlist.style.top= '5%';
+ 	idshowlist.style.width= '100%';
  	
  	idshowlist.style.fontSize = `${app.options.fontSize}`;
  	//setIgnoreFocusOut(true)
@@ -345,6 +359,7 @@ function _addScript(src){
  exports.showWord = showWord;
  exports.smsBox = smsBox;
  exports.searchWord = searchWord;
+ exports.dialogTraBo = dialogTraBo;
 
  return exports;
 
@@ -431,4 +446,14 @@ window.addEventListener("load",()=>{
 			}
 		})
 	}
+
+	var myRe = new Request("./json/boFull.json");
+
+    fetch(myRe)
+    .then(response  => response.json())
+    .then(data => {
+        app.boFull = data.data
+        //console.log(data)
+    })
+
 })

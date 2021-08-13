@@ -190,7 +190,10 @@ async function searchWord (value){
 			}
 			if(e.length==9){
 				//log(e)
-				c = [e[1]+" / "+e[7],e[3],e[4],e[8]].join("<br>")
+				var tuLoai = e[4]
+				if(tuLoai=="object")
+					tuLoai = ""
+				c = [e[1]+" / "+e[7],e[3],tuLoai,e[8]].join("<br>").replace("<br><br>","<br>")
 				l.push(c)
 			}
 		})

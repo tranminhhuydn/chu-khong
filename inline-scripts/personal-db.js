@@ -322,12 +322,12 @@ function getPromise (url) {
 }
 
 function updateStatus(obj){
-	obj = obj||cmdsyncdb
+	obj = obj||cmdUser //cmdsyncdb
 	appStore.get('log').then(r=>{
 		log = r==null?[]:r;
 		var status = obj.querySelector('span')
 		status.innerHTML = "("+log.length+")"
-		status.style.color=log.length==0?'':'red';
+		status.style.color=log.length==0?'':'#ffc107';
 	})
 }
 updateStatus()
@@ -499,48 +499,40 @@ function downloadDB(obj,callBack){
 }
 
 var dialogShareWord, dialogDownloadWord, dialogStatus, dialogPersendShareWord
-
-cmdsyncdb.onclick = ()=>{
-	function syncdb (callBack) {
-		var data = new FormData();
-		appStore.get('user').then(u=>{
-			if(u==null){
-				alert('Bạn chưa đăng nhập')
-				return;
-			}
-			data.append('email', u.email);
-			data.append('userid', u.userId);
-			data.append('secure', u.appSecure);
-			data.append('device', jscd.device);
-			appStore.get('log').then(l=>{
-				if(l==null||l.length==0)return;
-				l.forEach(e=>{
-					data.append('cmd[]', JSON.stringify(e));
+var updateEventSyncdb = (dialog)=>{
+		function syncdb (callBack) {
+			var data = new FormData();
+			appStore.get('user').then(u=>{
+				if(u==null){
+					alert('Bạn chưa đăng nhập')
+					return;
+				}
+				data.append('email', u.email);
+				data.append('userid', u.userId);
+				data.append('secure', u.appSecure);
+				data.append('device', jscd.device);
+				appStore.get('log').then(l=>{
+					if(l==null||l.length==0)return;
+					l.forEach(e=>{
+						data.append('cmd[]', JSON.stringify(e));
+					})
+					post(hostDB+'/index.php', data,(ok,body)=>{
+						if(ok){
+							appStore.set('log',[]).then(r=>{
+								updateStatus()
+								callBack && callBack()
+								alert('đồng bộ thành công')
+							})
+						}else{
+							//console.log(ok);
+							//console.log(body);
+							alert('Lỗi khi đồng bộ\nThử đăng nhập lại ')
+						}
+					});
 				})
-				post(hostDB+'/index.php', data,(ok,body)=>{
-					if(ok){
-						appStore.set('log',[]).then(r=>{
-							updateStatus()
-							callBack && callBack()
-							alert('đồng bộ thành công')
-						})
-					}else{
-						//console.log(ok);
-						//console.log(body);
-						alert('Lỗi khi đồng bộ\nThử đăng nhập lại ')
-					}
-				});
+				
 			})
-			
-		})
-	}
-	var html = `
-	<button id='dialogShareWord' class="menuItemContainer twoIcon"><i class='material-icons'>a</i><i class='material-icons icon2'>cloud_upload</i><span>(0)</span></button> Chia sẽ các từ của tôi<br>
-	<button id='dialogDownloadWord' class="menuItemContainer"><i class="material-icons">cloud_download</i></button> Cập nhật từ mới <br>
-	<div id='dialogPersendShareWord' class="myProgress hidden"><div class="myBar"></div></div>
-	<span id='dialogStatus'></span>
-	` 
-	var c = uidb.smsBox('Đồng bộ',html)
+		}
 	dialogShareWord = document.querySelector('#dialogShareWord')
 	dialogDownloadWord = document.querySelector('#dialogDownloadWord')
 	dialogStatus = document.querySelector('#dialogStatus')
@@ -562,8 +554,62 @@ cmdsyncdb.onclick = ()=>{
 			})
 		})
 	}
-	return;
+	var cmdShowMyDicts = document.querySelector('#cmdShowMyDicts')
+	cmdShowMyDicts.onclick = ()=>{
+		
+		var html = ""
+		var tuLoai = ''
+		appStore.get("user").then(user=>{
+			if(user && user.email){
+				// console.log(user)
+				// console.log(user.email)
+				var dic = personaldb[user.email+".js"]
+				dic.forEach(i=>{
+					var nghia = i[3], kytu= i[1]
+					kytu =(i[7]!=null|| (i[7]&&i[7].length!=0))?i[1]+"/"+i[7]:i[1];
+					tuLoai = "Từ loại: "+i[4]
+				  if(i[4]=="object"){
+				  	tuLoai =''
+				  	try{
+					  	var obj = JSON.parse(i[3])
+					  	nghia ='';
+					  	for (var o  in obj){
+					  		if(obj[o].trim().length!=0)
+					  		nghia +=o +': '+obj[o]+"<br>"
+					  	}
+						}catch(e){
+							if(typeof(i[3])==="object"){
+								var obj = i[3]
+					  		nghia ='';
+					  		for (var o  in obj){
+						  		if(obj[o].trim().length!=0)
+						  		nghia +=o +': '+obj[o]+"<br>"
+						  	}
+					  	}
+						}
+				  }
+
+					html +="<div><h3>"+kytu+"</h3>"+tuLoai+"<br>"+nghia+"</div>"
+				})
+				uidb.dialogTraBo("tự điển của tôi",html)
+			}
+		})
+		dialog.closer.click()
+	}
+	
 }
+// cmdsyncdb.onclick = ()=>{
+	
+// 	var html = `
+// 	<button id='dialogShareWord' class="menuItemContainer twoIcon"><i class='material-icons'>a</i><i class='material-icons icon2'>cloud_upload</i><span>(0)</span></button> Chia sẽ các từ của tôi<br>
+// 	<button id='dialogDownloadWord' class="menuItemContainer"><i class="material-icons">cloud_download</i></button> Cập nhật từ mới <br>
+// 	<div id='dialogPersendShareWord' class="myProgress hidden"><div class="myBar"></div></div>
+// 	<span id='dialogStatus'></span>
+// 	` 
+// 	var c = uidb.smsBox('Đồng bộ',html)
+// 	updateEventSyncdb(c)
+// 	return;
+// }
 
 cmdaddnewword.addEventListener("click", ()=>{
 	var text = app.getTextSelection();
@@ -746,19 +792,32 @@ cmdUser.onclick = ()=>{
 		`
 		if(r!=null){
 			html = `Chào: `+r.email
+			html +=`<br>
+							<button id='cmdLogOut' class="menuItemContainer"><i class='material-icons'>exit_to_app</i> Đăng Xuất</button><br>
+							<button id='cmdShowMyDicts' class="menuItemContainer"><i class='material-icons'>assignment_turned_in</i>Duyệt Tự điển của tôi</button><br>
+							<button id='dialogShareWord' class="menuItemContainer twoIcon"><i class='material-icons'>cloud_upload</i><span>(0)</span> Chia sẽ các từ của tôi </button><br>
+							<button id='dialogDownloadWord' class="menuItemContainer"><i class="material-icons">cloud_download</i> Cập nhật từ mới </button><br>
+							<div id='dialogPersendShareWord' class="myProgress hidden"><div class="myBar"></div></div>
+							<span id='dialogStatus'></span>`
 		}
-
 		
 		var c = uidb.smsBox('Đăng Nhập',html)
+
+		if(r!=null){
+			updateEventSyncdb(c)
+			
+		}
+
 		crltSmSBox = c.closer
 		myiframe = document.querySelector('#myiframe')
-		myiframe.onload=(e)=>{
-			myiframe.style.width="100%"
-			myiframe.style.height="-webkit-fill-available"
-			
-			e.target.contentWindow.postMessage("initial message", "*");
+		if(myiframe)
+			myiframe.onload=(e)=>{
+				myiframe.style.width="100%"
+				myiframe.style.height="-webkit-fill-available"
+				
+				e.target.contentWindow.postMessage("initial message", "*");
 
-		}
+			}
 	})
 }
 function affterLoginCreateDb(o){

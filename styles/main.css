@@ -371,10 +371,10 @@ details div {
   left:11px;
 }
 .menuContainer span,.menuItemContainer span{
-  position: absolute;
+  /*position: absolute;*/
   top:7px;
   left:2px;
-  font-size:8px;
+  /*font-size:8px;*/
   font-weight: bold;
   color: initial; 
     /*#0f375b;*/

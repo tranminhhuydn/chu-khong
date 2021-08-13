@@ -739,7 +739,7 @@ cmdaddnewword.addEventListener("click", ()=>{
 		}
 		cmdphienam3.onclick=()=>{
 			app.fnPhienAm(text,(r)=>{
-				
+				r = app.titleCase(r)
 				document.getElementById("dbdanh từ").value = r
 			})
 		}

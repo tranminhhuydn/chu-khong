@@ -230,17 +230,19 @@ cmdmoveright.onclick = ()=> {
 	app.select(app.textArea.selectionStart - text.length,app.textArea.selectionStart)
 	
 }
+app.titleCase=(string)=> {
+   var sentence = string.toLowerCase().split(" ");
+   for(var i = 0; i< sentence.length; i++){
+      sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+   }
+		return sentence.join(" ");
+}
+
 cmduplowcase.onclick = ()=> { 
-	var titleCase=(string)=> {
-      var sentence = string.toLowerCase().split(" ");
-      for(var i = 0; i< sentence.length; i++){
-         sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
-      }
-   		return sentence.join(" ");
-  }
+
 	var a = app.getTextSelection(),
 	u = a.toUpperCase(),
-	t = titleCase(a),
+	t = app.titleCase(a),
 	l = a.toLowerCase()
 	a = (a==u && u[1] && u[1]==a[1])?t:(a==l)?u:l
 	var 

@@ -57,7 +57,7 @@ var loadDB = (url)=>{
         }
     })
     .catch(e=>{
-        console.error(e.Error);
+        console.error(e);
     })
 }
 window.addEventListener("load",()=>{

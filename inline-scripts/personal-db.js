@@ -207,9 +207,17 @@ var personalCtrl = (function (exports) {
 	 	//addScript(listScriptPersonal)
 	 }
 	function loadScript(){
-		// chỉ load những user mới
-	 	function _loadScript(){
-			listScriptPersonal.forEach((emailUser,i)=>{
+		//load offline
+	 	if(listScriptPersonal.length==0){
+	 		console.log('load offline');
+	 		personalStore.keys().then(r=>{
+	 			if(r!=null){
+	 				listScriptPersonal = r
+	 			}
+	 		})
+	 	}
+	 	// chỉ load những user mới
+	 	listScriptPersonal.forEach((emailUser,i)=>{
 	 			//console.log(emailUser);
 	 			personalStore.get(emailUser).then(r=>{
 	 				if(r==null){
@@ -220,18 +228,8 @@ var personalCtrl = (function (exports) {
 	 					countLoadScript++;
 	 				}
 	 			})
-	 		})
-	 	}
-	 	if(listScriptPersonal.length==0){
-	 		console.log('load offline');
-	 		personalStore.keys().then(r=>{
-	 			if(r!=null){
-	 				listScriptPersonal = r
-	 			}
-	 		})
-	 	}
-	 	_loadScript()
-	 }
+	 	})
+	}
 
 	 exports.searchWordForm = searchWordForm;
 	 exports.searchWordUpdate = searchWordUpdate;

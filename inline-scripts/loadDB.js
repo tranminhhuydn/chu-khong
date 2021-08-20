@@ -56,14 +56,14 @@ var loadDB = (url)=>{
             })
         }
     })
+    .catch(e=>{
+        console.error(e.Error);
+    })
 }
 window.addEventListener("load",()=>{
     listDB.forEach(url=>{
         loadDB(url)
     })
-
-
-
 })
 
 })(app);

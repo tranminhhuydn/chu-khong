@@ -320,6 +320,7 @@ ctrlStyle.onclick =()=>{
 }
 cmdHelp.onclick = ()=>{
 	var html=`
+<span>version: ${app.version}</span><br>
 <button class="menuItemContainer"><i class="material-icons">insert_drive_file</i></button> Tẹp - tẹp mới/mở tẹp/lưu tẹp<br>
 <button class="menuItemContainer"><i class="material-icons">history</i></button> Các tẹp gần đây<br>
 <button class="menuItemContainer"><i class="material-icons">undo</i></button> Trở lại thao tác trước<br>
@@ -352,6 +353,6 @@ cmdHelp.onclick = ()=>{
 <button class="menuItemContainer"><i class='material-icons'>zoom_in</i></button> To chữ<br>
 <button class="menuItemContainer"><i class='material-icons'>zoom_out</i></button> Nhỏ chữ<br>
 <button class="menuItemContainer"><i class='material-icons'>help</i></button> Hướng Dẫn<br>`
-uidb.showWord('Hướng Dẫn',html)
+uidb.showWord('Hướng Dẫn ',html)
 }
 })(app);

@@ -78,6 +78,8 @@ const resourcesToPrecache =[
     '/tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3_2.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/Khang_Hi.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/Nguyen_Quoc_Hung.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/hanNomDics.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/nguyenTraiQuocAm.json.zip',
     "images/favicon.png"
 ];
 self.__precacheManifest = [].concat(resourcesToPrecache|| []);

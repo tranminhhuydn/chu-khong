@@ -10,7 +10,11 @@ var listDBName = [
     {"id":"8","name":"Han_Yu_Da_Ci_Dian","order":"7"}, 
     {"id":"9","name":"Han_viet_dai_tu_dien","order":"2"}, 
     {"id":"10","name":"Khang_Hi","order":"8"}, 
-    {"id":"11","name":"Nguyen_Quoc_Hung","order":"4"}];
+    {"id":"11","name":"Nguyen_Quoc_Hung","order":"4"},
+    {"id":"12","name":"nomfoundation.com","order":"12"},
+    {"id":"13","name":"Tự Điển Chữ Nôm Dẫn Giải GS.TSKH Nguyễn Quang Hồng","order":"13"},
+    {"id":"14","name":"Hán Nôm Nguyễn Trãi Quốc Âm Từ Điển","order":"14"},
+    ];
 
 var uidb = (function (exports) {
   'use strict';

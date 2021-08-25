@@ -12,9 +12,12 @@ var listDB = [
 '../tu-dien-thieu-chuu/hanviet/dbzip/Han_viet_dai_tu_dien.json.zip',
 '../tu-dien-thieu-chuu/hanviet/dbzip/hanNomDics.json.zip',
 '../tu-dien-thieu-chuu/hanviet/dbzip/nguyenTraiQuocAm.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3_0.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3_1.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3_2.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_0.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_1.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_2.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_4.zip',
+'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_5.zip',
 '../tu-dien-thieu-chuu/hanviet/dbzip/Khang_Hi.json.zip',
 '../tu-dien-thieu-chuu/hanviet/dbzip/Nguyen_Quoc_Hung.json.zip'];
 

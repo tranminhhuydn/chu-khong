@@ -17,8 +17,8 @@
 'use strict';
 
 (function(app) {
-  const spanAppName = document.getElementById('headerAppName');
-  const spanFileName = document.getElementById('headerFileName');
+  //const spanAppName = document.getElementById('headerAppName');
+  //const spanFileName = document.getElementById('headerFileName');
   const modifiedHeader = document.getElementById('modifiedHeader');
   const modifiedFooter = document.getElementById('modifiedFooter');
 
@@ -52,15 +52,15 @@
       app.file.handle = fileHandle;
       app.file.name = fileHandle.name;
       document.title = `${fileHandle.name} - ${app.appName}`;
-      spanFileName.textContent = fileHandle.name;
-      spanAppName.classList.toggle('hidden', false);
+      //spanFileName.textContent = fileHandle.name;
+      //spanAppName.classList.toggle('hidden', false);
       app.addRecent(fileHandle);
     } else {
       app.file.handle = null;
       app.file.name = fileHandle;
       document.title = app.appName;
-      spanFileName.textContent = app.appName;
-      spanAppName.classList.toggle('hidden', true);
+      //spanFileName.textContent = app.appName;
+      //spanAppName.classList.toggle('hidden', true);
     }
   };
 

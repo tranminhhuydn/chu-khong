@@ -428,12 +428,12 @@ window.addEventListener("load",()=>{
 			if(!v){
 				appStore.set("app.version","2.0")
 			}
+			if(v)
+				app.version = v
 		})
 	}else{
 		appStore.get("app.version").then(v=>{
-			if(v==app.version){
-				console.log("current version "+v)
-			}else{
+			if(v!=app.version){
 				console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
 				if(window.caches){
 					caches.keys().then(cacheNames => {

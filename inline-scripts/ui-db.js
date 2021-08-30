@@ -12,9 +12,10 @@ var listDBName = [
     {"id":"10","name":"Khang_Hi","order":"8"}, 
     {"id":"11","name":"Nguyen_Quoc_Hung","order":"4"},
     {"id":"12","name":"nomfoundation.com","order":"12"},
-    {"id":"13","name":"Tự Điển Chữ Nôm Dẫn Giải GS.TSKH Nguyễn Quang Hồng","order":"13"},
-    {"id":"14","name":"Hán Nôm Nguyễn Trãi Quốc Âm Từ Điển","order":"14"},
-    ];
+    {"id":"13","name":"TĐ Chữ Nôm Dẫn Giải - \nGS.TSKH Nguyễn Quang Hồng","order":"13"},
+    {"id":"14","name":"TĐ Hán Nôm - \nNguyễn Trãi Quốc Âm Từ Điển","order":"14"},
+    {"id":"15","name":"TĐ Nôm Tày - \nHoàng Triều Ân \nDương Nhật Thanh \nHoàng Tuấn Nam","order":"15"},
+    {"id":"16","name":"TĐ Thiền Tông - \nHT Thích Thông Thiền","order":"16"}];
 
 var uidb = (function (exports) {
   'use strict';
@@ -36,39 +37,18 @@ var getIDDicts =(name)=>{
 	var 
 	find = (v,k,s)=>{return v.name==name},
 	r = listDBName.filter(find)[0]
+	if(r)
 	return r.id
 }
-// Array.prototype.clone = function() {
-//     var i,newObj = [] ;
-//     for (i in this) {
-//         if (i == 'clone') 
-//             continue;
-//         if (this[i] && typeof this[i] == "object") {
-//             newObj[i] = this[i].clone();
-//         } 
-//         else 
-//             newObj[i] = this[i]
-//     } 
-// 	return newObj;
-// 	//return this;
-// };
 
 //writeScript(listScript)
 
-function updateResultFilter(ele,update) {
-	if(update){	
-		console.log(ele);
-		wordresult.innerHTML+=ele
-	}
-}
 function filterWord(words,update) {
 	var word;
 	var r = []; 
 	var currentDBOfUser = null
 
 	function _filterWord(i) {
-	  if(i[1]==word||i[7]==word)
-	  	updateResultFilter(i,update)
 	  if(i[4]=="object"){
 	  	try{
 		  	var obj = JSON.parse(i[3])
@@ -108,105 +88,91 @@ function filterWord(words,update) {
 
 		if(word.trim().length==0)
 			return;
-		
-		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
-		r = r.concat(data.filter(find))
-
 	}
-	if(Array.isArray(words)){
-		// chuyển đổi giản phồn
-		words.forEach(ele1=>{	
-	 		var k = app.fnGianHayPhon(ele1)
-	 		if(k.length!=0)
-	 			words.push(k)
-		})
-
-		words.forEach(ele1=>{
-			word = ele1
-			_filter()
-		})
- 	}else{
-
- 		word = words
+	words.forEach(ele1=>{
+		word = ele1
 		_filter()
-
- 		var k = app.fnGianHayPhon(ele1)
- 		if(k.length!=0){
-			word = k
-			_filter()
- 		}
- 	}
- 	//sort z-a
- 	r.sort(function(a, b){
-    	// old return b[2] - a[2] 
-    	// new
-    	return b[1] - a[1] 
-	});
+	})
 
  	return r;
 }
+
 app.filterWord = filterWord;
 
-function sort(points) {
-  return points.sort(function(a, b){
-    return b[2] - a[2] 
-	});
-}
+var 
+beforeShow = (value) =>{
+    (async ()=>{
+        var listDics = await appStore.get("list-dics")
+        var listOrder = []
+        if(!listDics)
+            listDics = uidb.listDBName.map((v)=>{return v.name})
+        listDics.forEach((e)=>{
+            listOrder.push(uidb.getIDDicts(e))
+        })
+    
+        var r1,sr,r= value
+        var l = [],
+        rOrder = [],
+        r1 = r.filter((v,k,s)=>{if(v.length==9) return v})
+        
+        //order by
+        rOrder = listOrder.map((v,k,s)=>{
+            var c = r.filter((v1,k1,s1)=>{return v1.length==5 && v1[3]==v})
+            if(c[0])
+                return c[0]
+            return []
+        })
+        r = r1.concat(rOrder)
+        // show 
+        r.forEach(e=>{
+            var  c
+            if(e.length==5){
+                c = [e[0],e[4],e[2].replace(/\n/g,'<br>'),uidb.getDBName(e[3])].join("<br>")
+                l.push(c)
+            }
+            if(e.length==9){
+                //log(e)
+                var tuLoai = e[4]
+                if(tuLoai=="object")
+                    tuLoai = ""
+                c = [e[1]+" / "+e[7],e[3],tuLoai,e[8]].join("<br>").replace("<br><br>","<br>")
+                l.push(c)
+            }
+        })
+        
+        r=l
+        uidb.showWord('Tìm',r,`<button title='Thêm từ mới' id='cmdaddnewword2' class="menuTop" style="float:right"><i class='material-icons'>create</i></button>`)
+    
+    })()
+ }
 
 var countLoadScript=0
 
-async function searchWord (value){
-	var listDics = await appStore.get("list-dics")
-	var listOrder = []
-	if(!listDics)
-		listDics = listDBName.map((v)=>{return v.name})
-	listDics.forEach(e=>{
-		listOrder.push(getIDDicts(e))
+function searchWord (value){
+	var 
+    r,
+    keys = value.split(/[,;.:-。《》【】·~，；：‘“？\/\}\{——+！@#￥%……&*（）\|\、]/g),
+    v = app.fnMultiGianHayPhon(keys)
+    if(v.length!=0)
+        keys = keys.concat(v)
+	r = app.filterWord(keys)
+
+	keys.forEach(word=>{		
+		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
+		r = r.concat(data.filter(find))
 	})
-	
-	// log(listOrder)
-	if (typeof(lw) !== "undefined") {
-		console.log(word.value);
-		lw.postMessage({type:'searchWord',data:value})
-	}else{
-		var r1,sr,r= filterWord(value.split(/[,;.:-。《》【】·~，；：‘“？\/\}\{——+！@#￥%……&*（）\|\、]/g))
-		var l = [],
-		rOrder = [],
-		r1 = r.filter((v,k,s)=>{ if(v.length==9) return v})
-
-		//order by
-		rOrder = listOrder.map((v,k,s)=>{
-			var c = r.filter((v1,k1,s1)=>{
-				if(v1.length==5 && v1[3]==v)
-				return v1
-			})
-			if(c[0])
-				return c[0]
-			return []
-		})
-		r = r1.concat(rOrder)
-		// show 
-		r.forEach(e=>{
-			var  c
-			if(e.length==5){
-				c = [e[0],e[4],e[2].replace(/\n/g,'<br>'),getDBName(e[3])].join("<br>")
-				l.push(c)
-			}
-			if(e.length==9){
-				//log(e)
-				var tuLoai = e[4]
-				if(tuLoai=="object")
-					tuLoai = ""
-				c = [e[1]+" / "+e[7],e[3],tuLoai,e[8]].join("<br>").replace("<br><br>","<br>")
-				l.push(c)
-			}
-		})
-		
-		r=l
-		showWord('Tìm',r,`<button title='Thêm từ mới' id='cmdaddnewword2' class="menuTop" style="float:right"><i class='material-icons'>create</i></button>`)
-	}
+ 	//sort z-a
+ 	r.sort((a, b)=>{return b[1] - a[1]});
+	beforeShow(r)
  }
-
+ function searchWordV2 (keys,data){
+	var 
+	r = app.filterWord(keys)
+	r = r.concat(data)
+ 	//sort z-a
+ 	r.sort((a, b)=>{return b[1] - a[1]});
+	beforeShow(r)
+ }
  function checkLoadScript(event){
  	var s = event.path[0].src.split("/")
  	var name = s[s.length-1]
@@ -366,8 +332,12 @@ function _addScript(src){
  exports.showWord = showWord;
  exports.smsBox = smsBox;
  exports.searchWord = searchWord;
+ exports.searchWordV2 = searchWordV2;
  exports.dialogTraBo = dialogTraBo;
-
+ exports.getIDDicts = getIDDicts
+ exports.getDBName = getDBName
+ exports.listDBName = listDBName
+ exports.beforeShow = beforeShow
  return exports;
 
 }({}));
@@ -413,10 +383,14 @@ window.addEventListener("load",()=>{
 	appStore.get('options').then(o=>{
 		if(o!=null){
 			app.options = o;
-			app.textArea.style.fontSize = `${app.options.fontSize}`;
-			app.textArea.style.fontFamily = app.options.fontFamily
-			document.querySelector('#mainStyle').innerText =  `.menuContainer button {font-size: ${app.options.iconSize};}`
+		}else{
+			app.options.fontSize = 'x-large'
+			app.options.iconSize = 'x-large'
 		}
+		app.textArea.style.fontSize = `${app.options.fontSize}`;
+		app.textArea.style.fontFamily = app.options.fontFamily
+		document.querySelector('#mainStyle').innerText =  `.menuContainer button {font-size: ${app.options.iconSize};}`
+
 		//console.log(app.options );
 	})
 

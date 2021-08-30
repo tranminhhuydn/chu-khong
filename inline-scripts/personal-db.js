@@ -832,7 +832,7 @@ function affterLoginCreateDb(o){
 	})
 } 
 window.onmessage = (event) => {
-	console.log(event.data);
+	//console.log(event.data);
   if(event.data.userId && event.data.appSecure){
 	  	affterLoginCreateDb(event.data)	
   }

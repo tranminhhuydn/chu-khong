@@ -182,6 +182,14 @@ function updateEventObj(e,obj){
 			r1 = (r1==text)?(r2==r1?'':r2):r1
 			return r1;
 		}
+		app.fnMultiGianHayPhon = (arr) =>{
+			var r = []
+			arr.forEach(e=>{
+				var i = app.fnGianHayPhon(e)
+				if(i.length!=0) r.push(i)
+			})
+			return r;
+		}
 		app.insertChar = (ev)=>{
 			// console.log(ev.target)
 			// alert(ev.target.innerText)

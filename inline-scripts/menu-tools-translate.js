@@ -66,7 +66,8 @@ cmdsearchword.onclick = async(e)=> {
 		return;
 	try {
       const contents = app.getTextSelection()
-      uidb.searchWord(contents)      
+      //uidb.searchWord(contents) 
+      app.queryDB(contents)     
     } catch (ex) {
       console.error('Unable to paste', ex);
       gaEvent('Error', 'findWord', ex.name);
@@ -188,6 +189,19 @@ cmdtranslateoffline.onclick = ()=>{
 	textArea.focus();
 }
 cmdgtranslate.onclick = ()=> { 
+	var txt = app.getTextSelection()
+	var text = app.getTextPreviousLine();
+	myFrame.contentWindow.postMessage(text)
 }
+
+
 //ok
 })(app);
+
+window.addEventListener("message", (event) => {
+	var {data} = event
+	if(data && data.key == "google-translate"){
+		app.insertIntoDoc(data.text)
+	}
+	console.log(event.data);  
+}, false);

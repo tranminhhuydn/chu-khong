@@ -75,7 +75,7 @@
     app.file.isModified = val;
     document.body.classList.toggle('modified', val);
     const hidden = !val;
-    modifiedHeader.classList.toggle('hidden', hidden);
+    //modifiedHeader.classList.toggle('hidden', hidden);
     modifiedFooter.classList.toggle('hidden', hidden);
   };
 })(app);

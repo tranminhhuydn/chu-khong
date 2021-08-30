@@ -272,7 +272,7 @@ function selectSetStyle (ctrl,query,getSetValue){
 ctrlStyle.onclick =()=>{
 	var 
 	html,size = '',
-	fonts = ['Arial, CN-Hanh','Arial, fangsong','Arial, MingLiu','Arial, PMingLiU','Arial, SimSun','Arial, SimHei','Arial, "Noto Serif SC"','Arial, "Noto Sans SC"','Arial, "Adobe Kaiti Std"'],
+	fonts = ['Arial, CN-Hanh, "Nom Na Tong"','Arial, fangsong, "Nom Na Tong"','Arial, MingLiu, "Nom Na Tong"','Arial, PMingLiU, "Nom Na Tong"','Arial, SimSun, "Nom Na Tong"','Arial, SimHei, "Nom Na Tong"','Arial, "Noto Serif SC", "Nom Na Tong"','Arial, "Noto Sans SC", "Nom Na Tong"','Arial, "Adobe Kaiti Std", "Nom Na Tong"'],
 	o = ``
 	fonts.forEach(e=>{
 		o+=`<option value='${e}'>${e.replace(/\"/g,'')}</option>`

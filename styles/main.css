@@ -117,7 +117,7 @@ body.altKey .kbdShortcut {
 .menuContainer button {
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: x-large;
 }
 
 .menuContainer button:focus {
@@ -399,4 +399,9 @@ details div {
     height: -webkit-fill-available;
     background-color: #23575896;
     color: #ffffff;
+}
+#myFrame {
+    position: absolute;
+    z-index: 0;
+    top: -200px;
 }

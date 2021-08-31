@@ -82,6 +82,8 @@ const resourcesToPrecache =[
     '/tu-dien-thieu-chuu/hanviet/dbzip/Khang_Hi.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/Nguyen_Quoc_Hung.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/hanNomDics.json.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/TDTT.zip',
+    '/tu-dien-thieu-chuu/hanviet/dbzip/NomTayHOANGTRIEUANDics.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/nguyenTraiQuocAm.json.zip',
     "images/favicon.png"
 ];

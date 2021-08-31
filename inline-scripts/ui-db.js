@@ -159,7 +159,7 @@ function searchWord (value){
 
 	keys.forEach(word=>{		
 		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
-		r = r.concat(data.filter(find))
+		r = r.concat(rootData.data.filter(find))
 	})
  	//sort z-a
  	r.sort((a, b)=>{return b[1] - a[1]});
@@ -168,7 +168,7 @@ function searchWord (value){
  function searchWordV2 (keys,data){
 	var 
 	r = app.filterWord(keys)
-	r = r.concat(data)
+	r = r.concat(rootData.data)
  	//sort z-a
  	r.sort((a, b)=>{return b[1] - a[1]});
 	beforeShow(r)

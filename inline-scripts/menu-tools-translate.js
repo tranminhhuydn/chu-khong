@@ -66,8 +66,8 @@ cmdsearchword.onclick = async(e)=> {
 		return;
 	try {
       const contents = app.getTextSelection()
-      //uidb.searchWord(contents) 
-      app.queryDB(contents)     
+      uidb.searchWord(contents) 
+      //app.queryDB(contents)     
     } catch (ex) {
       console.error('Unable to paste', ex);
       gaEvent('Error', 'findWord', ex.name);

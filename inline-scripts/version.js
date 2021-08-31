@@ -1,1 +1,1 @@
-app.version = "2.6.17"
+app.version = "2.6.18"

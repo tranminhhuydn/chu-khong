@@ -208,11 +208,7 @@ function updateEventObj(e,obj){
 			for(var e in app.boFull[boso]){
 				html += group.replace("{num}",e) 
 				app.boFull[boso][e].forEach(c=>{
-					var cs = c.split(/\t/g)
-					if(Array.isArray(cs) && cs[1]){
-						eval(`cs[1]= decodeURIComponent("\\u{`+cs[1]+`}")`)
-						html+=lineHtml.replace("{kytu}",cs[1])
-					}
+						html+=lineHtml.replace("{kytu}",c)
 				})
 			}
 			html+=""

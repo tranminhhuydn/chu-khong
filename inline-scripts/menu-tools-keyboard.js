@@ -1,8 +1,9 @@
 (function(app) {
 "use strict";
-var {log} = console
-var elekey = ''
-var collectKey = []
+var {log} = console,
+elekey = '',
+collectKey = [],
+{d} = app //document
 app.fnVietToHan = (key)=>{
 	var 
 	find = (v,k,s)=>{var ds = v[1].split(/[\,\;\s]/g);return ds.indexOf(key)!=-1},
@@ -200,46 +201,54 @@ function updateEventObj(e,obj){
 		app.trabo = (boso)=>{
 			var
 			html = ``,
-			group = `<span class="num">{num}</span>`,
-			lineHtml = `<a href="#" onclick="app.insertChar(event)">{kytu}</a>`,
-			conTraBo = document.querySelector("div.conTraBo"),
-			trabo = document.querySelector("div.trabo")
+			conTraBo = d.querySelector("div.conTraBo"),
+			trabo = d.querySelector("div.trabo")
 			trabo.classList.toggle("hidden")
-			for(var e in app.boFull[boso]){
-				html += group.replace("{num}",e) 
-				app.boFull[boso][e].forEach(c=>{
-						html+=lineHtml.replace("{kytu}",c)
-				})
+			conTraBo.innerHTML = '';
+			for(var ee in app.boFull[boso]){
+				setTimeout((e)=>{
+					var 
+					group = d.create('span',{'class':'num'})
+					group.innerHTML = e 
+					conTraBo.append(group)
+					app.boFull[boso][e].forEach(c=>{
+							//html+=lineHtml.replace("{kytu}",c)
+							var
+							a = d.create('a',{'href':'#','onclick':'app.insertChar(event)'})
+							a.innerHTML = c
+							conTraBo.append(a)
+					})
+				}, 1,ee);
 			}
-			html+=""
-			conTraBo.innerHTML = html;
-			
-			
 			return false;
 		}
 		cmdTraBo.onclick=()=>{
-			var 
-			html = `<div class="trabo">`,
-			group = `<span class="num">{num}</span>`,
-			similar = `<span class="similar">{num}</span>`,
-			lineHtml = `<a href="#" title="{title}" onclick ="app.trabo({boso})" >{kytu}</a>`
-
-			for(var e in app.boFull.bo){
-				html += group.replace("{num}",e) 
-				app.boFull.bo[e].forEach(c=>{
-					var cs = c.split(/\t|\s/g)
-					// 0:kytu 1:bo so 2:title 3:sotrang
-					if(cs.length==4)
-						html+=lineHtml.replace("{kytu}",cs[0]).replace("{title}",cs[2]).replace("{boso}",cs[1])
-					else if(cs.length>4)
-						html+=lineHtml.replace("{kytu}",cs[0]).replace("{title}",cs[2]+" "+cs[3]).replace("{boso}",cs[1])
-					else
-						html += similar.replace("{num}",c) 
-				})
-			}
-			html+="</div>"
-			html+=`<a href="#" onclick="document.querySelector('div.trabo').classList.toggle('hidden')">↩</a>`
-			html+=`<hr><div class="conTraBo"></div>`
+			var html = `<div class="trabo"></div><a href="#" onclick="document.querySelector('div.trabo').classList.toggle('hidden')">↩</a><hr><div class="conTraBo"></div>`
 			app.dialog =  uidb.dialogTraBo("Tra Bộ Unicode 6.1.0 Radical-Stroke Index",html)
+			var trabo = d.querySelector("div.trabo")
+			for(var ee in app.boFull.bo){
+				setTimeout((e)=>{
+					var
+					group = d.create('span',{'class':'num','id':'bo'+e})
+					group.innerHTML = e
+					trabo.append(group)
+					app.boFull.bo[e].forEach(c=>{
+						var cs = c.split(/\t|\s/g)
+						// 0:kytu 1:bo so 2:title 3:sotrang
+						if(cs.length==4||cs.length>4){
+							if(cs.length>4)
+								cs[2] = cs[2]+" "+cs[3]
+							var ele = d.create('a',{'href':"#",'title':cs[2],'onclick':"app.trabo("+cs[1]+")"})
+							ele.innerHTML = cs[0]
+							trabo.append(ele)
+						}else{
+							var ele = d.create('span',{'class':"similar"})
+							ele.innerHTML = c
+							trabo.append(ele)
+						}
+					})
+
+				}, 1,ee);
+			}
 		}
 })(app);

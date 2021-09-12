@@ -108,60 +108,14 @@
           <div id="recentContainer" role="menu" class="menuItemContainer hidden">
           </div>
         </div>
-        <!-- <div id="menuEdit" class="menuContainer">
-          <button id="butEdit" class="menuTop" aria-label="Edit" aria-haspopup="true" aria-expanded="false">
-              <span class="kbdShortcut">E</span>dit
-          </button>
-          <div role="menu" class="menuItemContainer hidden">
-            <button id="butCut" type="button" role="menuitem">
-              Cut <kbd>^X</kbd>
-            </button>
-            <button id="butCopy" type="button" role="menuitem">
-              Copy <kbd>^C</kbd>
-            </button>
-            <button id="butPaste" type="button" role="menuitem">
-              Paste <kbd>^V</kbd>
-            </button>
-          </div>
-        </div>   -->      
-
-       <!--  <div id="menuView" class="menuContainer">
-          <button id="butView" class="menuTop" aria-label="View" aria-haspopup="true" aria-expanded="false">
-              <span class="kbdShortcut">V</span>iew
-          </button>
-          <div role="menu" class="menuItemContainer hidden">
-            <button id="butWordWrap" type="button" aria-checked="true" role="menuitemcheckbox">
-              Word Wrap
-            </button>
-            <button id="butMonospace" type="button" aria-checked="false" role="menuitemcheckbox">
-              Monospace Font
-            </button>
-            <button id="butCaptureTabs" type="button" aria-checked="true" role="menuitemcheckbox">
-              Capture Tabs <kbd>^&uparrow;M</kbd>
-            </button>
-            <button id="butFontBigger" type="button" role="menuitem">
-              Increase Font Size
-            </button>
-            <button id="butFontSmaller" type="button" role="menuitem">
-              Decrease Font Size
-            </button>
-          </div>
-        </div> -->
-        
-        
+               
          
             <div class="menuContainer"><button title="Thao tác trước" id="cmdundo" class="menuTop"><i class="material-icons">undo</i></button></div>
             <div class="menuContainer"><button title="Thao tác sau" id="cmdredo" class="menuTop"><i class="material-icons">redo</i></button></div>
           
         
           
-              <div class="menuContainer"><button title="Chọn tất cả" id="cmdselectall" class="menuTop"><i class="material-icons">select_all</i></button></div>
-
-              <div class="menuContainer"><button title="Chép" id="cmdcopy" class="menuTop"><i class="material-icons">content_copy</i></button></div>
-
-              <div class="menuContainer"><button title="Cắt" id="cmdcut" class="menuTop"><i class="material-icons">content_cut</i></button></div>
-
-              <div class="menuContainer"><button title="Dán" id="cmdpaste" class="menuTop"><i class="material-icons">content_paste</i></button></div>
+             
           
             <div class="menuContainer"><button title='Tra từ' id='cmdsearchword' class="menuTop"><i class='material-icons'>search</i></button></div>
             <div class="menuContainer hidden"><button title='Thêm từ mới' id='cmdaddnewword' class="menuTop"><i class='material-icons'>create</i></button></div>
@@ -201,6 +155,7 @@
 
             <div class="menuContainer"><button id='ctrlStyle' title='color' class="menuTop"><i class='material-icons'>color_lens</i></button></div>
             <div class="menuContainer"><button id='cmdHelp' title='help' class="menuTop"><i class='material-icons'>help</i></button></div>
+            <div class="menuContainer"><button id='cmdReport' title='report' class="menuTop"><i class='material-icons'>report</i></button></div>
 
           <div id="menuInstall" class="menuContainer">
             <button id="butInstall" aria-label="Install" class="menuTop hidden"><i class='material-icons' style='display: contents;'>file_download</i>Tải Về</button>
@@ -213,6 +168,23 @@
     </header>
   
     <textarea id="textEditor" autofocus spellcheck="true"></textarea>
+
+<div id="div-context-menu" class="cls-context-menu">
+<!--   <ul>
+    <li><a href="#">item-1 </a></li>
+    <li><a href="#">item-2 </a></li>
+    <li><a href="#">item-3 </a></li>
+  </ul> -->
+  <div class="menuContainer"><button title="Chọn tất cả" id="cmdselectall" class="menuTop"><i class="material-icons">select_all</i></button></div>
+
+  <div class="menuContainer"><button title="Chép" id="cmdcopy" class="menuTop"><i class="material-icons">content_copy</i></button></div>
+
+  <div class="menuContainer"><button title="Cắt" id="cmdcut" class="menuTop"><i class="material-icons">content_cut</i></button></div>
+
+  <div class="menuContainer"><button title="Dán" id="cmdpaste" class="menuTop"><i class="material-icons">content_paste</i></button></div>
+</div>
+
+
 <div id='pluginRecodeText'>
  <input type="file" id="fileAudio">
  <audio id='ctrlAudio' controls></audio>
@@ -276,7 +248,6 @@
     <script src="./inline-scripts/jscd.js" inline></script>
     <script src="./jszip/jszip.min.js" inline></script>
     <script src="./inline-scripts/loadDB.js" inline></script>
-    <script src="./inline-scripts/version.js" inline></script>
 
   </body>
 </html>

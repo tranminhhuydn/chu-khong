@@ -1,4 +1,13 @@
 
+Array.prototype.clone = function(){
+  return this.map(e => Array.isArray(e) ? e.clone() : e);
+};
+Array.prototype.unique = function(){
+	return this.filter((v, i, s) =>{
+	  var findIndex = (e) => e[0] == v[0];
+	  return s.findIndex(findIndex) === i;
+	})
+}
 var hostDB = '//votandang.net/chu-khong';
 //var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
 //import(hostDB+"/person.php?get-list-full-dic");
@@ -19,12 +28,11 @@ var listDBName = [
 
 var uidb = (function (exports) {
   'use strict';
-  var {log}= console
-var host = 'https://tranminhhuydn.github.io/gh-page/'
+	var {log}= console
+	//var host = 'https://tranminhhuydn.github.io/gh-page/'
+	var host = 'https://tranminhhuydn.github.io/chu-khong/json/'
 
-Array.prototype.clone = function(){
-  return this.map(e => Array.isArray(e) ? e.clone() : e);
-};
+
 
 
 var getDBName =(num)=>{
@@ -44,54 +52,45 @@ var getIDDicts =(name)=>{
 //writeScript(listScript)
 
 function filterWord(words,update) {
-	var word;
-	var r = []; 
-	var currentDBOfUser = null
-
-	function _filterWord(i) {
-	  if(i[4]=="object"){
-	  	try{
-		  	var obj = JSON.parse(i[3])
-		  	i[3] ='';
-		  	for (var o  in obj){
-		  		if(obj[o].trim().length!=0)
-		  		i[3] +=o +': '+obj[o]+"<br>"
-		  	}
-		}catch(e){
-			if(typeof(i[3])==="object"){
-				var obj = i[3]
-		  		i[3] ='';
-		  		for (var o  in obj){
-			  		if(obj[o].trim().length!=0)
-			  		i[3] +=o +': '+obj[o]+"<br>"
-			  	}
-	  		}
-		  }
-	  }
-	  return i[1]==word||i[7]==word
-	}
-	function _filter() {
-
-	 	for (var o  in personaldb) {
-			var ele = personaldb[o].clone()
-		
-			var r1 = ele.filter(_filterWord)
-			// log(r1)
-			var r2 = []
-
-			if(r1.length!=0){
-				r2[0]=[r1[0][0],r1[0][1],r1[0][2],r1[0][3],r1[0][4],r1[0][5],r1[0][6],r1[0][7],r1[0][8]]
-				r2[0][8]=o.replace('.js','')//+"<br>"+r2[0][1]
-			}
-			r = r.concat(r2)
-		}
-
-		if(word.trim().length==0)
+	var word,
+	r = [],
+	currentDBOfUser = null, 
+	personFilter = (v,k,s)=>{
+		return v[0]==word||v[5]==word
+	},
+	filter = ()=>{
+		word = word.trim()
+		if(word.length==0)
 			return;
+		for (var o in personaldb) {
+	 		var person = personaldb[o],
+	 		r1 = person.filter(personFilter),
+	 		r2 = []
+	 		if(r1.length!=0){
+	 			var c ='',
+	 			v = r1[0], key1 = v[0], length = v[1], mean = v[2], key2 = v[5]
+
+				if((mean.split && mean.indexOf('từ kép')!=-1) //string
+					|| mean['từ kép'] //object
+				){
+					if(mean.split && mean.indexOf('từ kép')!=-1) //string
+						mean = JSON.parse(mean)
+					for (var o1 in mean){
+				  		if(mean[o1].trim().length!=0)
+				  		c +='<b>'+o1 +'</b>: '+mean[o1]+"<br>"
+				  	}
+				}else
+					c = mean
+				var username = o.split('@')
+				username = username[0]
+				r2[0] = [v[0],v[1],c,v[3],v[4],v[5],username]
+	 			r = r.concat(r2)
+	 		}
+	 	}
 	}
 	words.forEach(ele1=>{
 		word = ele1
-		_filter()
+		filter()
 	})
 
  	return r;
@@ -113,7 +112,7 @@ beforeShow = (value) =>{
         var r1,sr,r= value
         var l = [],
         rOrder = [],
-        r1 = r.filter((v,k,s)=>{if(v.length==9) return v})
+        r1 = r.filter((v,k,s)=>{if(v.length==7) return v})
         
         //order by
         rOrder = listOrder.map((v,k,s)=>{
@@ -130,17 +129,23 @@ beforeShow = (value) =>{
                 c = [e[0],e[4],e[2].replace(/\n/g,'<br>'),uidb.getDBName(e[3])].join("<br>")
                 l.push(c)
             }
-            if(e.length==9){
+
+            if(e.length==7){
                 //log(e)
-                var tuLoai = e[4]
+                var tuLoai = e[3],
+                key = e[0]
                 if(tuLoai=="object")
                     tuLoai = ""
-                c = [e[1]+" / "+e[7],e[3],tuLoai,e[8]].join("<br>").replace("<br><br>","<br>")
+                
+                if(e[5] && e[5].trim && e[5].trim().length!=0)
+                	key += " / "+e[5]
+                c = [key,e[2],tuLoai,e[6]].join("<br>").replace("<br><br>","<br>")
                 l.push(c)
             }
         })
         
         r=l
+        r = r.unique()
         uidb.showWord('Tìm',r,`<button title='Thêm từ mới' id='cmdaddnewword2' class="menuTop" style="float:right"><i class='material-icons'>create</i></button>`)
     
     })()
@@ -180,7 +185,6 @@ function searchWord (value){
 	//fulldicStore.set(name,fulldic_zsql[name])
 	personalStore.set(name,personaldb[name])
 	countLoadScript++
-	//persenDBLoad()
  	
 	if(countLoadScript == listScript.length){
 
@@ -316,7 +320,6 @@ function _addScript(src){
  }
  function reloadDB(){
  	fulldic_zsql = []
- 	// persenDBLoad()
  	fulldicStore.clear()
  	//loadScript()
  }
@@ -325,7 +328,6 @@ function _addScript(src){
  	_addScript('tranminhhuydn@gmail.com.js')
  }
 
- // exports.persenDBLoad = persenDBLoad;
  exports.reloadDB = reloadDB;
  exports.loadScript = loadScript;
  exports.overlayPage = overlayPage;
@@ -343,16 +345,31 @@ function _addScript(src){
 }({}));
 
 //desable oncontextmenu in screen toutch
+var rgtClickContextMenu = document.getElementById('div-context-menu');
+
+/** close the right click context menu on click anywhere else in the page*/
+document.onclick = function(e) {
+  rgtClickContextMenu.style.display = 'none';
+}
+
+
 app.textArea.oncontextmenu = (event)=>{
-	var e = event || window.event;
-	e.preventDefault && e.preventDefault();
-  	e.stopPropagation && e.stopPropagation();
-  	return false;
+	// var e = event || window.event;
+	// e.preventDefault && e.preventDefault();
+	// e.stopPropagation && e.stopPropagation();
+	// return false;
+ 	event.preventDefault();
+    rgtClickContextMenu.style.left = event.pageX + 'px'
+    rgtClickContextMenu.style.top = event.pageY + 'px'
+    rgtClickContextMenu.style.display = 'block'
+    return false;
 }
 	
 var closer,setIgnoreFocusOutSmsBox
 
 window.addEventListener("load",()=>{
+	
+	cmdReport.classList.toggle('hidden')
 	
 	appStore.get('user').then(o=>{
 		if(o!=null){

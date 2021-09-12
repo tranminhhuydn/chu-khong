@@ -17,7 +17,12 @@
 'use strict';
 
 (function(app) {
-  const textArea = document.getElementById('textEditor');
+  var d = document
+  d.id = (id) => d.getElementById(id)
+  d.create = (tag,objs)=>{var c = d.createElement(tag); for(var attr in objs) c.setAttribute(attr,objs[attr]); return c}
+  app.d = d
+
+  const textArea = d.id('textEditor');
 
   /* Setup the main textarea */
   textArea.addEventListener('input', () => {
@@ -101,7 +106,7 @@
       return before.substring(startPos, endPos);
   }
   app.getTextPreviousLine = ()=>{
-    var textArea = document.getElementById('textEditor');
+    var textArea = d.id('textEditor');
     var linePrevious = textArea.value.lastIndexOf('\n',textArea.selectionStart-2)
     linePrevious=linePrevious==-1?0:linePrevious
     //console.log(linePrevious);

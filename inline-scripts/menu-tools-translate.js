@@ -37,6 +37,12 @@ function dragLeave(ev) {
   }
 }
 
+Date.prototype.diffSeconds = function (date) {return Math.abs(this.getTime() - date.getTime())/1000;};
+// Array.prototype.delete = function(key){
+// 	var i = typeof(key)=='function'? this.findIndex(key):this.indexOf(key)
+// 	return this.splice(i,1)
+// }
+
 (function(app) {
 "use strict";
 var {log} = console;
@@ -128,25 +134,25 @@ app.dragEndlistInorderTranslate = (ev)=>{
 cmdtranslateoffline.oncontextmenu = () =>{
 	(async function() {
 
-	var r = await personalStore.keys()
-	if (r==null|| r.length==0) return;
+		var r = await personalStore.keys()
+		if (r==null|| r.length==0) return;
 
-	var iT = await appStore.get('list-inorder-translate')
+		var iT = await appStore.get('list-inorder-translate')
 
-	if(iT && iT.length>=r.length)
-		r = iT
+		if(iT && iT.length>=r.length)
+			r = iT
 
-//await personalStore.get(e)
-	var html = '',line = `<div id="tdb-drop-{id}" class = "droptarget" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><div id="tdb-drag-{id}"><span draggable="true"  ondragstart="drag(event)" ondragend="app.dragEndlistInorderTranslate(event)" class='cmd'> ↕ :: </span><span class='text'>{name}</span> <span class='rootText'>{rootName}</span><span class='count'> ({count})</span></div></div>`
-	r.forEach((e,i)=>{
-		var v = personaldb[e].length 
-		var c =  e.split("@")
-		html+=line.replace("{name}",c[0]).replace("{rootName}",e).replace("{count}",v).replace(/\{id\}/g,i)
-	})
+	//await personalStore.get(e)
+		var html = '',line = `<div id="tdb-drop-{id}" class = "droptarget" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" ondrop="drop(event)" ondragover="allowDrop(event)"><div id="tdb-drag-{id}"><span draggable="true"  ondragstart="drag(event)" ondragend="app.dragEndlistInorderTranslate(event)" class='cmd'> ↕ :: </span><span class='text'>{name}</span> <span class='rootText'>{rootName}</span><span class='count'> ({count})</span></div></div>`
+		r.forEach((e,i)=>{
+			var v = personaldb[e].length 
+			var c =  e.split("@")
+			html+=line.replace("{name}",c[0]).replace("{rootName}",e).replace("{count}",v).replace(/\{id\}/g,i)
+		})
 
-	var ctrl = uidb.smsBox('Dữ liệu dịch offline',html),
-	c = ctrl.closer.querySelector("div[id]"),
-	divs = c.querySelectorAll('div')
+		var ctrl = uidb.smsBox('Dữ liệu dịch offline',html),
+		c = ctrl.closer.querySelector("div[id]"),
+		divs = c.querySelectorAll('div')
 	})({});
 	return false;
 }
@@ -154,33 +160,11 @@ cmdtranslateoffline.onclick = ()=>{
 	var startPos = textArea.selectionStart;
 	var text = app.getTextPreviousLine();
 
-	var r = personalCtrl.searchWord(text)
-	for (var i=0; i < r.length; i++) {
-		var fstr,k = r[i][1],c=r[i][3],t=r[i][4],k2 = r[i][7]
-		//4 = "object"
-		if(t=="object"){
-			try{
-
-				c = JSON.parse(c)
-				console.log(c);
-				fstr = firstStr(c['từ kép'])
-				text = text.replace(new RegExp(k,'g'),fstr+" ")
-				if(k2.trim().length!=0)
-					text = text.replace(new RegExp(k2,'g'),fstr+" ")
-			}catch(e){
-				console.log(c);
-				fstr = firstStr(c['từ kép'])
-				text = text.replace(new RegExp(k,'g'),fstr+" ")
-				if(k2.trim().length!=0)
-					text = text.replace(new RegExp(k2,'g'),fstr+" ")
-			}
-		}else{
-			fstr = firstStr(c)
-			text = text.replace(new RegExp(k,'g'),firstStr(c)+" ")
-			if(k2 && k2.trim().length!=0)
-				text = text.replace(new RegExp(k2,'g'),fstr+" ")
-		}
-	};
+	var r = personalCtrl.translate(text)
+	log(r.time)
+	cmdReport.classList.toggle('hidden',false)
+	app.logDetail = r.logDetail
+	text = r.text
 	var contents = text
 	app.insertIntoDoc(contents)
 	var newPos = startPos + contents.length;
@@ -194,6 +178,11 @@ cmdgtranslate.onclick = ()=> {
 	myFrame.contentWindow.postMessage(text)
 }
 
+cmdReport.onclick = ()=>{
+		var 
+		html = app.logDetail.map((v)=>{return [v[0],v[1]]}),
+		ctrl = uidb.showWord('Từ đã tra',html)
+}
 
 //ok
 })(app);
@@ -203,5 +192,4 @@ window.addEventListener("message", (event) => {
 	if(data && data.key == "google-translate"){
 		app.insertIntoDoc(data.text)
 	}
-	console.log(event.data);  
 }, false);

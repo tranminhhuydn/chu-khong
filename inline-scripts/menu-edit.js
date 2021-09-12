@@ -17,71 +17,44 @@
 'use strict';
 
 (function(app) {
-  // const menuEdit = document.getElementById('menuEdit');
-  // myMenus.setup(menuEdit);
-
-  // document.getElementById('butCut').addEventListener('click', () => {
-  //   myMenus.hide(menuEdit);
-  //   document.execCommand('cut');
-  //   gaEvent('Edit', 'Cut');
-  // });
-
-  // document.getElementById('butCopy').addEventListener('click', () => {
-  //   myMenus.hide(menuEdit);
-  //   document.execCommand('copy');
-  //   gaEvent('Edit', 'Copy');
-  // });
-
-  // document.getElementById('butPaste').addEventListener('click', async () => {
-  //   myMenus.hide(menuEdit);
-  //   try {
-  //     const contents = await navigator.clipboard.readText();
-  //     app.insertIntoDoc(contents);
-  //     app.setModified(true);
-  //     app.setFocus();
-  //     gaEvent('Edit', 'Paste');
-  //   } catch (ex) {
-  //     console.error('Unable to paste', ex);
-  //     gaEvent('Error', 'Paste', ex.name);
-  //   }
-  // });
-
-  document.getElementById('cmdundo').addEventListener('click', () => {
-    document.execCommand('undo');
+  var {d} = app
+  d.id('cmdundo').addEventListener('click', () => {
+    d.execCommand('undo');
     gaEvent('Edit', 'undo');
   });
 
-  document.getElementById('cmdredo').addEventListener('click', () => {
-    document.execCommand('redo');
+  d.id('cmdredo').addEventListener('click', () => {
+    d.execCommand('redo');
     gaEvent('Edit', 'redo');
   });
-  document.getElementById('cmdselectall').addEventListener('click', () => {
-    document.execCommand('selectall');
+  d.id('cmdselectall').addEventListener('click', () => {
+    d.execCommand('selectall');
     gaEvent('Edit', 'selectall');
   });
-  document.getElementById('cmdcopy').addEventListener('click', () => {
-    document.execCommand('copy');
+  d.id('cmdcopy').addEventListener('click', () => {
+    d.execCommand('copy');
     gaEvent('Edit', 'copy');
   });
- document.getElementById('cmdcut').addEventListener('click', () => {
-    document.execCommand('cut');
+ d.id('cmdcut').addEventListener('click', () => {
+    d.execCommand('cut');
     gaEvent('Edit', 'cmdcut');
   });
- document.getElementById('cmdpaste').addEventListener('click',async () => {
-    try {
-      const contents = await navigator.clipboard.readText();
-      app.insertIntoDoc(contents);
-      app.setModified(true);
-      app.setFocus();
-      gaEvent('Edit', 'Paste');
-    } catch (ex) {
-      console.error('Unable to paste', ex);
-      gaEvent('Error', 'Paste', ex.name);
-    }
-    gaEvent('Edit', 'cmdpaste');
+ d.id('cmdpaste').addEventListener('click', () => {
+    navigator.clipboard.readText().then(contents=>{
+      try {
+        app.insertIntoDoc(contents);
+        app.setModified(true);
+        app.setFocus();
+        gaEvent('Edit', 'Paste');
+      } catch (ex) {
+        console.error('Unable to paste', ex);
+        gaEvent('Error', 'Paste', ex.name);
+      }
+      gaEvent('Edit', 'cmdpaste');
+    })
   });
-  document.getElementById('cmdHelp').addEventListener('click', () => {
-    //document.execCommand("insertText", false, "the text to insert");
+  d.id('cmdHelp').addEventListener('click', () => {
+    //d.execCommand("insertText", false, "the text to insert");
     gaEvent('Edit', 'cmdHelp');
   }); 
 

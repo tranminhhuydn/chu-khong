@@ -1,112 +1,129 @@
-//var listScriptPersonal=[]
 var hostDB = '//votandang.net/chu-khong';
 //var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
 //import(hostDB+"/person.php?get-list-user")
-var personaldb = {}
 
+Array.prototype.delete = function(key){
+	var i = typeof(key)=='function'? this.findIndex(key):this.indexOf(key)
+	return this.splice(i,1)
+}
+Array.prototype.clone = function(){
+  return this.map(e => Array.isArray(e) ? e.clone() : e);
+};
+Array.prototype.unique = function(){
+	return this.filter((v, i, s) =>{
+	  var findIndex = (e) => e[0] == v[0];
+	  return s.findIndex(findIndex) === i;
+	})
+}
+
+var 
+personaldb = {},
+{d} = app
 var personalCtrl = (function (exports) {
  	'use strict';
 
-	var host = hostDB+"/personal/"
+	var 
+	{log} = console,
+	host = hostDB+"/personal/",
+	translate = (srcText)=>{
+		var
+		escapes = /[0-9a-zA-Zà-ỹÀ-Ỹ，。\/；【】=-~！@#￥%……&*（）——+{}‘’“”：？》《、]/g,
+		timeTranslate  = new Date(), logDetail = [], count = 0, 
+		srcString = srcText.replace(escapes,''), // string to length
+		countStr = srcString.length,
+		preparePersonList = ()=>{ var i,c = []; for (i in personaldb) c.push(i);return c;},
+		personTranslate = (db)=>{
+			var c, done = false,
+			text = srcText,
+			replacer = (match,point,offset,string)=>{
+				//log(match+" "+c[0])
+				count += match.length
+				if(!/\d/g.test(match))
+				logDetail.push([match,c[0],match.length])
 
-	function split(next,removeSpecial,input){
-	  var text = input
-	  ,strArr = []
-	  function unique(k){
-	    for (var i = 0; i < strArr.length; i++) {
-	      if(strArr[i]==k)
-	        return i;
-	    }
-	    return -1
-	  }
-	  //.for (var i = 0; i < text.length; i+=next) {
-	  text=text.replace(/[a-zA-Z0-9]/g,"")
-	  text=text.replace(/[〈…；、：『』，？。「」！【】《》“”\(\)\"\[\]\'\:\;\>\<\,\.\?\/\\\|\+\=\-\%\$\#\@\!\~\`\′]/g,"")
+				if(count>=countStr)
+					done = true
+				return c[0]+" "
+			}
+			db.sort((a,b)=>{return b[2]-a[2]})
+			for(var i =0;i<db.length;i++){
+				// cu va moi
+				// 1 la 0 ->key1
+				// 2 la 1 ->length
+				// 3 la 2 ->mean
+				// 7 la 5 ->key2
+				var v = db[i],
+				key1 = v[0],
+				length = v[1],
+				mean = v[2],
+				key2 = v[5]
 
-	  text = text.replace(/[\n\s]/g,'')
+				if(done) break;
 
-	  for (var i = 0; i < text.length; i++) {
-	    var ele = ''
-	    ,j = 0
-
-	    if(i+next<=text.length)
-	    ele = text.slice(i,i+next)
-
-	    if(removeSpecial!=(undefined||null))
-	      ele = ele.replace(removeSpecial,'')
-
-	    if(ele.length==next && unique(ele)==-1)
-	      strArr.push(ele)
-	  }
-	  return strArr
+				if(mean['từ kép']){ //object
+					c = mean['từ kép'].split(/[\,\;\|]/g)
+				}else if(mean.split && mean.indexOf('từ kép')!=-1){//string
+					var row = JSON.parse(mean)
+					c = row['từ kép'].split(/[\,\;\|]/g)
+				}else{
+					c = mean.split(/[\,\;\|]/g)
+				}
+				var
+				keys = key1
+				if(key2 && key2.trim && key2.trim().length!=0){
+					keys += "|"+key2
+				}
+				text = text.replace(new RegExp(keys,'g'),replacer)
+			}
+		},
+		it = app.listInorderTranslate.length != 0? app.listInorderTranslate: preparePersonList()
+		for (var j = 0; j < it.length; j++) {
+			var e = it[j],
+			db = personaldb[e]
+			//if(done) break;
+			personTranslate(db)
+		}
+		var 
+		text = srcText
+		logDetail = logDetail.filter(unique)
+		logDetail.sort((a,b)=>{return b[2]-a[2]})
+		//logDetail [key,nghia,length]
+		logDetail.forEach((v)=>{
+			text = text.replace(new RegExp(v[0],'g'),v[1]+' ')
+		})
+		text = text.trim()
+		return {text:text,logDetail:logDetail,count:count,length:countStr,time:timeTranslate.diffSeconds(new Date())};//
+	},
+	unique = (v, i, s) =>{
+	  var findIndex = (e) => e[0] == v[0];
+	  return s.findIndex(findIndex) === i;
 	}
-	function splitLine(currentLine){
-		var paragraphHasSplit = []
-	  for (var i = 14; i >=1; i--) {
-	    paragraphHasSplit = paragraphHasSplit.concat(split(i,null,currentLine))
-	  }
-	  return paragraphHasSplit
-	}
-
 	function filterWord(words,update) {
-		var word;
-		var r = []; 
-
-		//var arr = [[1, 2], [3, 4], [5,7]];
-
-		async function asyncFilter (arr, predicate) {
-			var results = await Promise.all(arr.map(predicate)).then();
-			return arr.filter((_v, index) => results[index]);
-		}
-
-		// var asyncRes = await asyncFilter(arr, async (i) => {
-		// 	return i[1] % 2 === 0;
-		// });
-
-		function _filterWord(i) {
-		  return i[1]==word||i[7]==word
-		}
-		 function _filter() {
-		 	var it = app.listInorderTranslate
-		 	if(it.length!=0){
-		 		for (var i = 0; i < it.length; i++) {
-		 			var e = it[i]
-		 			var ele = personaldb[e]
-		 			var r1 = ele.filter(_filterWord)
+		var word,
+		r = [], 
+		preparePersonList = ()=>{ var i,c = []; for (i in personaldb) c.push(i);return c;},
+		fnFilter = () => {
+		 	var i, it = app.listInorderTranslate.length!=0?app.listInorderTranslate:preparePersonList()
+		 		for (i = 0; i < it.length; i++) {
+		 			var e = it[i],
+		 			ele = personaldb[e],
+		 			r1 = ele.filter((v) => { return v[1]==word||v[7]==word })
 			 		r = r.concat(r1)
 		 		}
-		 	}else{
-
-			 	for (var i in personaldb) {
-			 		//console.log(i);
-			 		//personaldb[i]
-			 		var ele = personaldb[i]
-			 		var r1 = ele.filter(_filterWord)
-			 		r = r.concat(r1)
-			 	}
-		 	}
-			// personaldb.forEach(ele=>{
-			// 	// asyncFilter(ele,_filterWord).then(r1=>{
-			// 	// 	r = r.concat(r1)
-			// 	// })
-			// 	r = r.concat(ele.filter(_filterWord))
-			// 	//console.log();	
-			// })
 		}
 		if(Array.isArray(words)){
 			words.forEach(ele1=>{
 				word = ele1
-				_filter()
+				fnFilter()
 			})
 	 	}else{
 	 		word = words
-			_filter()
+			fnFilter()
 	 	}
 	 	//sort z-a
 	 	r.sort(function(a, b){
 	    	return b[2] - a[2] 
 		});
-
 	 	return r;
 	}
 		
@@ -116,60 +133,27 @@ var personalCtrl = (function (exports) {
 		});
 	}
 
-	function searchWord (value){
-		var r1 = splitLine(value)
-		//console.log(r1);
-		var r = filterWord(r1)
-		return r;
-		
-	 }
 	function searchWordForm (email,word){
-		var r = []; 
-		function _filterWord(i) {
-		  return i[1]==word||i[7]==word
-		}
-		function _filter() {
-	 		var ele = personaldb[email]
-	 		if(ele)
-	 			r = r.concat(ele.filter(_filterWord))
-	 		else
-	 			alert(email+' không tồn tại')
-		}
-	 	_filter()
+		var r = [],
+ 		ele = personaldb[email]
+ 		if(ele)
+ 			r = r.concat(ele.filter((i)=>{return i[0]==word||i[5]==word}))
+ 		else
+ 			alert(email+' không tồn tại')
 		return r;	
 	 }
 	function searchWordUpdate (email,word,callback){
 		var logIndex = -1;
-		function _filterWord(i,index) {
-			//console.log(index);
-			if(i[1]==word||i[7]==word)
-				logIndex=index
-			return i[1]==word||i[7]==word
-		}
-		function _filter() {
-	 		var ele = personaldb[email]
-	 		if(ele){
-	 			ele.filter(_filterWord)
-	 		}
-	 		else
-	 			alert(email+' không tồn tại')
-		}
-	 	_filter()
+ 		var person = personaldb[email]
+ 		if(person)
+ 			person.filter((v,i) =>{logIndex = i; return v[0]==word||v[5]==word})
+ 		else
+ 			alert(email+' không tồn tại')
+
 	 	if(callback)
 	 		callback(logIndex)
 	 }
 	var countLoadScript = 0;
-	function persenDBLoad (){
-		// tổng số countLoadScript = tính personalStore và listScriptPersonal
-		// có hai trường hợp
-		// trường hợp 1 
-		// 	personalStore = 0 thì chỉ tính từ listScriptPersonal
-		// trường hợp 2 
-		// 	personalStore != 0 thì countLoadScript + từ personalStore và listScriptPersonal
-
-		// if(document.querySelector('#resultDBLoad'))
-		// document.querySelector('#resultDBLoad').value =  Math.round(personaldb.length*100/118)+"%"
-	}
 	function checkLoadScript(event){
 	 	var s = event.path[0].src.split("/")
 	 	var name = s[s.length-1]
@@ -180,7 +164,6 @@ var personalCtrl = (function (exports) {
 				console.log("New user: "+name);
 				personalStore.set(name,personaldb[name])
 				countLoadScript++;
-				persenDBLoad()
 			}
 		})
 
@@ -202,7 +185,6 @@ var personalCtrl = (function (exports) {
 	}
 	 function reloadDB(){
 	 	personaldb = []
-	 	persenDBLoad()
 	 	//personalStore.clear()
 	 	//addScript(listScriptPersonal)
 	 }
@@ -233,11 +215,9 @@ var personalCtrl = (function (exports) {
 
 	 exports.searchWordForm = searchWordForm;
 	 exports.searchWordUpdate = searchWordUpdate;
-	 exports.persenDBLoad = persenDBLoad;
 	 exports.reloadDB = reloadDB;
-	 // exports.addScript = addScript;
-	 exports.searchWord = searchWord;
 	 exports.loadScript = loadScript;
+	 exports.translate = translate;
 
 	 return exports;
 
@@ -405,36 +385,32 @@ function getListDay(year1,month1,day1){
 function downloadDB(obj,callBack){
 	dialogPersendShareWord.parentElement.classList.remove('hidden')
 
-	var countDownload =0,persend = 0
-	var listSrc = getListDay(Number(obj.y),Number(obj.m),Number(obj.d)),
-	list = []
-	//console.log(listSrc);
-
-
-	function eachDB(dbTime,callBack){
+	var 
+	countDownload =0,
+	persend = 0,
+	listSrc = getListDay(Number(obj.y),Number(obj.m),Number(obj.d)),
+	list = [],
+	eachDB = (dbTime,callBack)=>{
 		for(var t in dbTime){
-			console.log(t);
-			console.log(dbTime[t]);
+			//console.log(t);
+			//console.log(dbTime[t]);
 			for(var user in dbTime[t]){
-				var infor = user.split(";")
-				var userEmail = infor[0] 
-				var device = infor[1]
-				//console.log(user);
-				var rows =dbTime[t][user]
+				var infor = user.split(";"),
+				userEmail = infor[0],
+				device = infor[1],
+				rows = dbTime[t][user]
 				if(callBack)
 					callBack(t,userEmail,device,rows)
 			}
 		}
-	}
-	function _downloadDB(index,max,callBack){	
-
+	},
+	_downloadDB = (index,max,callBack) => {	
 		get(hostDB+"/index.php?file="+list[index],(d,body)=>{
 			//console.log(d);
 			if(d==false){
 				alert('Xuất hiện lỗi trong khi đồng bộ dữ liệu, xin thử lại lúc khác.')
 				return;
 			}
-
 			//show persend loadder
 			persend = ((index+1)*100/max)
 			
@@ -448,31 +424,29 @@ function downloadDB(obj,callBack){
 				console.log(t,userEmail,device,rows);
 				rows.forEach(ele=>{
 					//console.log(e[1][1]);
-					var e = JSON.parse(ele)
-					var text = e[1][1]
-					var emailjs = userEmail+".js"
+					var e = JSON.parse(ele),
+					text = e[1][0],
+					emailjs = userEmail+".js"
 
 					countDownload++;
-					
-					
-					callBack && callBack(countDownload)
-					personalCtrl.searchWordUpdate(emailjs,text,(index)=>{
-						console.log(index);
-						console.log(e[1]);
-						if(index!=-1){
-							personaldb[emailjs][index]=e[1]
-						}else{
-							personaldb[emailjs].push(e[1])
-						}
-						personalStore.set(emailjs,personaldb[emailjs])
-					})
-				})
 
+					callBack && callBack(countDownload)
+
+					var person = personaldb[emailjs],
+					r = person.findIndex((v,k,s)=>{return v[0]==text||v[5]==text})
+					console.log(text)
+					console.log(r)
+					if(r.length == 0){ //add new
+						personaldb[emailjs].push(e[1])
+					}else{ //update
+						personaldb[emailjs][index]=e[1]
+					}
+					personalStore.set(emailjs,personaldb[emailjs])
+				})
 			})			
 
 			var dateupdate = list[index].replace(/\//g,'-').replace('.json','')+" "+(new Date()).toLocaleTimeString();
 			appStore.set('date-update',dateupdate)
-
 			if(index<max-1){
 				index++;
 				_downloadDB(index,max,callBack)
@@ -482,22 +456,22 @@ function downloadDB(obj,callBack){
 	//console.log(list);
 	getPromise(hostDB+"/index.php?getListUpdate")
 	.then(body=>{
-        var listJson = JSON.parse(body);
+    var length, listJson = JSON.parse(body);
 		list = listSrc.filter((v,k,f)=>{return listJson.indexOf(v)!=-1 })
-		//console.log(list);
-		if(list.length){
+		length = list.length
+		if(length){
 			index = 0;
-			_downloadDB(index,list.length,callBack)
+			_downloadDB(index,length,callBack)
 		}
 	})
 	.catch(e=>{
 		alert(e)
 	});
-	
 }
 
-var dialogShareWord, dialogDownloadWord, dialogStatus, dialogPersendShareWord
-var updateEventSyncdb = (dialog)=>{
+var dialogShareWord, dialogDownloadWord, dialogStatus, dialogPersendShareWord,
+crltSmSBox,
+updateEventSyncdb = (dialog)=>{
 		function syncdb (callBack) {
 			var data = new FormData();
 			appStore.get('user').then(u=>{
@@ -531,10 +505,10 @@ var updateEventSyncdb = (dialog)=>{
 				
 			})
 		}
-	dialogShareWord = document.querySelector('#dialogShareWord')
-	dialogDownloadWord = document.querySelector('#dialogDownloadWord')
-	dialogStatus = document.querySelector('#dialogStatus')
-	dialogPersendShareWord = document.querySelector('#dialogPersendShareWord .myBar')
+	dialogShareWord = d.querySelector('#dialogShareWord')
+	dialogDownloadWord = d.querySelector('#dialogDownloadWord')
+	dialogStatus = d.querySelector('#dialogStatus')
+	dialogPersendShareWord = d.querySelector('#dialogPersendShareWord .myBar')
 	updateStatus(dialogShareWord)
 
 	dialogShareWord.onclick = ()=>{
@@ -544,7 +518,8 @@ var updateEventSyncdb = (dialog)=>{
 		//alert('hôm nay dữ liệu đã cập nhật '+countDownload+' từ')
 		appStore.get('date-update').then(d=>{
 			if(d==null){
-				d='2020-12-25 05:00:00'
+				d='2021-9-12 00:00:00'
+				//d='2020-12-25 05:00:00'
 				//d='2021-08-01 05:00:00'
 			}
 			downloadDB(dateParse(d),(count)=>{
@@ -563,21 +538,21 @@ var updateEventSyncdb = (dialog)=>{
 				// console.log(user.email)
 				var dic = personaldb[user.email+".js"]
 				dic.forEach(i=>{
-					var nghia = i[3], kytu= i[1]
-					kytu =(i[7]!=null|| (i[7]&&i[7].length!=0))?i[1]+"/"+i[7]:i[1];
-					tuLoai = "Từ loại: "+i[4]
-				  if(i[4]=="object"){
+					var nghia = i[2], kytu= i[0]
+					kytu =(i[5]!=null|| (i[5]&&i[5].length!=0))?i[0]+"/"+i[5]:i[0];
+					tuLoai = "Từ loại: "+i[3]
+				  if(i[3]=="object"){
 				  	tuLoai =''
 				  	try{
-					  	var obj = JSON.parse(i[3])
+					  	var obj = JSON.parse(i[2])
 					  	nghia ='';
 					  	for (var o  in obj){
 					  		if(obj[o].trim().length!=0)
 					  		nghia +=o +': '+obj[o]+"<br>"
 					  	}
 						}catch(e){
-							if(typeof(i[3])==="object"){
-								var obj = i[3]
+							if(typeof(i[2])==="object"){
+								var obj = i[2]
 					  		nghia ='';
 					  		for (var o  in obj){
 						  		if(obj[o].trim().length!=0)
@@ -595,22 +570,24 @@ var updateEventSyncdb = (dialog)=>{
 		dialog.closer.click()
 	}
 	
-}
-// cmdsyncdb.onclick = ()=>{
-	
-// 	var html = `
-// 	<button id='dialogShareWord' class="menuItemContainer twoIcon"><i class='material-icons'>a</i><i class='material-icons icon2'>cloud_upload</i><span>(0)</span></button> Chia sẽ các từ của tôi<br>
-// 	<button id='dialogDownloadWord' class="menuItemContainer"><i class="material-icons">cloud_download</i></button> Cập nhật từ mới <br>
-// 	<div id='dialogPersendShareWord' class="myProgress hidden"><div class="myBar"></div></div>
-// 	<span id='dialogStatus'></span>
-// 	` 
-// 	var c = uidb.smsBox('Đồng bộ',html)
-// 	updateEventSyncdb(c)
-// 	return;
-// }
-
+},
+affterLoginCreateDb =(o) =>{
+	appStore.get('user').then(r=>{
+			console.log('new user set');
+			appStore.set('user',o).then(r=>{
+				if(crltSmSBox){
+					crltSmSBox.querySelector('button').onclick()
+					cmdUser.querySelector('.material-icons').innerHTML='person'
+				}
+				console.log('set ok');
+				//window.location = window.location.href.replace('person.php',"app/index.html")
+			})
+	})
+} 
 cmdaddnewword.addEventListener("click", ()=>{
-	var text = app.getTextSelection();
+	var 
+	{d} = app,
+	text = app.getTextSelection();
 
 	var icheck = new RegExp(app.VI0,'g')
 	if(icheck.test(text)){
@@ -619,63 +596,52 @@ cmdaddnewword.addEventListener("click", ()=>{
 	}
 	if(text.length==0)
 		return;
-	function updateEvent(r,ctrl,emailjs){
+	function updateEvent(srcdb,ctrl,emailjs){
 		
-		var cmdgianthe2 = document.querySelector("#cmdgianthe2")
-		var cmdphienam2 = document.querySelector("#cmdphienam2")
-		var cmdphienam3 = document.querySelector("#cmdphienam3")
-		var dialog = document.querySelector("#insertDialog")
-		var dbkey2 = document.getElementById("dbkey2")
-		var tukep = document.getElementById("dbtừ kép")
-		var dbNewWord = dialog.querySelector("#dbNewWord")
-		var fillRecode = (i)=>{
-				var objs = JSON.parse(i[3])
-			  	for (var o  in objs){
-			  		var c = document.getElementById("db"+o)
-						if(c) c.value = objs[o]
-			  	}
-		}
-		function builtRecodeDB(){
+		var 
+		r = srcdb.clone()
+		cmdgianthe2 = d.querySelector("#cmdgianthe2"),
+		cmdphienam2 = d.querySelector("#cmdphienam2"),
+		cmdphienam3 = d.querySelector("#cmdphienam3"),
+		dialog = d.querySelector("#insertDialog"),
+		dbkey2 = d.id("dbkey2"),
+		tukep = d.id("dbtừ kép"),
+		dbNewWord = dialog.querySelector("#dbNewWord"),
+		fillRecode = (i)=>{
+			var objs = JSON.parse(i[2])
+	  	for (var o in objs){
+	  		var c = d.id("db"+o)
+				if(c) c.value = objs[o]
+	  	}
+		},
+		builtRecodeDB = () => {
 			var ob={}
 			var keyTemplate = ['từ kép','danh từ','động từ','tính từ','trạng từ','thuật ngữ','giới từ','phó từ','số từ']
 			keyTemplate.forEach(e=>{
-				var ele = document.getElementById("db"+e)
+				var ele = d.id("db"+e)
 				if(ele.value.trim().length!=0)
 					ob[e] = ele.value.trim()
 			})
 			ob=JSON.stringify(ob)
 			console.log(ob);
-			//return ob
 			return ob
 		}
 		if(r[0]){
-			if(r[0][4]=='object'){
-				//console.log(r[0][3]);
-				// var objs = JSON.parse(r[0][3])
-				// for(o in objs){
-				// 	var c = document.getElementById("db"+o)
-				// 	if(c) c.value = objs[o]
-				// }
+			if(r[0][3]=='object'){
 				var i = r[0]
 				try{
 			  	fillRecode(i)
 				}catch(e){
-					if(typeof(i[3])==="object"){
-				  	i[3] ='';
+					if(typeof(i[2])==="object"){
+				  	i[2] ='';
 				  	fillRecode(i)
-						// var objs = i[3]
-						// i[3] ='';
-				  // 		for (var o  in objs){
-					 //  		var c = document.getElementById("db"+o)
-						// 		if(c) c.value = objs[o]
-					 //  	}
 			  		}
 				}
 			}else{
-				tukep.value = r[0][3]
-				r[0][4] = 'object'
+				tukep.value = r[0][2]
+				r[0][3] = 'object'
 			}
-			dbkey2.value = r[0][7]
+			dbkey2.value = r[0][5]
 		}
 		dbNewWord.onclick = ()=>{
 			//check error
@@ -692,8 +658,8 @@ cmdaddnewword.addEventListener("click", ()=>{
 			// key log
 			//log khi thêm vào, hoặc update
 			// device | type   | reocde
-			// win32  | update | [id,key,len,content,type,rex,1,key2,datetime]
-			// win32  | addnew | [id,key,len,content,type,rex,1,key2,datetime]
+			// win32  | update | [key,len,content,type,1,key2]
+			// win32  | addnew | [key,len,content,type,1,key2]
 			// giờ log tại local không quan trọng
 			// giờ lấy từ server
 			// biến date-update được lưu trong appStore
@@ -704,34 +670,33 @@ cmdaddnewword.addEventListener("click", ()=>{
 			// h:m
 			//time chứa giờ với phút thôi
 
-			personalCtrl.searchWordUpdate(emailjs,text,(index)=>{
-				if(index!=-1){
-					personaldb[emailjs][index][1]=text
-					personaldb[emailjs][index][3]=builtRecodeDB()
-					personaldb[emailjs][index][7]=dbkey2.value
-					console.log("update "+index);
-					console.log("update "+personaldb[emailjs][index]);
-					logAdd('update',personaldb[emailjs][index])
-				}else{
-					var dateTime = dateTimeNow();
-
-					var newRecode = [0,text,text.length,builtRecodeDB(),'object',0,1,dbkey2.value,dateTime]
+				var person = personaldb[emailjs],
+				index = person.findIndex((v,k,s)=>{return v[0]==text||v[5]==text})
+				if(index==-1){//addnew
+					var newRecode = [text,text.length,builtRecodeDB(),'object',1,dbkey2.value]
 					personaldb[emailjs].push(newRecode)
 
 					logAdd('insert',newRecode)
 					console.log("add new");
-
+				}else{
+					personaldb[emailjs][index][0]=text
+					personaldb[emailjs][index][1]=text.length
+					personaldb[emailjs][index][2]=builtRecodeDB()
+					personaldb[emailjs][index][3]='object'
+					personaldb[emailjs][index][4]=1
+					personaldb[emailjs][index][5]=dbkey2.value
+					console.log("update "+index);
+					console.log("update "+personaldb[emailjs][index]);
+					logAdd('update',personaldb[emailjs][index])
 				}
 				personalStore.set(emailjs,personaldb[emailjs])
-			})
 			ctrl.closer.querySelector('button').click()
 		}
 		cmdgianthe2.onclick = ()=>{
 			dbkey2.value = app.fnGianHayPhon(text);
 		}
 		cmdphienam2.onclick=()=>{
-			app.fnPhienAm(text,(r)=>{
-				
+			app.fnPhienAm(text,(r)=>{				
 				document.getElementById("dbtừ kép").value = r
 			})
 		}
@@ -742,13 +707,14 @@ cmdaddnewword.addEventListener("click", ()=>{
 			})
 		}
 	}
-	appStore.get('user').then(u=>{
+	appStore.get('user')
+	.then(u=>{
 		//武宗
 		var html = `
 		<div id='insertDialog'>
 						<button id="dbNewWord" style="float:right">Lưu<i class="material-icons">add</i></button><br>
 						<label>Từ: </label><span>{keyword}</span><br>
-						<label>Email: </label><span>{email}</span><br>
+						<label>User: </label><span>{email}</span><br>
 						<input id="dbid" type="hidden" value="">
 						<label>Giản/Phồn: </label><input id="dbkey2"><button title="Giản thể/Phồn thể" id="cmdgianthe2" class="menuTop twoIcon" aria-expanded="false"><i class="material-icons">keyboard</i></button><br>
 						<label>từ kép: </label><input id="dbtừ kép" type="text"><button title="Phiên Âm" id="cmdphienam2" class="menuTop" aria-expanded="false"><i class="material-icons">record_voice_over</i></button><br>
@@ -770,7 +736,8 @@ cmdaddnewword.addEventListener("click", ()=>{
 		`
 		html = html.replace('{keyword}',text) 
 		if(u!=null){
-			html = html.replace('{email}',u.email)
+			var userName = u.email.split('@')
+			html = html.replace('{email}',userName[0])
 			var r = personalCtrl.searchWordForm(u.email+'.js',text)
 
 			//console.log(r);
@@ -782,7 +749,6 @@ cmdaddnewword.addEventListener("click", ()=>{
 		alert('Bạn chưa đăng nhập')
 	})
 })
-var crltSmSBox
 cmdUser.onclick = ()=>{
 	appStore.get('user').then(r=>{
 		var html = `		
@@ -818,19 +784,6 @@ cmdUser.onclick = ()=>{
 			}
 	})
 }
-function affterLoginCreateDb(o){
-	appStore.get('user').then(r=>{
-			console.log('new user set');
-			appStore.set('user',o).then(r=>{
-				if(crltSmSBox){
-					crltSmSBox.querySelector('button').onclick()
-					cmdUser.querySelector('.material-icons').innerHTML='person'
-				}
-				console.log('set ok');
-				//window.location = window.location.href.replace('person.php',"app/index.html")
-			})
-	})
-} 
 window.onmessage = (event) => {
 	//console.log(event.data);
   if(event.data.userId && event.data.appSecure){

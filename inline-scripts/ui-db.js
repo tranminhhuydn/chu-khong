@@ -439,6 +439,7 @@ window.addEventListener("load",()=>{
 						    personalStore.del(personName);
 						  });
 					})
+					alert("Đã có phiên bản mới\nBạn nên đăng nhập và cập nhật từ mới\nVì cấu trúc dữ liệu đã bị thay đổi")
 					appStore.set("app.version",app.version).then(v=>{
 						//alert("ok")
 						location.reload();

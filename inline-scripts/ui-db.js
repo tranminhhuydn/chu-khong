@@ -434,6 +434,11 @@ window.addEventListener("load",()=>{
 					    caches.delete(cacheName);
 					  });
 					});
+					personalStore.keys().then(persons=>{
+						persons.forEach(personName => {
+						    personalStore.del(personName);
+						  });
+					})
 					appStore.set("app.version",app.version).then(v=>{
 						//alert("ok")
 						location.reload();

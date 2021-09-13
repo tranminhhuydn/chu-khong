@@ -241,6 +241,13 @@
     <script src="./inline-scripts/menu-view.js" inline></script>
     <script src="./inline-scripts/menu-recent.js" inline></script>
     <script src="./inline-scripts/ui.js" inline></script>
+
+    <script>
+      var {d} = app
+      versionScript = d.create('script',{"src":"./inline-scripts/version.js?v="+rand})
+      d.body.append(versionScript)
+    </script>
+
     <script src="./inline-scripts/ui-db.js" inline></script>
     <script src="./inline-scripts/personal-db.js" inline></script>
     <script src="./inline-scripts/keyboard-events.js" inline></script>
@@ -250,11 +257,7 @@
     <script src="./jszip/jszip.min.js" inline></script>
     <script src="./inline-scripts/loadDB.js" inline></script>
     <script src="./inline-scripts/load-sw.js" inline></script>
-    <script>
-      var {d} = app
-      versionScript = d.create('script',{"src":"./inline-scripts/version.js?version="+rand})
-      d.append(versionScript)
-    </script>
+
     <!-- <script src="./inline-scripts/version.js" inline></script> -->
 
   </body>

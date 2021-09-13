@@ -1,4 +1,4 @@
-
+//import("./list-cache.js");
 Array.prototype.clone = function(){
   return this.map(e => Array.isArray(e) ? e.clone() : e);
 };
@@ -11,6 +11,7 @@ Array.prototype.unique = function(){
 var hostDB = '//votandang.net/chu-khong';
 //var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
 //import(hostDB+"/person.php?get-list-full-dic");
+
 var listDBName = [
     {"id":"4","name":"bktd_dv","order":"3"}, 
     {"id":"5","name":"CV_Lac_Viet_Hoa_Viet","order":"1"}, 
@@ -412,44 +413,57 @@ window.addEventListener("load",()=>{
 	})
 
 
-	//cheack new version
+
+	// cheack new version
 	// begin version "2.0" 
-	if(!app.version){
-		appStore.get("app.version").then(v=>{
-			if(!v){
-				appStore.set("app.version","2.0")
-			}
-			if(v)
-				app.version = v
-		})
-	}else{
-		appStore.get("app.version").then(v=>{
-			if(v!=app.version){
-				console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
-				if(window.caches){
-					caches.keys().then(cacheNames => {
-						//console.log(cacheNames);
-					  cacheNames.forEach(cacheName => {
-					  	//console.log(cacheName);
-					    caches.delete(cacheName);
-					  });
+	appStore.get("app.version").then(v=>{
+		if(!v){
+			v = !app.version?'2.0':app.version
+			appStore.set("app.version",v)
+		}
+		if(v!=app.version && v!='2.0'){	
+			//console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
+			if(window.caches){
+				appStore.set("deleteCache",true)
+				caches.keys().then(cacheNames => {
+					//console.log(cacheNames);
+				  cacheNames.forEach(cacheName => {
+				  	//console.log(cacheName);
+				    caches.delete(cacheName);
+				  });
+				});
+				personalStore.keys().then(persons=>{
+					persons.forEach(personName => {
+					    personalStore.del(personName);
 					});
-					personalStore.keys().then(persons=>{
-						persons.forEach(personName => {
-						    personalStore.del(personName);
-						  });
-					})
-					alert("Đã có phiên bản mới\nBạn nên đăng nhập và cập nhật từ mới\nVì cấu trúc dữ liệu đã bị thay đổi")
-					appStore.set("app.version",app.version).then(v=>{
-						//alert("ok")
-						location.reload();
-					})
-				}else{
-					alert("Đã có phiên bản mới bạn nên cài đặt lại để được thừa hưởng các tính năng mới")
-				}
+				})
+				alert("Đã có phiên bản mới\nBạn nên đăng nhập và cập nhật từ mới\nVì cấu trúc dữ liệu đã bị thay đổi")
+				appStore.set("app.version",app.version).then(v=>{
+					//alert("ok")
+					location.reload();
+				})
+			}else{
+				alert("Đã có phiên bản mới bạn nên cài đặt lại để được thừa hưởng các tính năng mới")
 			}
-		})
-	}
+		}else if(v==app.version && window.caches){
+			caches.keys()
+			.then(cacheNames => {
+				appStore.get("deleteCache").then(deleteCache=>{
+				    caches.open(cacheNames)
+				    .then(function(cache){
+				    	cache.keys().then(key=>{
+				    		//console.log(key)
+				    		if(key.length==0 && deleteCache==true){
+				    			appStore.set("deleteCache",false)
+				    			return cache.addAll(resourcesToPrecache)
+				    		}
+				    	})
+				    })
+				})
+			})
+		}
+	})
+
 
 	var myRe = new Request("./json/boFull.json");
 

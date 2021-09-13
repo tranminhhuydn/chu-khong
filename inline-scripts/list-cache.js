@@ -1,5 +1,6 @@
 var resourcesToPrecache =[
     "index.html",
+    "service-worker.sarah-clack.js",
     "inline-scripts/analytics.js",
     "styles/main.css",
     "styles/standalone.css",

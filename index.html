@@ -212,6 +212,7 @@
       var fulldic_zsql = []
       var listScript=[]
       var listScriptPersonal = []
+      var rand = Math.floor(Math.random() * 1000) + 1;
     </script>
     <script src="//votandang.net/chu-khong/person.php?get-list-user" crossorigin="anonymous" inline></script>
     <script src="./inline-scripts/list-cache.js" inline></script>
@@ -229,6 +230,7 @@
     <script src="./inline-scripts/menus.js" inline></script>
 
     <script src="./inline-scripts/text-area.js" inline></script>
+
     <script src="./inline-scripts/fs-helpers.js" inline></script>
     <script src="./inline-scripts/menu-file.js" inline></script>
     <script src="./inline-scripts/menu-edit.js" inline></script>
@@ -248,7 +250,12 @@
     <script src="./jszip/jszip.min.js" inline></script>
     <script src="./inline-scripts/loadDB.js" inline></script>
     <script src="./inline-scripts/load-sw.js" inline></script>
-    <script src="./inline-scripts/version.js" inline></script>
+    <script>
+      var {d} = app
+      versionScript = d.create('script',{"src":"./inline-scripts/version.js?version="+rand})
+      d.append(versionScript)
+    </script>
+    <!-- <script src="./inline-scripts/version.js" inline></script> -->
 
   </body>
 </html>

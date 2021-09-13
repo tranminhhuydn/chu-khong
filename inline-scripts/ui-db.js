@@ -421,7 +421,7 @@ window.addEventListener("load",()=>{
 			v = !app.version?'2.0':app.version
 			appStore.set("app.version",v)
 		}
-		if(v!=app.version && v!='2.0'){	
+		if(v!=app.version){	
 			//console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
 			if(window.caches){
 				appStore.set("deleteCache",true)

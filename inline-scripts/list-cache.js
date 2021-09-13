@@ -1,6 +1,7 @@
 var resourcesToPrecache =[
     "index.html",
-    // "service-worker.sarah-clack.js",
+    "manifest.json",
+    "google-translate.html",
     "inline-scripts/list-cache.js",
     "inline-scripts/analytics.js",
     "styles/main.css",

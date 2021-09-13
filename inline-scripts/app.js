@@ -22,7 +22,6 @@
 // eslint-disable-next-line no-redeclare
 const app = {
   appName: 'Text Editor',
-  version: '2.0',
   file: {
     handle: null,
     name: null,

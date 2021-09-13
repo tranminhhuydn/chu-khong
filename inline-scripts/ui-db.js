@@ -1,4 +1,13 @@
 //import("./list-cache.js");
+var rand = Math.floor(Math.random() * 1000) + 1;
+import("./version.js?v="+rand);     
+
+if(location.hostname == 'localhost'){
+	var title = app.d.querySelector("title")
+	title.innerText = "localhost - "+title.innerText
+	app.d.querySelector(`link[rel="manifest"]`).setAttribute("href","./localhost-manifest.json")
+}
+
 Array.prototype.clone = function(){
   return this.map(e => Array.isArray(e) ? e.clone() : e);
 };
@@ -416,19 +425,28 @@ window.addEventListener("load",()=>{
 
 	// cheack new version
 	// begin version "2.0" 
+	appStore.keys().then(s=>{
+		if(s)
+		s.forEach(e=>{
+			var key = e.replace(/\-/g,'')
+			console.log(key);
+			appStore.get(e).then(v=>{
+					window[key] = v 
+			})
+		})
+	})
 	appStore.get("app.version").then(v=>{
 		if(!v){
 			v = app.version?app.version:'2.0'
 			appStore.set("app.version",v)
 		}
-		if(v!=app.version){	
+		//alert(v+" "+app.version)
+		if(app.version && v!=app.version){	
 			//console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
 			if(window.caches){
 				appStore.set("deleteCache",true)
 				caches.keys().then(cacheNames => {
-					//console.log(cacheNames);
 				  cacheNames.forEach(cacheName => {
-				  	//console.log(cacheName);
 				    caches.delete(cacheName);
 				  });
 				});
@@ -445,7 +463,7 @@ window.addEventListener("load",()=>{
 			}else{
 				alert("Đã có phiên bản mới bạn nên cài đặt lại để được thừa hưởng các tính năng mới")
 			}
-		}else if(v==app.version && window.caches){
+		}else if(app.version && v==app.version && window.caches){
 			caches.keys()
 			.then(cacheNames => {
 				appStore.get("deleteCache").then(deleteCache=>{

@@ -98,7 +98,7 @@ loadDB = (url)=>{
 window.addEventListener("DOMContentLoaded",()=>{
     loadMulti()
 })
-window.addEventListener("onload",()=>{
+window.addEventListener("load",()=>{
     window.addEventListener('online',  updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
 })

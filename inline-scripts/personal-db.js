@@ -197,6 +197,14 @@ var personalCtrl = (function (exports) {
 	 				listScriptPersonal = r
 	 			}
 	 		})
+	 		personalStore.keys().then(s=>{
+				if(s)
+				s.forEach(e=>{
+					personalStore.get(e).then(v=>{
+							personaldb[e] = v 
+					})
+				})
+			})
 	 	}
 	 	// chỉ load những user mới
 	 	listScriptPersonal.forEach((emailUser,i)=>{

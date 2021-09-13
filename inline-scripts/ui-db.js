@@ -418,7 +418,7 @@ window.addEventListener("load",()=>{
 	// begin version "2.0" 
 	appStore.get("app.version").then(v=>{
 		if(!v){
-			v = !app.version?'2.0':app.version
+			v = app.version?app.version:'2.0'
 			appStore.set("app.version",v)
 		}
 		if(v!=app.version){	

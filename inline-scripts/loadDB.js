@@ -30,6 +30,10 @@ var
 myBar = document.getElementById("myBar"), 
 timeLoad,
 countLoad = 0,
+onlineStatus,
+updateOnlineStatus = ()=>{
+    onlineStatus = navigator.onLine ? "online" : "offline";
+},
 persend = (value)=>{
     myBar.style.width = value+"%"
     if(value==100)
@@ -86,12 +90,17 @@ loadDB = (url)=>{
         //console.log(url);
         var urli = url
         setTimeout(()=>{
+            if(onlineStatus=='online')
             loadDB(urli)
         },1000)
     })
 }
 window.addEventListener("DOMContentLoaded",()=>{
     loadMulti()
+})
+window.addEventListener("onload",()=>{
+    window.addEventListener('online',  updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
 })
 
 })(app);

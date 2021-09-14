@@ -425,11 +425,6 @@ details div {
   padding: 0;
   background: white;
 }
-
-.cls-context-menu {
-  border: solid 1px #CCC;
-}
-
 .cls-context-menu li {
   border-bottom: solid 1px #CCC;
 }

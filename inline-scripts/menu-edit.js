@@ -39,27 +39,19 @@
     d.execCommand('cut');
     gaEvent('Edit', 'cmdcut');
   });
- d.id('cmdpaste').addEventListener('click', (event) => {
-    var paste = (event.clipboardData || window.clipboardData).getData('text');
-    var selection = window.getSelection();
-    if (!selection.rangeCount) return false;
-    selection.deleteFromDocument();
-    selection.getRangeAt(0).insertNode(document.createTextNode(paste));
-
-    event.preventDefault();
-    // navigator.clipboard.readText().then(contents=>{
-    //   try {
-    //     app.insertIntoDoc(contents);
-    //     app.setModified(true);
-    //     app.setFocus();
-    //     gaEvent('Edit', 'Paste');
-    //   } catch (ex) {
-    //     console.error('Unable to paste', ex);
-    //     gaEvent('Error', 'Paste', ex.name);
-    //   }
-    //   gaEvent('Edit', 'cmdpaste');
-    // })
+ d.id('cmdpaste').addEventListener('click', async () => {
+    try {
+      const t = await navigator.clipboard.readText();
+      app.insertIntoDoc(t);
+      app.setModified(true);
+      app.setFocus();
+      gaEvent('Edit', 'Paste');
+    } catch (ex) {
+      console.error('Unable to paste', ex);
+      gaEvent('Error', 'Paste', ex.name);
+    }
   });
+    
   d.id('cmdHelp').addEventListener('click', () => {
     //d.execCommand("insertText", false, "the text to insert");
     gaEvent('Edit', 'cmdHelp');

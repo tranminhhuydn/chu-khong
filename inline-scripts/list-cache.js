@@ -26,7 +26,6 @@ var resourcesToPrecache =[
     "inline-scripts/fs-helpers.js",
     "inline-scripts/menu-file.js",
     "inline-scripts/menu-edit.js",
-    "inline-scripts/menu-tool.js",
     "inline-scripts/menu-tools-keyboard.js",
     "inline-scripts/menu-tools-translate.js",
     "inline-scripts/menu-spelling.js",

@@ -76,7 +76,7 @@ cmdsearchword.onclick = async(e)=> {
       //app.queryDB(contents)     
     } catch (ex) {
       console.error('Unable to paste', ex);
-      gaEvent('Error', 'findWord', ex.name);
+      gaEvent('Error', 'cmdsearchword', ex.name);
     }
 }
 

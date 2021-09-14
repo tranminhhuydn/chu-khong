@@ -1,6 +1,6 @@
 //import("./list-cache.js");
 var rand = Math.floor(Math.random() * 1000) + 1;
-import("./version.js?v="+rand);     
+import("./version.js?v="+rand); 
 
 if(location.hostname == 'localhost'){
 	var title = app.d.querySelector("title")
@@ -155,7 +155,6 @@ beforeShow = (value) =>{
         })
         
         r=l
-        r = r.unique()
         uidb.showWord('Tìm',r,`<button title='Thêm từ mới' id='cmdaddnewword2' class="menuTop" style="float:right"><i class='material-icons'>create</i></button>`)
     
     })()
@@ -170,12 +169,15 @@ function searchWord (value){
     v = app.fnMultiGianHayPhon(keys)
     if(v.length!=0)
         keys = keys.concat(v)
+
 	r = app.filterWord(keys)
+    r = r.unique() // case duplicaste
 
 	keys.forEach(word=>{		
 		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
 		r = r.concat(rootData.data.filter(find))
 	})
+
  	//sort z-a
  	r.sort((a, b)=>{return b[1] - a[1]});
 	beforeShow(r)

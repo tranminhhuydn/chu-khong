@@ -42,6 +42,10 @@ var resourcesToPrecache =[
     "inline-scripts/jscd.js",
     "styles/print.css",
     "images/icon-192.png",
+    "images/favicon.png"
+];
+var _listDB=[    
+    '/tu-dien-thieu-chuu/hanviet/dbzip/hv_org.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/bktd_dv.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/CV_Lac_Viet_Hoa_Viet.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/Free_Chinese_Vietnamese.json.zip',
@@ -58,6 +62,5 @@ var resourcesToPrecache =[
     '/tu-dien-thieu-chuu/hanviet/dbzip/hanNomDics.json.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/TDTT.zip',
     '/tu-dien-thieu-chuu/hanviet/dbzip/NomTayHOANGTRIEUANDics.zip',
-    '/tu-dien-thieu-chuu/hanviet/dbzip/nguyenTraiQuocAm.json.zip',
-    "images/favicon.png"
-];
+    '/tu-dien-thieu-chuu/hanviet/dbzip/nguyenTraiQuocAm.json.zip'];
+resourcesToPrecache = resourcesToPrecache.concat(_listDB)

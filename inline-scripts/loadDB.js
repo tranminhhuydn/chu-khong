@@ -7,25 +7,7 @@ Date.prototype.diffSeconds = function (date) {return Math.abs(this.getTime() - d
 
 //data = [];
 (function(app) {
-var listDB = [
-'../tu-dien-thieu-chuu/hanviet/dbzip/bktd_dv.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/CV_Lac_Viet_Hoa_Viet.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Free_Chinese_Vietnamese.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Hoa_Anh.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_viet_dai_tu_dien.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/hanNomDics.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/nguyenTraiQuocAm.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_0.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_1.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_2.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_3.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_4.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Han_Yu_Da_Ci_Dian_5.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Khang_Hi.json.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/TDTT.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/NomTayHOANGTRIEUANDics.zip',
-'../tu-dien-thieu-chuu/hanviet/dbzip/Nguyen_Quoc_Hung.json.zip'];
-
+var listDB = _listDB.map(v=>{return ".."+v})
 var 
 myBar = document.getElementById("myBar"), 
 timeLoad,
@@ -74,13 +56,16 @@ loadDB = (url)=>{
             rootData = cn
         else
             rootData.data = rootData.data.concat(cn.data)
+
+        //console.log(cn.data.length)
+
         countLoad++
 
         var v = (countLoad*100/listDB.length)
         persend(v)
         if(v==100){
             var rtime = timeLoad.diffSeconds(new Date())
-            console.log(rtime)
+            //console.log(rtime)
             return Promise.resolve(rtime)
         }
         return Promise.resolve(v)

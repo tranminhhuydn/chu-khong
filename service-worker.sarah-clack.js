@@ -22,13 +22,28 @@ workbox.core.skipWaiting();
 
 workbox.core.clientsClaim();
 
-var listURL = [];
+var
+log = (str) => {
+    postMessage(str);
+},
+listURL = [];
 const cacheName='static-shell-v1'
 
 self.__precacheManifest = [].concat(resourcesToPrecache|| []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
+self.addEventListener('message',(event)=>{
+    var {data} = event
+    if (data === 'SKIP_WAITING') {
+      workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+    }    
 
+    // switch (data.key){
+    //     case 'load': loadMulti();break;
+    //     case 'query': filterWord(data.text);break;
+    //     default: break;
+    // }
+})
 
 self.addEventListener('install', function(e) {
   // eslint-disable-next-line no-console
@@ -42,12 +57,12 @@ self.addEventListener('install', function(e) {
   //   })
   // );
 });
-// self.addEventListener('appinstalled', (e) => {
-//   console.log('Install', 'installed');
-// });
+self.addEventListener('appinstalled', (e) => {
+  console.log('Install', 'installed');
+});
 self.addEventListener('activate', function(e) {
   // eslint-disable-next-line no-console
-  //console.log('[ServiceWorker] Activate');
+  console.log('[ServiceWorker] Activate');
   return self.clients.claim();
 });
 

@@ -1,12 +1,6 @@
 //import("./list-cache.js");
-var rand = Math.floor(Math.random() * 1000) + 1;
+var rand = Math.floor(Math.random() * 10000) + 1;
 import("./version.js?v="+rand); 
-
-if(location.hostname == 'localhost'){
-	var title = app.d.querySelector("title")
-	title.innerText = "localhost - "+title.innerText
-	app.d.querySelector(`link[rel="manifest"]`).setAttribute("href","./localhost-manifest.json")
-}
 
 Array.prototype.clone = function(){
   return this.map(e => Array.isArray(e) ? e.clone() : e);
@@ -22,14 +16,15 @@ var hostDB = '//votandang.net/chu-khong';
 //import(hostDB+"/person.php?get-list-full-dic");
 
 var listDBName = [
-    {"id":"4","name":"bktd_dv","order":"3"}, 
-    {"id":"5","name":"CV_Lac_Viet_Hoa_Viet","order":"1"}, 
+    {"id":"2","name":"hv_org","order":"2"}, 
+    {"id":"4","name":"bktd_dv","order":"4"}, 
+    {"id":"5","name":"CV_Lac_Viet_Hoa_Viet","order":"5"}, 
     {"id":"6","name":"Free_Chinese_Vietnamese","order":"6"}, 
-    {"id":"7","name":"Han_Hoa_Anh","order":"5"}, 
-    {"id":"8","name":"Han_Yu_Da_Ci_Dian","order":"7"}, 
-    {"id":"9","name":"Han_viet_dai_tu_dien","order":"2"}, 
-    {"id":"10","name":"Khang_Hi","order":"8"}, 
-    {"id":"11","name":"Nguyen_Quoc_Hung","order":"4"},
+    {"id":"7","name":"Han_Hoa_Anh","order":"7"}, 
+    {"id":"8","name":"Han_Yu_Da_Ci_Dian","order":"8"}, 
+    {"id":"9","name":"Han_viet_dai_tu_dien","order":"9"}, 
+    {"id":"10","name":"Khang_Hi","order":"10"}, 
+    {"id":"11","name":"Nguyen_Quoc_Hung","order":"11"},
     {"id":"12","name":"nomfoundation.com","order":"12"},
     {"id":"13","name":"TĐ Chữ Nôm Dẫn Giải - \nGS.TSKH Nguyễn Quang Hồng","order":"13"},
     {"id":"14","name":"TĐ Hán Nôm - \nNguyễn Trãi Quốc Âm Từ Điển","order":"14"},
@@ -41,6 +36,7 @@ var uidb = (function (exports) {
 	var {log}= console
 	//var host = 'https://tranminhhuydn.github.io/gh-page/'
 	var host = 'https://tranminhhuydn.github.io/chu-khong/json/'
+	host = location.href+'json/'
 
 
 
@@ -125,11 +121,12 @@ beforeShow = (value) =>{
         r1 = r.filter((v,k,s)=>{if(v.length==7) return v})
         
         //order by
-        rOrder = listOrder.map((v,k,s)=>{
+        listOrder.map((v,k,s)=>{
             var c = r.filter((v1,k1,s1)=>{return v1.length==5 && v1[3]==v})
-            if(c[0])
-                return c[0]
-            return []
+            if(c[0]){
+               rOrder= rOrder.concat(c)
+            }
+            return c
         })
         r = r1.concat(rOrder)
         // show 
@@ -172,6 +169,8 @@ function searchWord (value){
 
 	r = app.filterWord(keys)
     r = r.unique() // case duplicaste
+
+    console.log(keys)
 
 	keys.forEach(word=>{		
 		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
@@ -376,7 +375,40 @@ app.textArea.oncontextmenu = (event)=>{
     rgtClickContextMenu.style.display = 'block'
     return false;
 }
-	
+
+app.deleteCache = ()=>{
+	(async () => {
+	    // import module for side effects
+	    var v = await appStore.get("app.version")
+	    if(!v){
+			v = app.version?app.version:'2.0'
+			appStore.set("app.version",v)
+		}
+		if(app.version && v!=app.version){	
+			appStore.set("app.version",app.version)
+			//console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
+			if(window.caches){
+				appStore.set("deleteCache",true)
+				var cacheNames = await caches.keys()
+				cacheNames.forEach(cacheName => {
+				    caches.delete(cacheName);
+				});
+				var persons = await personalStore.keys()
+					persons.forEach(personName => {
+					    personalStore.del(personName);
+					});
+				setTimeout(()=>{
+					serviceWorkerUpdate()
+				},5000);
+			}else{
+				alert("Đã có phiên bản mới bạn nên cài đặt lại để được thừa hưởng các tính năng mới")
+			}
+		}
+		if(!app.version)
+			app.version = v
+	})();
+}	
+
 var closer,setIgnoreFocusOutSmsBox
 
 window.addEventListener("load",()=>{
@@ -431,58 +463,14 @@ window.addEventListener("load",()=>{
 		if(s)
 		s.forEach(e=>{
 			var key = e.replace(/\-/g,'')
-			console.log(key);
+			//console.log(key);
 			appStore.get(e).then(v=>{
 					window[key] = v 
 			})
 		})
 	})
-	appStore.get("app.version").then(v=>{
-		if(!v){
-			v = app.version?app.version:'2.0'
-			appStore.set("app.version",v)
-		}
-		//alert(v+" "+app.version)
-		if(app.version && v!=app.version){	
-			//console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
-			if(window.caches){
-				appStore.set("deleteCache",true)
-				caches.keys().then(cacheNames => {
-				  cacheNames.forEach(cacheName => {
-				    caches.delete(cacheName);
-				  });
-				});
-				personalStore.keys().then(persons=>{
-					persons.forEach(personName => {
-					    personalStore.del(personName);
-					});
-				})
-				alert("Đã có phiên bản mới\nBạn nên đăng nhập và cập nhật từ mới\nVì cấu trúc dữ liệu đã bị thay đổi")
-				appStore.set("app.version",app.version).then(v=>{
-					//alert("ok")
-					location.reload();
-				})
-			}else{
-				alert("Đã có phiên bản mới bạn nên cài đặt lại để được thừa hưởng các tính năng mới")
-			}
-		}else if(app.version && v==app.version && window.caches){
-			caches.keys()
-			.then(cacheNames => {
-				appStore.get("deleteCache").then(deleteCache=>{
-				    caches.open(cacheNames)
-				    .then(function(cache){
-				    	cache.keys().then(key=>{
-				    		//console.log(key)
-				    		if(key.length==0 && deleteCache==true){
-				    			appStore.set("deleteCache",false)
-				    			return cache.addAll(resourcesToPrecache)
-				    		}
-				    	})
-				    })
-				})
-			})
-		}
-	})
+
+	app.deleteCache()
 
 
 	var myRe = new Request("./json/boFull.json");
@@ -495,3 +483,4 @@ window.addEventListener("load",()=>{
     })
 
 })
+

@@ -162,17 +162,16 @@ var countLoadScript=0
 function searchWord (value){
 	var 
     r,
-    keys = value.split(/[,;.:-。《》【】·~，；：‘“？\/\}\{——+！@#￥%……&*（）\|\、]/g),
+    keys = value.split(/[0-9a-zA-Zà-ỹÀ-Ỹ，。\/；【】=-~！@#￥%……&*（）——+{}‘’“”：？》《、、。〃〄々〆〇〈〉《》「」『』【】〒〓〔〕〖〗〘〙〚〛〜〝〞〟〠〡〢〣〤〥〦〧〨〩〪〭〮〯〫〬〰〱〲〳〴〵〶〷〸〹〺〻〼〽 〾 〿]/g),
     v = app.fnMultiGianHayPhon(keys)
     if(v.length!=0)
         keys = keys.concat(v)
-
-	r = app.filterWord(keys)
+    keys = keys.filter((v1)=> {return v1.length!=0})
+    
+    r = app.filterWord(keys)
     r = r.unique() // case duplicaste
 
-    console.log(keys)
-
-	keys.forEach(word=>{		
+    keys.forEach(word=>{		
 		var find = (v,k,s)=>{return v[0] == word || v[4] == word}
 		r = r.concat(rootData.data.filter(find))
 	})

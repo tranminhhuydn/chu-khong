@@ -27,7 +27,8 @@ var personalCtrl = (function (exports) {
 	host = hostDB+"/personal/",
 	translate = (srcText)=>{
 		var
-		escapes = /[0-9a-zA-Zà-ỹÀ-Ỹ，。\/；【】=-~！@#￥%……&*（）——+{}‘’“”：？》《、]/g,
+		cjkRegion = /[\u{4E00}-\u{3134A}]/u,
+		escapes = /[0-9a-zA-Zà-ỹÀ-Ỹ，。\/；【】=-~！@#￥%……&*（）——+{}‘’“”：？》《、、。〃〄々〆〇〈〉《》「」『』【】〒〓〔〕〖〗〘〙〚〛〜〝〞〟〠〡〢〣〤〥〦〧〨〩〪〭〮〯〫〬〰〱〲〳〴〵〶〷〸〹〺〻〼〽 〾 〿]/g,
 		timeTranslate  = new Date(), logDetail = [], count = 0, 
 		srcString = srcText.replace(escapes,''), // string to length
 		countStr = srcString.length,

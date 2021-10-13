@@ -46,7 +46,7 @@ function promptUserToRefresh(registration) {
       },1000);
     }
     else{
-      if (window.confirm("Có phiên bản mới! OK để làm mới?")) {
+      if (window.confirm("Có phiên bản mới! OK để làm ?")) {
         registration.unregister()
         //alert('unregister')
         setTimeout(()=>{
@@ -57,7 +57,7 @@ function promptUserToRefresh(registration) {
 }
 
 var serviceWorkerUpdate;
-          
+
 // from sarah-clack introduce
 window.addEventListener('load', () => {
   if ('serviceWorker' in navigator) {
@@ -75,6 +75,3 @@ window.addEventListener('load', () => {
         })
   }
 });
-
-
-

@@ -34,9 +34,9 @@ var listDBName = [
 var uidb = (function (exports) {
   'use strict';
 	var {log}= console
-	//var host = 'https://tranminhhuydn.github.io/gh-page/'
 	var host = 'https://tranminhhuydn.github.io/chu-khong/json/'
-	host = location.href+'json/'
+	if(location.hostname=='localhost')
+		host = location.href.replace(/\#/g,'')+'json/'
 
 
 
@@ -218,10 +218,10 @@ function searchWord (value){
  	_addScript(name)
  }
 function _addScript(src){
- 	var head = document.getElementsByTagName('body').item(0);
-	var script = document.createElement('script');
-	script.setAttribute('type', 'text/javascript');
-	script.setAttribute('src', host+src);
+ 	var 
+ 	{d} = app,
+ 	head = d.getElementsByTagName('body').item(0),
+	script = d.create('script',{'type':'text/javascript','src':host+src})
 	script.onload = checkLoadScript
 	script.onerror = onErrorHandler;
 	head.appendChild(script);
@@ -257,8 +257,6 @@ function _addScript(src){
     el.innerHTML = `<p style='line-height: 20px;margin: 0px;padding: 5px;border-bottom: 1px dotted #273136;'><span>${title}</span><button id='$cmdClose' style='float: right;'>close</button><span>${bar}</span></p>` + commands ;
     el.querySelector('button').onclick = close
     function close() {
-        //if (!closer) return;
-        //document.removeEventListener('keydown', documentEscListener);
         closer.parentNode.removeChild(closer);
         closer = null;
     }

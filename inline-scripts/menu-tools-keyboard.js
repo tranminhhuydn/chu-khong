@@ -2,6 +2,7 @@
 "use strict";
 var {log} = console,
 elekey = '',
+VINUM = /[^a-zA-Zà-ỹÀ-Ỹ0-9]/g,
 collectKey = [],
 {d} = app //document
 app.fnVietToHan = (key)=>{
@@ -64,7 +65,7 @@ function updateEventObj(e,obj){
 		//---------------
 		cmdhanviet.onclick = (e)=> {
 			elekey = app.getTextSelection()
-			if(app.autoClick(e,cmdhanviet)||elekey.length==0)
+			if(app.autoClick(e,cmdhanviet)||elekey.length==0||VINUM.test(elekey))
 			 	return;
 			collectKey = []
 
@@ -91,7 +92,7 @@ function updateEventObj(e,obj){
 			collectKey = []
 			elekey = app.getTextSelection()
 
-			if(app.autoClick(e,cmdhannom) || elekey.trim().length==0||/[^a-zA-Zà-ỹÀ-Ỹ0-9]/g.test(elekey))
+			if(app.autoClick(e,cmdhannom) || elekey.trim().length==0||VINUM.test(elekey))
 				return;
 
 

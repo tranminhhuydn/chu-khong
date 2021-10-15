@@ -46,7 +46,7 @@ function promptUserToRefresh(registration) {
       },1000);
     }
     else{
-      if (window.confirm("Có phiên bản mới! OK để làm ?")) {
+      if (window.confirm("Có phiên bản mới! OK để làm mới?")) {
         registration.unregister()
         //alert('unregister')
         setTimeout(()=>{

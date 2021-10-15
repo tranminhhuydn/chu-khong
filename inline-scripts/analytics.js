@@ -27,10 +27,10 @@ window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 /* esline-enable */
 
 /* Enable Google Analytics Here. */
-// ga('create', 'UA-XXXXXXX-XX', 'auto');
-// ga('set', 'transport', 'beacon');
+ga('create', 'G-TH2JELM077', 'auto');
+ga('set', 'transport', 'beacon');
 
-
+ga('config', 'G-TH2JELM077');
 
 /**
  * Add Analytics script to page
@@ -46,4 +46,21 @@ window.addEventListener('DOMContentLoaded', () => {
   // const gaScript = document.createElement('script');
   // gaScript.src = 'https://www.google-analytics.com/analytics.js';
   // document.head.appendChild(gaScript);
+
+  /*Global site tag (gtag.js) - Google Analytics*/
+  const gaScript = document.createElement('script');
+  gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-TH2JELM077';
+  document.head.appendChild(gaScript);
+
 });
+/*
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TH2JELM077"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TH2JELM077');
+</script>
+*/

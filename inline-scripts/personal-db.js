@@ -1,7 +1,7 @@
-var rand = Math.floor(Math.random() * 10000) + 1;
 var hostDB = '//votandang.net/chu-khong';
-//var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
-import(hostDB+"/person.php?get-list-user&rand="+rand)
+// //var hostDB = 'http://localhost/cakephp-4-0-4/chu-khong';
+// var rand = Math.floor(Math.random() * 10000) + 1;
+// import(hostDB+"/person.php?get-list-user&rand="+rand)
 
 
 Array.prototype.delete = function(key){

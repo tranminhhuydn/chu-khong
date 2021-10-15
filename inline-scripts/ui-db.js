@@ -1,7 +1,3 @@
-//import("./list-cache.js");
-var rand = Math.floor(Math.random() * 10000) + 1;
-import("./version.js?v="+rand); 
-
 Array.prototype.clone = function(){
   return this.map(e => Array.isArray(e) ? e.clone() : e);
 };

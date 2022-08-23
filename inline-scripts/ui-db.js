@@ -375,10 +375,13 @@ app.deleteCache = ()=>{
 	(async () => {
 	    // import module for side effects
 	    var oldVersion = await appStore.get("app.version")
+		//alert('cache version '+oldVersion)
 	    if(!oldVersion){ // init version
 	      oldVersion = app.version?app.version:'2.0'
 	      appStore.set("app.version",oldVersion)
 	    }
+		app.version = oldVersion
+		//alert('cache version '+oldVersion)
 	    //console.log('cache version '+oldVersion);
 	    if(app.newVersion && oldVersion!=app.newVersion){  
 	      appStore.set("app.version",app.newVersion)

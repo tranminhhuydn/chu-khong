@@ -39,7 +39,7 @@ const app = {
                'showOpenFilePicker' in window,
   isMac: navigator.userAgent.includes('Mac OS X'),
 };
-
+app.version = '2.0'
 // Verify the APIs we need are supported, show a polite warning if not.
 if (app.hasNativeFS) {
   gaEvent('File System APIs', 'Native');

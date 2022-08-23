@@ -541,41 +541,67 @@ updateEventSyncdb = (dialog)=>{
 	var cmdShowMyDicts = document.querySelector('#cmdShowMyDicts')
 	cmdShowMyDicts.onclick = ()=>{
 		
-		var html = ""
-		var tuLoai = ''
+		var 
+		dic,numberPages,  max =50, bbegin = 0,myCloser,
+		showDicsPerPage = (dic,begin,max,numberPages) => {
+			var {d} = app, html = "", tuLoai = ''
+			var maxi = max>dic.length?dic.length:max
+				for(var j = begin;j<maxi;j++){
+					var v = dic[j]
+					c ='',
+		 			key1 = v[0], length = v[1], mean = v[2], key2 = v[5]
+		 			tuLoai = "Từ loại: "+v[3]
+					if((mean.split && mean.indexOf('từ kép')!=-1) //string
+						|| mean['từ kép'] //object
+					){
+						if(mean.split && mean.indexOf('từ kép')!=-1) //string
+							mean = JSON.parse(mean)
+						for (var o1 in mean){
+					  		if(mean[o1].trim().length!=0)
+					  		c +='<b>'+o1 +'</b>: '+mean[o1]+"<br>"
+					  	}
+					}else
+						c = mean
+					html +="<div><h3>"+v[0]+"</h3>"+tuLoai+"<br>"+c+"</div>"
+					console.log(html)
+				}
+				if(!d.querySelector('#ctrlPage')){
+					var {closer,setIgnoreFocusOut} = uidb.dialogTraBo("tự điển của tôi",html)
+					myCloser = closer
+					var parentNode = d.querySelector('#idshowlist').parentNode,
+					ctrlPage = d.create('div',{id:'ctrlPage',style:'background:#FFF'},parentNode),
+					pages = d.create('select',{id:'ctrlPages',onchange:eventSelectPage},ctrlPage)
+					for(var i=0;i<numberPages;i++)
+						d.create('option',{value:i,innerText:(i+1)},pages)
+					ctrlPage.addEventListener('click', function (e) {
+			        e.stopPropagation();
+			    });
+			    d.create('span',{innerText:'/'+numberPages},ctrlPage)
+			    timTuCuaToi = d.create('input',{type:'text',id:'timTuCuaToi'},ctrlPage)
+			    cmdTimTuCuaToi = d.create('input',{type:'button',id:'cmdTimTuCuaToi',value:'Tìm'},ctrlPage)
+				}else{
+					myCloser.querySelector('#idshowlist').innerHTML = html
+				}
+						
+			return html;
+		},
+		eventSelectPage = (e)=>{
+			
+			var begin = e.target.value*max,
+			next = begin+max
+			showDicsPerPage(dic,begin,next,numberPages)
+			//alert(begin+"next "+next)
+		}
 		appStore.get("user").then(user=>{
 			if(user && user.email){
 				// console.log(user)
 				// console.log(user.email)
-				var dic = personaldb[user.email+".js"]
-				dic.forEach(i=>{
-					var nghia = i[2], kytu= i[0]
-					kytu =(i[5]!=null|| (i[5]&&i[5].length!=0))?i[0]+"/"+i[5]:i[0];
-					tuLoai = "Từ loại: "+i[3]
-				  if(i[3]=="object"){
-				  	tuLoai =''
-				  	try{
-					  	var obj = JSON.parse(i[2])
-					  	nghia ='';
-					  	for (var o  in obj){
-					  		if(obj[o].trim().length!=0)
-					  		nghia +=o +': '+obj[o]+"<br>"
-					  	}
-						}catch(e){
-							if(typeof(i[2])==="object"){
-								var obj = i[2]
-					  		nghia ='';
-					  		for (var o  in obj){
-						  		if(obj[o].trim().length!=0)
-						  		nghia +=o +': '+obj[o]+"<br>"
-						  	}
-					  	}
-						}
-				  }
+				dic = personaldb[user.email+".js"]
+				numberPages = dic.length/max
+				
 
-					html +="<div><h3>"+kytu+"</h3>"+tuLoai+"<br>"+nghia+"</div>"
-				})
-				uidb.dialogTraBo("tự điển của tôi",html)
+				showDicsPerPage(dic,0,max,numberPages)
+				
 			}
 		})
 		dialog.closer.click()
@@ -594,8 +620,8 @@ affterLoginCreateDb =(o) =>{
 				//window.location = window.location.href.replace('person.php',"app/index.html")
 			})
 	})
-} 
-cmdaddnewword.addEventListener("click", ()=>{
+},
+oldEventAddNew = ()=>{
 	var 
 	{d} = app,
 	text = app.getTextSelection();
@@ -759,7 +785,223 @@ cmdaddnewword.addEventListener("click", ()=>{
 		else
 		alert('Bạn chưa đăng nhập')
 	})
-})
+},
+eventAddNewWord = async ()=>{
+
+	var 
+	{d} = app,
+	text = app.getTextSelection(),
+	icheck = new RegExp(app.VI0,'g')
+	if(icheck.test(text)){
+		alert('Không phải là chữ Hán')
+		return;
+	}
+	if(text.length==0) return;
+
+	var 
+	emailjs = null,
+	userName ='',
+	r,u = await	appStore.get('user')
+	if(u!=null){
+			userName = u.email.split('@')
+			userName = userName[0]
+			emailjs = u.email+'.js'
+			r = personalCtrl.searchWordForm(emailjs,text)
+	}else{
+		alert('Bạn chưa đăng nhập')
+		return;
+	}
+
+	var keyTemplate = ['từ kép','danh từ','động từ','tính từ','trạng từ','thuật ngữ','giới từ','phó từ','số từ']
+
+	var html = `
+		<style>#insertDialog label {
+		    text-transform: capitalize;
+		    /*width: 60px;*/
+		    display: inline-block;
+		    font-size: 14px;
+		}</style>
+	`,
+	/*
+	createGroup: obj[0] = div, obj[1] = label, obj[2] = input, obj[3] = button
+	return input if is exists
+	*/
+	createGroup = (obj,parent)=>{
+		var input,group 		
+		obj.forEach((e,i)=>{
+			switch(i){
+				case 0: obj[i].tagName = obj[i].tagName?obj[i].tagName:'div'; break;
+				case 1: obj[i].tagName = obj[i].tagName?obj[i].tagName:'label'; break;
+				case 2: obj[i].tagName = obj[i].tagName?obj[i].tagName:'input'; break;
+				case 3: obj[i].tagName = obj[i].tagName?obj[i].tagName:'button'; break;
+			}
+		})
+
+		obj.forEach((e,i)=>{
+			if(i==0)
+				group = d.create(e.tagName,e,parent)
+
+			if(i!=0)
+				d.create(e.tagName,e,group)
+		})
+	},
+	eventChonTruong = (event)=>{
+		var me = event.target
+		//alert(me.selectedIndex)
+		insertDialog = d.id('insertDialog')
+		createGroup([{},
+		{innerText:me.value+':'},
+		{id:'db'+me.value,type:'text'}]
+		,insertDialog)
+		me.remove(me.selectedIndex)
+		me.value=null
+	},
+	cmdgianthe2Click = ()=>{
+		d.id("dbkey2").value = app.fnGianHayPhon(text);
+	},
+	cmdphienam2Click=()=>{
+		app.fnPhienAm(text,(r)=>{				
+			d.id("dbtừ kép").value = r
+		})
+	},
+	cmdphienam3Click=()=>{
+		app.fnPhienAm(text,(r)=>{
+			r = app.titleCase(r)
+			d.id("dbdanh từ").value = r
+		})
+	},
+	builtRecodeDB = () => {
+		var ob={}
+		keyTemplate.forEach(e=>{
+			var ele = d.id("db"+e)
+			if(ele && ele.value.trim().length!=0)
+				ob[e] = ele.value.trim()
+		})
+		ob=JSON.stringify(ob)
+		//console.log(ob);
+		return ob
+	},
+
+	{closer,setIgnoreFocusOut} = uidb.smsBox('Thêm từ mới',html),
+	parent = closer.querySelector('#idshowlist'),
+
+	insertDialog = d.create('div',{id:'insertDialog'},parent),
+
+	cmdGroup = d.create('div',{style:'display: flow-root;'},insertDialog),
+	dbNewWord = d.create('button',{id:'dbNewWord',style:'float:right',innerHTML:'Lưu<i class="material-icons">add</i>'},cmdGroup)
+	
+	createGroup([{},{innerText:'User: '+userName}],cmdGroup)
+	createGroup([{},{id:'dbkey1',innerText:'Từ: '+text}],insertDialog)
+	createGroup([{},{innerText:'Giản/Phồn:'},{id:'dbkey2',type:'text'},{id:'cmdgianthe2',title:'Giản thể/Phồn thể',class:'menuTop twoIcon',innerHTML:'<i class="material-icons">keyboard</i>',onclick:cmdgianthe2Click}],insertDialog)
+	
+	createGroup([{},
+		{innerText:'Từ Kép:'},
+		{id:'dbtừ kép',type:'text'},
+		{id:'cmdphienam2',title:'Phiên Âm',class:'menuTop twoIcon',innerHTML:'<i class="material-icons">record_voice_over</i>',onclick:cmdphienam2Click}]
+		,insertDialog)
+	createGroup([{},
+		{innerText:'Thêm Trường:'},
+		{tagName:'select',id:'chonTruong',onchange:eventChonTruong}]
+		,insertDialog)
+	chonTruong = d.id('chonTruong')
+	d.create('option',{value:null,innerText:'-chọn trường-'},chonTruong)
+	keyTemplate.forEach((e,i)=>{
+		if(i!=0){
+			d.create('option',{value:e,innerText:e},chonTruong)
+		}
+	})
+	dbNewWord.onclick = ()=>{
+		//check error
+		if(d.id('dbtừ kép').value.trim().length==0){
+			alert('Từ kép không được để trống')
+			return;
+		}
+		
+		if(icheck.test(d.id('dbkey2').value.trim())){
+			alert('Giản/Phồn: phải là chữ Hán')
+			return;
+		}
+		//appStore
+		// key log
+		//log khi thêm vào, hoặc update
+		// device | type   | reocde
+		// win32  | update | [key,len,content,type,1,key2]
+		// win32  | addnew | [key,len,content,type,1,key2]
+		// giờ log tại local không quan trọng
+		// giờ lấy từ server
+		// biến date-update được lưu trong appStore
+
+		//SERVER
+		//year/month/day.json
+		//time|email|device|type|reocde
+		// h:m
+		//time chứa giờ với phút thôi
+
+		var person = personaldb[emailjs],
+		index = person.findIndex((v,k,s)=>{return v[0]==text||v[5]==text})
+		if(index==-1){//addnew
+			var newRecode = [text,text.length,builtRecodeDB(),'object',1,dbkey2.value]
+			personaldb[emailjs].push(newRecode)
+
+			logAdd('insert',newRecode)
+			console.log("add new");
+		}else{
+			personaldb[emailjs][index][0]=text
+			personaldb[emailjs][index][1]=text.length
+			personaldb[emailjs][index][2]=builtRecodeDB()
+			personaldb[emailjs][index][3]='object'
+			personaldb[emailjs][index][4]=1
+			personaldb[emailjs][index][5]=dbkey2.value
+			console.log("update "+index);
+			console.log("update "+personaldb[emailjs][index]);
+			logAdd('update',personaldb[emailjs][index])
+		}
+		personalStore.set(emailjs,personaldb[emailjs])
+		closer.querySelector('button').click()
+		//alert('ok')
+	}
+	var 
+	fillRecode = (i)=>{
+		var objs = JSON.parse(i[2])
+  	for (var o in objs){
+  		console.log(o)
+  		var c = d.id("db"+o)
+			if(c){
+			 c.value = objs[o]
+			}else if(objs[o].trim().length!=0) {//create element
+				createGroup([{},
+				{innerText:o+':'},
+				{id:'db'+o,type:'text',value:objs[o]}]
+				,insertDialog)
+				var ele = chonTruong.querySelector("[value='"+o+"']")
+				ele && ele.remove()
+			}
+  	}
+	}
+	//init db
+	if(r && r[0]){
+		var i = r[0]
+		//console.log(i);
+		if(i[3]=='object'){
+			
+			try{
+		  	fillRecode(i)
+			}catch(e){
+				if(typeof(i[2])==="object"){
+			  	i[2] ='';
+			  	fillRecode(i)
+		  	}
+			}
+		}else{
+			d.id("dbtừ kép").value = i[2]
+			i[3] = 'object'
+		}
+		d.id("dbkey1").innerText ='Từ: '+ i[0]
+		d.id("dbkey2").value = i[5]
+	}
+
+}
+cmdaddnewword.addEventListener("click", eventAddNewWord)
 cmdUser.onclick = ()=>{
 	appStore.get('user').then(r=>{
 		var html = `		

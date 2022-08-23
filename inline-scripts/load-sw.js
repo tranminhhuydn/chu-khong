@@ -61,17 +61,17 @@ var serviceWorkerUpdate;
 // from sarah-clack introduce
 window.addEventListener('load', () => {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-        .register('./service-worker.sarah-clack.js')
-        .then(function(registration){
-          serviceWorkerUpdate = ()=>{
-            registration.update()
-            promptUserToRefresh(registration)
-          }
-          listenForWaitingServiceWorker(registration, promptUserToRefresh);
+    // navigator.serviceWorker
+    //     .register('./service-worker.sarah-clack.js')
+    //     .then(function(registration){
+    //       serviceWorkerUpdate = ()=>{
+    //         registration.update()
+    //         promptUserToRefresh(registration)
+    //       }
+    //       listenForWaitingServiceWorker(registration, promptUserToRefresh);
 
-        	console.log('SW registered! Scope is:'+ registration.scope);
+    //     	console.log('SW registered! Scope is:'+ registration.scope);
 
-        })
+    //     })
   }
 });

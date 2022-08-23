@@ -19,7 +19,7 @@
 (function(app) {
   var d = document
   d.id = (id) => d.getElementById(id)
-  d.create = (tag,objs)=>{var c = d.createElement(tag); for(var attr in objs) c.setAttribute(attr,objs[attr]); return c}
+  d.create = (tag,objs,parent)=>{var c = d.createElement(tag); for(var attr in objs) c[attr]?c.setAttribute(attr,objs[attr]):(c[attr] = objs[attr]); if(parent) parent.append(c);return c}  
   app.d = d
 
   const textArea = d.id('textEditor');

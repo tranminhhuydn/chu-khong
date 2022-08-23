@@ -14,15 +14,18 @@ function autoSpellCheck (str,hoadaudong){
 			{re:/“|”/g,t:"\""}, // chuyen dau tieng TQ sang anh
 			{re:/“|”/g,t:"\""}, // chuyen dau tieng TQ sang anh
 			{re:/；/g,t:";"}, // chuyen dau tieng TQ sang anh
-			{re:/：/g,t:":"}, // chuyen dau tieng TQ sang anh
-			{re:/？/g,t:"?"}, // chuyen dau tieng TQ sang anh
-			{re:/！/g,t:"!"}, // chuyen dau tieng TQ sang anh
-			{re:/《/g,t:"<"}, // chuyen dau tieng TQ sang anh
-			{re:/》/g,t:">"}, // chuyen dau tieng TQ sang anh
-			{re:/，|、/g,t:","}, // chuyen dau tieng TQ sang anh
-			{re:/。/g,t:"."}, // chuyen dau tieng TQ sang anh
-			{re:/【/g,t:"["}, // chuyen dau tieng TQ sang anh
-			{re:/】/g,t:"]"}, // chuyen dau tieng TQ sang anh
+			{re:/：/g,t:": "}, // chuyen dau tieng TQ sang anh
+			{re:/？/g,t:"? "}, // chuyen dau tieng TQ sang anh
+			{re:/！/g,t:"! "}, // chuyen dau tieng TQ sang anh
+			// {re:/《/g,t:"<"}, // chuyen dau tieng TQ sang anh
+			// {re:/》/g,t:">"}, // chuyen dau tieng TQ sang anh
+			{re:/，|、/g,t:", "}, // chuyen dau tieng TQ sang anh
+			{re:/。/g,t:". "}, // chuyen dau tieng TQ sang anh
+			// {re:/【/g,t:"["}, // chuyen dau tieng TQ sang anh
+			// {re:/】/g,t:"]"}, // chuyen dau tieng TQ sang anh
+			{re:/[《「『【]/g,t:"“"}, // chuyen dau tieng TQ sang anh
+			{re:/[】』」》]/g,t:"” "}, // chuyen dau tieng TQ sang anh
+			{re:/\. ”/g,t:"”\. "}, // chuyen dau tieng TQ sang anh
 			{re:new RegExp("([\\,\\.\\;\\!\\:\\?]{1})"+VI,"g"),t:"$1 $2"}, // chu dinh voi dau
 			{re:new RegExp("([\\.\\!\\:\\?]{1})\\s"+VI,"g"),t:(x)=>{x = x.toUpperCase();return x;	}}, // hoa dau
 			{re:new RegExp(VI+"\\s([\\.\\;\\!\\:\\?]{1})","g"),t:"$1$2"}, // bo khoan trang giua chu va dau
@@ -41,6 +44,7 @@ function autoSpellCheck (str,hoadaudong){
 
 cmdspellcheck.onclick = ()=>{
 	var text = app.getTextSelection()
+
 	text = autoSpellCheck(text)
 	//app.insertIntoDoc(text)
 	var 

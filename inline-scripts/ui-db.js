@@ -372,13 +372,14 @@ app.textArea.oncontextmenu = (event)=>{
 app.deleteCache = ()=>{
 	(async () => {
 	    // import module for side effects
-	    var v = await appStore.get("app.version")
-	    if(!v){
-			v = app.version?app.version:'2.0'
-			appStore.set("app.version",v)
-		}
-		if(app.version && v!=app.version){	
-			appStore.set("app.version",app.version)
+	    var oldVersion = await appStore.get("app.version")
+	    if(!oldVersion){ // init version
+	      oldVersion = app.version?app.version:'2.0'
+	      appStore.set("app.version",oldVersion)
+	    }
+	    //console.log('cache version '+oldVersion);
+	    if(app.newVersion && oldVersion!=app.newVersion){  
+	      appStore.set("app.version",app.newVersion)
 			//console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
 			if(window.caches){
 				appStore.set("deleteCache",true)
@@ -397,8 +398,6 @@ app.deleteCache = ()=>{
 				alert("Đã có phiên bản mới bạn nên cài đặt lại để được thừa hưởng các tính năng mới")
 			}
 		}
-		if(!app.version)
-			app.version = v
 	})();
 }	
 

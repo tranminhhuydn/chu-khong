@@ -117,6 +117,9 @@ function updateEventObj(e,obj){
 		
 		cmdphienam.onclick = ()=> { 
 			var text = app.getTextSelection()
+			if(text.length==0){
+				text = app.getTextPreviousLine();
+			}
 			app.fnPhienAm(text,(r)=>{
 				var 
 				start = app.textArea.selectionStart,
@@ -124,6 +127,7 @@ function updateEventObj(e,obj){
 
 				app.insertIntoDoc(r)
 				app.select(start,end)
+				cmdspellcheck.click()
 			})
 		}
 		app.fnPhonToGian = (text) =>{

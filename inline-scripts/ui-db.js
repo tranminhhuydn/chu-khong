@@ -31,8 +31,10 @@ var uidb = (function (exports) {
   'use strict';
 	var {log}= console
 	var host = 'https://tranminhhuydn.github.io/chu-khong/json/'
-	if(location.hostname=='localhost')
-		host = location.href.replace(/\#/g,'')+'json/'
+	if(location.hostname=='localhost'){
+		host = location.href.replace(/\#/g,'')
+		host = host[host.length-1]=='/'?host+'json/':host+'/json/'
+	}
 
 
 

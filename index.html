@@ -11,7 +11,7 @@
     <meta name="description" content="Chữ Không - Ứng dụng Chữ Không giúp bạn biên soạn chữ hán chữ nôm, phiên âm chữ hán, chữ nôm, tra tự điển tiếng hán. Unicode 6.1.0 Radical-Stroke Index">
 
     <!-- Manifest and icons -->
-    <link rel="manifest" href="./manifest.json">
+    <!-- <link rel="manifest" href="./manifest.json"> -->
     <link rel="icon" type="image/png" href="./images/favicon.png">
     <meta name="theme-color" content="#e8eaf6">
     <link rel="apple-touch-icon" sizes="192x192" href="./images/icon-192.png">
@@ -250,6 +250,13 @@
     <script src="./jszip/jszip.min.js" inline></script>
     <script src="./inline-scripts/loadDB.js" inline></script>
     <script src="./inline-scripts/load-sw.js" inline></script>
-
+    <script>
+      //link rel="manifest" href="./manifest.json
+      var head = d.q("head")
+      if(location.href.indexOf('localhost')!=-1)
+        d.create('link',{rel:"manifest",href:"./localhost-manifest.json"},head)
+      else
+        d.create('link',{rel:"manifest",href:"./manifest.json"},head)
+    </script>
   </body>
 </html>

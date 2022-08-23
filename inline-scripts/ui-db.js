@@ -375,16 +375,15 @@ app.deleteCache = ()=>{
 	(async () => {
 	    // import module for side effects
 	    var oldVersion = await appStore.get("app.version")
-		//alert('cache version '+oldVersion)
 	    if(!oldVersion){ // init version
-	      oldVersion = app.version?app.version:'2.0'
+	      //oldVersion = app.version?app.version:'2.0'
+	      oldVersion = app.version?app.version:app.newVersion
 	      appStore.set("app.version",oldVersion)
 	    }
 		app.version = oldVersion
-		//alert('cache version '+oldVersion)
 	    //console.log('cache version '+oldVersion);
 	    if(app.newVersion && oldVersion!=app.newVersion){  
-	      appStore.set("app.version",app.newVersion)
+	      
 			//console.log("Đã có phiên bản mới bạn nên cập nhật để được thừa hưởng các tính năng mới")
 			if(window.caches){
 				appStore.set("deleteCache",true)
@@ -397,7 +396,9 @@ app.deleteCache = ()=>{
 					    personalStore.del(personName);
 					});
 				setTimeout(()=>{
-					serviceWorkerUpdate()
+					serviceWorkerUpdate(()=>{
+						appStore.set("app.version",app.newVersion)
+					})
 				},5000);
 			}else{
 				alert("Đã có phiên bản mới bạn nên cài đặt lại để được thừa hưởng các tính năng mới")

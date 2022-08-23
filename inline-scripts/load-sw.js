@@ -37,7 +37,7 @@ navigator.serviceWorker.addEventListener('controllerchange',
     window.location.reload();
   }
 );
-function promptUserToRefresh(registration) {
+function promptUserToRefresh(registration,callback) {
   // this is just an example
   // don't use window.confirm in real life; it's terrible
     if (registration.waiting){
@@ -46,8 +46,9 @@ function promptUserToRefresh(registration) {
       },1000);
     }
     else{
-      if (window.confirm("Có phiên bản mới! OK để làm mới?")) {
+      if (window.confirm(`Đã có phiên bản mới ${app.newVersion} bạn nên cài đặt lại để được thừa hưởng các tính năng mới! OK để làm mới?`)) {
         registration.unregister()
+        callback && callback()
         //alert('unregister')
         setTimeout(()=>{
           window.location.reload();
@@ -64,9 +65,10 @@ window.addEventListener('load', () => {
     navigator.serviceWorker
         .register('./service-worker.sarah-clack.js')
         .then(function(registration){
-          serviceWorkerUpdate = ()=>{
+          serviceWorkerUpdate = (callback)=>{
             registration.update()
-            promptUserToRefresh(registration)
+            promptUserToRefresh(registration,callback)
+            
           }
           listenForWaitingServiceWorker(registration, promptUserToRefresh);
 
